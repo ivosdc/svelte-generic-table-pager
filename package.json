@@ -1,0 +1,54 @@
+{
+  "name": "svelte-generic-table-pager",
+  "version": "0.0.0",
+  "description": "<table-pager> handles large object-arrays. Dispatches events with actual page data. As self-containing webcomponent or for Svelte.",
+  "main": "dist/build/table-pager.js",
+  "module": "dist/build/table-pager.mjs",
+  "svelte": "src/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest --coverage",
+    "coverage": "npm test && cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivosdc/svelte-generic-table-pager.git"
+  },
+  "keywords": [
+    "webcomponent",
+    "svelte",
+    "table",
+    "generic",
+    "pager",
+    "self-contained",
+    "fancy icons",
+    "clean code",
+    "easy",
+    "flexible",
+    "svelte-generic-crud-table",
+    "<table-pager/>"
+  ],
+  "author": "Ivo Bozic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivosdc/svelte-generic-table-pager/issues"
+  },
+  "homepage": "https://github.com/ivosdc/svelte-generic-table-pager#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.0",
+    "@babel/preset-env": "^7.10.0",
+    "@testing-library/svelte": "^3.0.0",
+    "babel-jest": "^26.0.1",
+    "coveralls": "^3.1.0",
+    "jest": "^26.0.1",
+    "jest-mock": "^26.0.1",
+    "jest-svelte-resolver": "^1.0.0",
+    "rollup": "^2.10.8",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.2.2",
+    "svelte": "^3.22.3",
+    "svelte-jester": "^1.0.6"
+  },
+  "dependencies": {}
+}
