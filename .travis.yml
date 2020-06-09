@@ -5,7 +5,6 @@ jobs:
   include:
     - script: npm install
     - script: npm run build
-    - script: npm run build && npm run coverage
       deploy:
         - provider: pages
           skip_cleanup: true
