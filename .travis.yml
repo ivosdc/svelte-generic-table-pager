@@ -5,7 +5,6 @@ jobs:
   include:
     - script: npm install
     - script: npm run build
-    - script: npm test
     - script: npm run build && npm run coverage
       deploy:
         - provider: pages
@@ -19,9 +18,9 @@ jobs:
         - provider: releases
           api_key: $GITHUB_OAUTH_TOKEN
           file:
-            - "./dist/build/crud-table.js"
-            - "./dist/build/crud-table.mjs"
-            - "./dist/build/crud-table.css"
+            - "./dist/build/table-pager.js"
+            - "./dist/build/table-pager.mjs"
+            - "./dist/build/table-pager.css"
           skip_cleanup: true
           on:
             tags: true
