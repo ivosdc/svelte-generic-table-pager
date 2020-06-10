@@ -1,7 +1,7 @@
 {
   "name": "svelte-generic-table-pager",
-  "version": "0.0.0",
-  "description": "<table-pager> handles large object-arrays. Dispatches events with actual page data. As self-containing webcomponent or for Svelte.",
+  "version": "0.0.1",
+  "description": "<table-pager> handles large object-arrays. Dispatches an event with actual page data. As self-containing webcomponent or for Svelte in 21KB.",
   "main": "dist/build/table-pager.js",
   "module": "dist/build/table-pager.mjs",
   "svelte": "src/index.js",
@@ -25,8 +25,9 @@
     "fancy icons",
     "clean code",
     "easy",
+    "21KB",
     "flexible",
-    "svelte-generic-crud-table",
+    "fits svelte-generic-crud-table",
     "<table-pager/>"
   ],
   "author": "Ivo Bozic",

@@ -1,6 +1,6 @@
 # svelte-generic-table-pager
-- Web-component: `<table-pager></table-pager>`
-- or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
+- Web-component: `<table-pager></table-pager>` (work in progress...)
+- or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'` (functional PoC)
 
 A self-containing paginator for Object-Arrays. Fits to <crud-table></crud-table>
 
@@ -45,32 +45,52 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 </body>
 
 <script>
-let myData = [
-           {name: 'myName', job: 'code', private: 'not editable'},
-           {name: 'myName2', job: 'code2', private: 'not editable'}
-           ]
 
-// config table-pager
+    // config table-pager
+    let table_data = [];
+    let myData = [
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName2', job: 'code2', private: 'not editable'}
+    ];
 
-let newPage = [];
+    const pager_config = {
+        lines: 10
+    }
+    let genericTablePager = document.querySelector('table-pager');
+    genericTablePager.setAttribute('pager_config', JSON.stringify(pager_config))
+    genericTablePager.setAttribute('pager_data', JSON.stringify(myData))
 
-   genericCrudTable.addEventListener('newpage', (e) => {
+
+    genericTablePager.addEventListener('newpage', (e) => {
         console.log('newpage');
+        console.log(e);
         console.log(e.detail);
-        newPage = e.detail;
+        table_data = e.detail;
+        refresh();
     });
 
-    let genericTablePager = document.querySelector('table-pager');
-    genericTablePager.setAttribute('table_data', JSON.stringify(myData))
+    function refresh_pager() {
+        genericTablePager.setAttribute('pager_data', JSON.stringify({}));
+        genericTablePager.setAttribute('pager_data', JSON.stringify(myData));
+    }
 
-// config crud-table
-    let table_data = newPage;
+
+    //config crud-table
 
     let table_config = {
         name: 'Awesome',
         options: ['CREATE', 'EDIT', 'DELETE', 'DETAILS'],
-        // order columns!
         columns_setting: [
+            {name: 'id', show: false, edit: true, size: '200px'},
             {name: 'job', show: true, edit: true, size: '200px'},
             {name: 'name', show: true, edit: true, size: '200px'},
             {name: 'private', show: true, edit: false, size: '200px'}
@@ -85,7 +105,8 @@ let newPage = [];
 
     genericCrudTable.addEventListener('create', () => {
         console.log('create');
-        table_data.push({name: 'myName', job: 'code', private: 'not editable'});
+        myData.push({name: 'myName', job: 'code', private: 'not editable'});
+        refresh_pager();
         refresh();
     });
 
@@ -98,6 +119,7 @@ let newPage = [];
         console.log('update');
         console.log(e.detail.body);
         table_data[e.detail.id] = e.detail.body;
+        //back to myData an pos page + id
         refresh();
     });
 

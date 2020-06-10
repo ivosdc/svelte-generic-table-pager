@@ -6,6 +6,8 @@
     <title>Generic Crud Table</title>
     <link rel='icon' type='image/png' href='favicon.png'>
     <link rel='stylesheet' href='global.css'>
+    <link rel='stylesheet' href='https://ivosdc.github.io/svelte-generic-crud-table/build/crud-table.css'>
+    <script defer src='https://ivosdc.github.io/svelte-generic-crud-table/build/crud-table.js'></script>
     <link rel='stylesheet' href='build/table-pager.css'>
     <script defer src='build/table-pager.js'></script>
 </head>
@@ -16,6 +18,7 @@
 <span style="background-color: #dddddd; padding: 0.4em; display:inline-block">&gt; npm install -save svelte-generic-table-pager</span>
 <p></p>
 <hr>
+<crud-table></crud-table>
 <table-pager></table-pager>
 <hr>
 </span style="text-align: right"><a href="https://ivolution.one">ivolution.one product - MIT License</a>
@@ -29,10 +32,46 @@
 </body>
 
 <script>
-    let table_data = [
+
+    // config table-pager
+    let table_data = [];
+    let myData = [
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
+        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
         {id: '127', name: 'myName', job: 'code', private: 'not editable'},
         {id: '127', name: 'myName2', job: 'code2', private: 'not editable'}
-        ];
+    ];
+
+    const pager_config = {
+        lines: 10
+    }
+    let genericTablePager = document.querySelector('table-pager');
+    genericTablePager.setAttribute('pager_config', JSON.stringify(pager_config))
+    genericTablePager.setAttribute('pager_data', JSON.stringify(myData))
+
+
+    genericTablePager.addEventListener('newpage', (e) => {
+        console.log('newpage');
+        console.log(e);
+        console.log(e.detail);
+        table_data = e.detail;
+        refresh();
+    });
+
+    function refresh_pager() {
+        genericTablePager.setAttribute('pager_data', JSON.stringify({}));
+        genericTablePager.setAttribute('pager_data', JSON.stringify(myData));
+    }
+
+
+    //config crud-table
 
     let table_config = {
         name: 'Awesome',
@@ -53,7 +92,8 @@
 
     genericCrudTable.addEventListener('create', () => {
         console.log('create');
-        table_data.push({name: 'myName', job: 'code', private: 'not editable'});
+        myData.push({name: 'myName', job: 'code', private: 'not editable'});
+        refresh_pager();
         refresh();
     });
 
@@ -66,6 +106,7 @@
         console.log('update');
         console.log(e.detail.body);
         table_data[e.detail.id] = e.detail.body;
+        //back to myData an pos page + id
         refresh();
     });
 

@@ -1,6 +1,6 @@
 <svelte:options tag={'table-pager'}/>
 <script>
-    import {createEventDispatcher, onMount} from 'svelte';
+    import {afterUpdate, createEventDispatcher, onMount} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
 
@@ -9,96 +9,50 @@
 
     const dispatch = createEventDispatcher();
 
-    const table_config_default = {
+    const pager_config_default = {
         name: 'table-paginator',
         lines: 10
     }
 
     /* istanbul ignore next line */
-    export let table_data = {};
+    export let pager_data = {};
     /* istanbul ignore next line */
-    $: table_data = (typeof table_data === 'string') ? JSON.parse(table_data) : table_data;
+    $: pager_data = (typeof pager_data === 'string') ? JSON.parse(pager_data) : pager_data;
 
     /* istanbul ignore next line */
-    export let table_config = table_config_default;
+    export let pager_config = pager_config_default;
     /* istanbul ignore next line */
-    $: table_config = (typeof table_config === 'string') ? JSON.parse(table_config) : table_config;
+    $: pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
 
     let pagerService = new GenericTablePagerService();
-    $: pagerService = new GenericTablePagerService();
 
-    let currentPage = 0;
+    let currentPage;
+    $: currentPage = 0;
 
-    let maxLines = table_data.length + 1;
-
-    let pageData = [];
+    let maxLines = pager_data.length;
+    $: maxLines = pager_data.length;
 
     let maxPages = 0;
-    $: maxPages = Math.ceil(maxLines / table_config.lines)
-
-    onMount(initFirstPage)
+    $: maxPages = Math.ceil(maxLines / pager_config.lines);
 
 
-    function initFirstPage(event) {
+    let page_data = [];
+    $:page_data = initFirstPage();
+
+    if (!shadowed) {
+        onMount(initFirstPage);
+    } else {
+        afterUpdate(initFirstPage);
+    }
+
+
+    function initFirstPage() {
         getNextPage()
-        dispatcher('newpage', pageData, event);
-    }
+        const event = new Event('initpage');
+        let elem = document.querySelector('table-pager');
+        Object.defineProperty(event, 'target', {writable: false, value: elem});
 
-    function getNextPage() {
-        if (currentPage < maxPages) {
-            pageData = table_data.slice(table_config.lines * currentPage, table_config.lines * (currentPage + 1));
-            currentPage++;
-        }
-    }
-
-    function getPreviousPage() {
-        if (currentPage > 1) {
-            pageData = table_data.slice((table_config.lines * currentPage) - table_config.lines * 2,
-                    (table_config.lines * (currentPage + 1)) - table_config.lines * 2);
-            currentPage--;
-        }
-    }
-
-    function handleLeft(event) {
-        if (currentPage > 1) {
-            getPreviousPage();
-            dispatcher('newpage', pageData, event);
-        }
-        if (currentPage === 1) {
-            if (shadowed) {
-                document.querySelector('table-pager').shadowRoot.getElementById('left').classList.remove('active');
-                document.querySelector('table-pager').shadowRoot.getElementById('left').classList.add('inactive');
-            } else {
-                document.getElementById('left').classList.remove('active');
-                document.getElementById('left').classList.add('inactive');
-            }
-        }
-        if (currentPage === maxPages - 1) {
-            if (shadowed) {
-                document.querySelector('table-pager').shadowRoot.getElementById('right').classList.remove('inactive');
-                document.querySelector('table-pager').shadowRoot.getElementById('right').classList.add('active');
-            } else {
-                document.getElementById('right').classList.remove('inactive');
-                document.getElementById('right').classList.add('active');
-            }
-        }
-    }
-
-    function handleRight(event) {
-        if (currentPage < maxPages) {
-            if (currentPage === 1) {
-                if (shadowed) {
-                    document.querySelector('table-pager').shadowRoot.getElementById('left').classList.remove('inactive');
-                    document.querySelector('table-pager').shadowRoot.getElementById('left').classList.add('active');
-                } else {
-                    document.getElementById('left').classList.remove('inactive');
-                    document.getElementById('left').classList.add('active');
-                }
-            }
-            getNextPage();
-            dispatcher('newpage', pageData, event);
-        }
-        if (currentPage === maxPages) {
+        if (maxLines <= pager_config.lines + 1) {
             if (shadowed) {
                 document.querySelector('table-pager').shadowRoot.getElementById('right').classList.remove('active');
                 document.querySelector('table-pager').shadowRoot.getElementById('right').classList.add('inactive');
@@ -107,7 +61,44 @@
                 document.getElementById('right').classList.add('inactive');
             }
         }
+
+        if (shadowed) {
+            elem.dispatchEvent(new CustomEvent('newpage', {
+                composed: true,
+                detail: page_data
+            }));
+        } else {
+            dispatcher('newpage', page_data, event);
+        }
     }
+
+
+    function getNextPage() {
+        if (currentPage < maxPages) {
+            page_data = pager_data.slice(pager_config.lines * currentPage, pager_config.lines * (currentPage + 1));
+            currentPage++;
+        }
+    }
+
+    function getPreviousPage() {
+        if (currentPage > 1) {
+            page_data = pager_data.slice((pager_config.lines * currentPage) - pager_config.lines * 2,
+                    (pager_config.lines * (currentPage + 1)) - pager_config.lines * 2);
+            currentPage--;
+        }
+    }
+
+    function handleLeft(event) {
+        if (currentPage > 1) {
+            getPreviousPage();
+            dispatcher('newpage', page_data, event);
+        }
+    }
+
+    function handleRight(event) {
+            getNextPage();
+            dispatcher('newpage', page_data, event);
+        }
 
     function dispatcher(name, details, event) {
         /* istanbul ignore next */
@@ -124,24 +115,24 @@
 
     let firstLineOfPage = 0;
     $: firstLineOfPage = () => {
-        return table_config.lines * (currentPage - 1);
+        return (pager_config.lines * (currentPage - 1)) + 1;
     }
 
 
     let lastLineOfPage = 0;
     $: lastLineOfPage = () => {
-        const last = table_config.lines * (currentPage - 1) + table_config.lines;
-        return (last > table_data.length) ? table_data.length : last;
+        const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
+        return (last > pager_data.length) ? pager_data.length : last;
     }
 </script>
 
 <main class="pager">
-    <span id="left" class="options left inactive" style="float:left"
+    <span id="left" class="options left active" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
         {@html iconLeft}
     </span>
     <span class="info">
-        line: <span class="number">{firstLineOfPage()}-{lastLineOfPage()}</span>
+        lines: <span class="number-lines">{maxLines} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
         page: <span class="number">{currentPage}/{maxPages}</span>
     </span>
@@ -156,13 +147,17 @@
 
     .pager {
         text-align: center;
-        min-width: 180px;
-        max-width: 180px;
+        min-width: 220px;
+        max-width: 220px;
     }
 
 
     .number {
         font-size: 0.65em;
+    }
+
+    .number-lines {
+        font-size: 0.6em;
     }
 
     .info {
