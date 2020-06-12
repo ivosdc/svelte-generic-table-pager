@@ -424,17 +424,28 @@ var GenericTablePager = (function () {
     	let maxPages = 0;
     	let page_data = [];
 
+    	// workaround for webcomponent behaviour
     	if (!shadowed) {
     		onMount(initFirstPage);
     	} else {
     		afterUpdate(initFirstPage);
     	}
 
+    	let initpage = 0;
+
     	function initFirstPage() {
-    		getNextPage();
-    		const event = new Event("initpage");
-    		let elem = document.querySelector("table-pager");
-    		Object.defineProperty(event, "target", { writable: false, value: elem });
+    		if (shadowed) {
+    			if (initpage < 3) {
+    				// ToDo : WTF
+    				let elem = document.querySelector("table-pager").shadowRoot.getElementById("right");
+
+    				elem.click();
+    				initpage++;
+    			}
+    		} else {
+    			getNextPage();
+    			dispatcher("newpage", page_data);
+    		}
 
     		if (maxLines <= pager_config.lines + 1) {
     			if (shadowed) {
@@ -444,12 +455,6 @@ var GenericTablePager = (function () {
     				document.getElementById("right").classList.remove("active");
     				document.getElementById("right").classList.add("inactive");
     			}
-    		}
-
-    		if (shadowed) {
-    			elem.dispatchEvent(new CustomEvent("newpage", { composed: true, detail: page_data }));
-    		} else {
-    			dispatcher("newpage", page_data, event);
     		}
     	}
 
@@ -536,7 +541,6 @@ var GenericTablePager = (function () {
     	};
 
     	 $$invalidate(0, currentPage = 0);
-    	 page_data = initFirstPage();
 
     	return [
     		currentPage,
