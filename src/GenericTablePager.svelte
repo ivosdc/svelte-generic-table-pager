@@ -56,7 +56,12 @@
             }
         } else {
             getNextPage()
-            dispatcher('newpage', page_data);
+            const details = {
+                page: currentPage,
+                pages: maxPages,
+                body: page_data
+            }
+            dispatcher('newpage', details);
         }
 
         if (maxLines <= pager_config.lines + 1) {
@@ -90,13 +95,23 @@
     function handleLeft(event) {
         if (currentPage > 1) {
             getPreviousPage();
-            dispatcher('newpage', page_data, event);
+            const details = {
+                page: currentPage,
+                pages: maxPages,
+                body: page_data
+            }
+            dispatcher('newpage', details, event);
         }
     }
 
     function handleRight(event) {
         getNextPage();
-        dispatcher('newpage', page_data, event);
+        const details = {
+            page: currentPage,
+            pages: maxPages,
+            body: page_data
+        }
+        dispatcher('newpage', details, event);
     }
 
     function dispatcher(name, details, event) {
