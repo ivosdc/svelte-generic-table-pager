@@ -1,6 +1,6 @@
 {
   "name": "svelte-generic-table-pager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "<table-pager> handles large object-arrays. Dispatches an event with actual page data. As self-containing webcomponent or for Svelte in 21KB.",
   "main": "dist/build/table-pager.js",
   "module": "dist/build/table-pager.mjs",

@@ -1,6 +1,6 @@
 <svelte:options tag={'table-pager'}/>
 <script>
-    import {afterUpdate, createEventDispatcher, onMount} from 'svelte';
+    import {afterUpdate, createEventDispatcher, onDestroy, onMount} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
 
@@ -37,20 +37,27 @@
 
 
     let page_data = [];
-    $:page_data = initFirstPage();
 
+    // workaround for webcomponent behaviour
     if (!shadowed) {
         onMount(initFirstPage);
     } else {
         afterUpdate(initFirstPage);
     }
 
+    let initpage = 0;
 
     function initFirstPage() {
-        getNextPage()
-        const event = new Event('initpage');
-        let elem = document.querySelector('table-pager');
-        Object.defineProperty(event, 'target', {writable: false, value: elem});
+        if (shadowed) {
+            if (initpage < 3) { // ToDo : WTF
+                let elem = document.querySelector('table-pager').shadowRoot.getElementById('right');
+                elem.click();
+                initpage++;
+            }
+        } else {
+            getNextPage()
+            dispatcher('newpage', page_data);
+        }
 
         if (maxLines <= pager_config.lines + 1) {
             if (shadowed) {
@@ -61,15 +68,6 @@
                 document.getElementById('right').classList.add('inactive');
             }
         }
-
-        if (shadowed) {
-            elem.dispatchEvent(new CustomEvent('newpage', {
-                composed: true,
-                detail: page_data
-            }));
-        } else {
-            dispatcher('newpage', page_data, event);
-        }
     }
 
 
@@ -79,6 +77,7 @@
             currentPage++;
         }
     }
+
 
     function getPreviousPage() {
         if (currentPage > 1) {
@@ -96,9 +95,9 @@
     }
 
     function handleRight(event) {
-            getNextPage();
-            dispatcher('newpage', page_data, event);
-        }
+        getNextPage();
+        dispatcher('newpage', page_data, event);
+    }
 
     function dispatcher(name, details, event) {
         /* istanbul ignore next */

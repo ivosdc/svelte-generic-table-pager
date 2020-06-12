@@ -50,7 +50,7 @@
     ];
 
     const pager_config = {
-        lines: 10
+        lines: 5
     }
     let genericTablePager = document.querySelector('table-pager');
     genericTablePager.setAttribute('pager_config', JSON.stringify(pager_config))
@@ -58,12 +58,10 @@
 
 
     genericTablePager.addEventListener('newpage', (e) => {
-        console.log('newpage');
-        console.log(e);
-        console.log(e.detail);
         table_data = e.detail;
         refresh();
     });
+
 
     function refresh_pager() {
         genericTablePager.setAttribute('pager_data', JSON.stringify({}));
@@ -72,7 +70,6 @@
 
 
     //config crud-table
-
     let table_config = {
         name: 'Awesome',
         options: ['CREATE', 'EDIT', 'DELETE', 'DETAILS'],
