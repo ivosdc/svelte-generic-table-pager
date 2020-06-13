@@ -1,7 +1,8 @@
 // config table-pager
 
 const pager_config = {
-    lines: 5
+    lines: 5,
+    width: '610px'
 }
 
 let table_data = [];

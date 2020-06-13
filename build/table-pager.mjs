@@ -366,6 +366,7 @@ var GenericTablePager = (function () {
     			attr(span2, "class", "number-lines");
     			attr(span3, "class", "number");
     			attr(span4, "class", "info");
+    			set_style(span4, "float", "right");
     			attr(main, "class", "pager");
 
     			set_style(main, "width", /*pager_config*/ ctx[0].width !== undefined
@@ -614,7 +615,7 @@ var GenericTablePager = (function () {
     class GenericTablePager extends SvelteElement {
     	constructor(options) {
     		super();
-    		this.shadowRoot.innerHTML = `<style>.pager{text-align:center;min-width:220px;max-width:100%}.number{font-size:0.65em}.number-lines{font-size:0.6em}.info{position:relative;top:0.25em;color:#999999;font-size:0.7em;font-weight:200;width:200px}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:0.25em;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}</style>`;
+    		this.shadowRoot.innerHTML = `<style>.pager{text-align:center;min-width:220px;max-width:100%;margin-left:1em;height:1em}.number{font-size:0.65em}.number-lines{font-size:0.6em}.info{position:relative;top:0.3em;color:#999999;font-size:0.7em;font-weight:200;width:200px}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:0;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}</style>`;
     		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, { pager_data: 9, pager_config: 0 });
 
     		if (options) {
