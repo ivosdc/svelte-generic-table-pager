@@ -165,7 +165,10 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
     <GenericTablePager on:newpage={handleNewPage}
                        pager_data={myObjectArray}
                        pager_config={{
-                                        lines: 5
+                                    name: 'crud-table-pager',
+                                    lines: 5,
+                                    steps: [1, 2, 5, 10, 20, 50],
+                                    width: '600px'
                                     }}></GenericTablePager>
 </main>
 ```

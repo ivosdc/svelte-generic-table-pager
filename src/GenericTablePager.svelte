@@ -12,7 +12,7 @@
     const pager_config_default = {
         name: 'table-paginator',
         lines: 10,
-        steps: 2,
+        steps: [1, 2, 5, 10, 20, 50],
         width: '500px'
     }
 
@@ -25,19 +25,45 @@
     export let pager_config = pager_config_default;
     /* istanbul ignore next line */
     $: pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
-    $: pager_config.lines = (pager_config.lines !== undefined) ? pager_config.lines : pager_config_default.lines;
+    let setSteps = () => {
+        console.log(pager_data.length)
+        let steps = (pager_config.steps !== undefined) ? pager_config.steps : pager_config_default.steps;
+        steps = steps.filter((a) => {
+            return a < pager_data.length
+        });
+        steps.push(pager_data.length);
+        return steps;
+    }
+    pager_config.steps = setSteps();
+    let setLinesBySteps = () => {
+        let current = (pager_config.lines !== undefined) ? pager_config.lines : pager_config_default.lines;
+        let current_set = 1;
+        if (pager_config.steps !== undefined) {
+            pager_config.steps.forEach((step) => {
+                if (step <= current && step >= current_set) {
+                    current_set = step;
+                }
+            })
+        }
 
+        return current_set;
+    }
+    $: pager_config.lines = setLinesBySteps();
+
+    let sliderIndex = 0;
+    let maxSteps = 1;
+    let currentStep = 0;
+    $: currentStep = (pager_config.steps !== undefined) ? pager_config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
+    $: maxSteps = (pager_config.steps !== undefined) ? (pager_config.steps.length - 1) : (pager_config_default.steps.length - 1);
 
     let pagerService = new GenericTablePagerService();
 
-    let currentPage;
-    $: currentPage = 0;
-
-    let maxLines = pager_data.length;
-    $: maxLines = pager_data.length;
+    let currentPage = 0;
 
     let maxPages = 0;
-    $: maxPages = Math.ceil(maxLines / pager_config.lines);
+    $: maxPages = Math.ceil(pager_data.length / pager_config.lines);
+
+
 
 
     let page_data = [];
@@ -57,6 +83,7 @@
                 let elem = document.querySelector('table-pager').shadowRoot.getElementById('right');
                 elem.click();
                 initpage++;
+                sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
             }
         } else {
             getNextPage()
@@ -66,16 +93,7 @@
                 body: page_data
             }
             dispatcher('newpage', details);
-        }
-
-        if (maxLines <= pager_config.lines + 1) {
-            if (shadowed) {
-                document.querySelector('table-pager').shadowRoot.getElementById('right').classList.remove('active');
-                document.querySelector('table-pager').shadowRoot.getElementById('right').classList.add('inactive');
-            } else {
-                document.getElementById('right').classList.remove('active');
-                document.getElementById('right').classList.add('inactive');
-            }
+            sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
         }
     }
 
@@ -123,6 +141,8 @@
     }
 
     function handlePagerConfig(event) {
+        pager_config.lines = pager_config.steps[sliderIndex];
+        pager_config.steps = setSteps();
         getFirstPage();
         const details = {
             page: currentPage,
@@ -165,17 +185,19 @@
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
         {@html iconLeft}
     </span>
-    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}"
+    <span id="right"
+          class="options right {(pager_data.length > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}"
           style="float:left"
           on:click={(e) => handleRight(e)} title="Right" tabindex="0">
         {@html iconRight}
     </span>
     <span class="info range" style="float:left">
-        <input id="slider" type=range bind:value={pager_config.lines} min=1 max={maxLines} on:input={handlePagerConfig}>
-        <span class="number-rows"> {pager_config.lines} rows</span>
+        <input id="slider" type=range bind:value={sliderIndex} min=0 max={maxSteps} steps={maxSteps}
+               on:input={handlePagerConfig}>
+        <span class="number-rows"> {currentStep} rows</span>
     </span>
     <span class="info" style="float:right">
-        lines: <span class="number-lines">{maxLines} / {firstLineOfPage()}-{lastLineOfPage()}</span>
+        lines: <span class="number-lines">{pager_data.length} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
         page: <span class="number">{currentPage}/{maxPages}</span>
     </span>
@@ -219,7 +241,7 @@
         border-radius: 50%;
         background: #ffffff;
         margin-top: -0.25em;
-        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
 
@@ -234,6 +256,7 @@
         transition: all 0.5s;
         cursor: pointer;
     }
+
     input[type="range"]:hover::-webkit-slider-runnable-track {
         background: #ff6e40;
     }
@@ -256,10 +279,11 @@
         border-radius: 50%;
         background: #ffffff;
         margin-top: -5px;
-        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
     }
+
     input[type="range"]::-ms-fill-lower {
         background: #bdbdbd;
         border-radius: 3rem;
@@ -284,7 +308,7 @@
         border-radius: 50%;
         background: #ffffff;
         margin-top: -5px;
-        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
     }
