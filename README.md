@@ -57,8 +57,8 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 
 </body>
 <script src='https://ivosdc.github.io/svelte-generic-table-pager/test-data.js'></script>
-<script src='https://ivosdc.github.io/svelte-generic-table-pager/table-pager-config.js'></script>
-<script src='https://ivosdc.github.io/svelte-generic-table-pager/crud-table-config.js'></script>
+<script src='https://ivosdc.github.io/svelte-generic-table-pager/table-pager-config-html.js'></script>
+<script src='https://ivosdc.github.io/svelte-generic-table-pager/crud-table-config-html.js'></script>
 </template>
 </custom-element-demo>
 ```

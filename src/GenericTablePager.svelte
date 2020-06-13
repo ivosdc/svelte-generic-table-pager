@@ -12,7 +12,8 @@
     const pager_config_default = {
         name: 'table-paginator',
         lines: 10,
-        width: '250px'
+        steps: 2,
+        width: '500px'
     }
 
     /* istanbul ignore next line */
@@ -24,6 +25,8 @@
     export let pager_config = pager_config_default;
     /* istanbul ignore next line */
     $: pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
+    $: pager_config.lines = (pager_config.lines !== undefined) ? pager_config.lines : pager_config_default.lines;
+
 
     let pagerService = new GenericTablePagerService();
 
@@ -93,6 +96,10 @@
         }
     }
 
+    function getFirstPage() {
+        page_data = pager_data.slice(0, pager_config.lines);
+    }
+
     function handleLeft(event) {
         if (currentPage > 1) {
             getPreviousPage();
@@ -107,6 +114,16 @@
 
     function handleRight(event) {
         getNextPage();
+        const details = {
+            page: currentPage,
+            pages: maxPages,
+            body: page_data
+        }
+        dispatcher('newpage', details, event);
+    }
+
+    function handlePagerConfig(event) {
+        getFirstPage();
         const details = {
             page: currentPage,
             pages: maxPages,
@@ -139,16 +156,23 @@
         const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
         return (last > pager_data.length) ? pager_data.length : last;
     }
+
 </script>
 
-<main class="pager" style="width:{(pager_config.width !== undefined) ? pager_config.width : pager_config_default.width}">
+<main class="pager"
+      style="width:{(pager_config.width !== undefined) ? pager_config.width : pager_config_default.width}">
     <span id="left" class="options left {(currentPage > 1) ? 'active' : 'inactive'}" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
         {@html iconLeft}
     </span>
-    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}" style="float:left"
+    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}"
+          style="float:left"
           on:click={(e) => handleRight(e)} title="Right" tabindex="0">
         {@html iconRight}
+    </span>
+    <span class="info range" style="float:left">
+        <input id="slider" type=range bind:value={pager_config.lines} min=1 max={maxLines} on:input={handlePagerConfig}>
+        <span class="number-rows"> {pager_config.lines} rows</span>
     </span>
     <span class="info" style="float:right">
         lines: <span class="number-lines">{maxLines} / {firstLineOfPage()}-{lastLineOfPage()}</span>
@@ -159,6 +183,126 @@
 </main>
 
 <style>
+    .range {
+        background: #fff;
+        height: 1.3em;
+        border-radius: 5rem;
+        box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0.25em;
+        outline: none;
+        border: none;
+    }
+
+    .number-rows {
+        position: relative;
+        top: -0.3em;
+        padding-left: 0.4em;
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100px;
+        background: transparent;
+    }
+
+    input[type="range"]:focus {
+        outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 1em;
+        width: 1em;
+        border-radius: 50%;
+        background: #ffffff;
+        margin-top: -0.25em;
+        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+
+        cursor: pointer;
+
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+        width: 60%;
+        height: 9px;
+        background: #dddddd;
+        border-radius: 3rem;
+
+        transition: all 0.5s;
+        cursor: pointer;
+    }
+    input[type="range"]:hover::-webkit-slider-runnable-track {
+        background: #ff6e40;
+    }
+
+    input[type="range"]::-ms-track {
+        width: 60%;
+        cursor: pointer;
+        height: 9px;
+
+        transition: all 0.5s;
+        /* Hides the slider so custom styles can be added */
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+    }
+
+    input[type="range"]::-ms-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        margin-top: -5px;
+        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+
+        cursor: pointer;
+    }
+    input[type="range"]::-ms-fill-lower {
+        background: #bdbdbd;
+        border-radius: 3rem;
+    }
+
+    input[type="range"]:focus::-ms-fill-lower {
+        background: #ff6e40;
+    }
+
+    input[type="range"]::-ms-fill-upper {
+        background: #bdbdbd;
+        border-radius: 3rem;
+    }
+
+    input[type="range"]:focus::-ms-fill-upper {
+        background: #ff6e40;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        margin-top: -5px;
+        box-shadow: 1px 1px 2px rgba(0,0,0, 0.5);
+
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-track {
+        width: 60%;
+        height: 9px;
+        background: #bdbdbd;
+        border-radius: 3rem;
+
+        transition: all 0.5s;
+        cursor: pointer;
+    }
+
+    input[type="range"]:hover::-moz-range-track {
+        background: #ff6e40;
+    }
+
 
     .pager {
         text-align: center;
