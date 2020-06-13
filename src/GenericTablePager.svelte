@@ -64,8 +64,6 @@
     $: maxPages = Math.ceil(pager_data.length / pager_config.lines);
 
 
-
-
     let page_data = [];
 
     // workaround for webcomponent behaviour
@@ -115,6 +113,7 @@
     }
 
     function getFirstPage() {
+        currentPage = 1;
         page_data = pager_data.slice(0, pager_config.lines);
     }
 
