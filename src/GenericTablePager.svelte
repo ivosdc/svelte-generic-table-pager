@@ -150,7 +150,7 @@
           on:click={(e) => handleRight(e)} title="Right" tabindex="0">
         {@html iconRight}
     </span>
-    <span class="info">
+    <span class="info" style="float:right">
         lines: <span class="number-lines">{maxLines} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
         page: <span class="number">{currentPage}/{maxPages}</span>
@@ -164,6 +164,8 @@
         text-align: center;
         min-width: 220px;
         max-width: 100%;
+        margin-left: 1em;
+        height: 1em;
     }
 
 
@@ -177,7 +179,7 @@
 
     .info {
         position: relative;
-        top: 0.25em;
+        top: 0.3em;
         color: #999999;
         font-size: 0.7em;
         font-weight: 200;
@@ -199,7 +201,7 @@
 
     .options {
         position: relative;
-        top: 0.25em;
+        top: 0;
         width: 16px;
         height: 16px;
         padding: 0.2em 0.4em;
