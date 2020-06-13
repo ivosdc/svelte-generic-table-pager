@@ -16,6 +16,10 @@
 <h1>&lt;table-pager&gt;&lt;/table-pager&gt;</h1>
 <p>Agnostic paginator web-component for object-arrays.</p>
 <span style="background-color: #dddddd; padding: 0.4em; display:inline-block">&gt; npm install -save svelte-generic-table-pager</span>
+<h3>&lt;crud-table&gt;&lt;/crud-table&gt;</h3>
+<p>Web-component for object-arrays with CRUD functionality.</p>
+<span style="background-color: #dddddd; padding: 0.4em; display:inline-block">&gt; npm install -save svelte-generic-crud-table</span>
+
 <p></p>
 <hr>
 <crud-table></crud-table>
@@ -36,17 +40,17 @@
     // config table-pager
     let table_data = [];
     let myData = [
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName', job: 'code', private: 'not editable'},
-        {id: '127', name: 'myName2', job: 'code2', private: 'not editable'}
+        {id: '127', name: 'myName', job: 'why', private: 'not editable'},
+        {id: '128', name: 'myRealName', job: 'hmm', private: 'personal info'},
+        {id: '129', name: 'Your Name', job: 'no', private: '122/456789'},
+        {id: '130', name: 'Jim', job: 'code', private: 'sthg@here.where'},
+        {id: '131', name: 'John', job: 'tester', private: 'books'},
+        {id: '132', name: 'Alice', job: 'code', private: 'OSS'},
+        {id: '133', name: 'Nicole', job: 'design', private: 'painting'},
+        {id: '134', name: 'Denis', job: 'coder', private: 'sports'},
+        {id: '135', name: 'Marc', job: 'trainer', private: 'rc models'},
+        {id: '136', name: 'Timme', job: 'diverse', private: 'timme'},
+        {id: '137', name: 'Chuck', job: 'hero', private: 'Norris'}
     ];
 
     const pager_config = {
@@ -106,7 +110,7 @@
         refresh_pager();
     });
 
-   genericCrudTable.addEventListener('details', (e) => {
+    genericCrudTable.addEventListener('details', (e) => {
         console.log('details');
         console.log(e.detail.body);
     });
@@ -130,7 +134,7 @@
         console.log('offset in view:' + e.detail.id);
         for(let i = 0; i < myData.length; i++) {
             if (JSON.stringify(myData[i]) === JSON.stringify(table_data[e.detail.id])) {
-                 myData = arrayRemove(myData, i)
+                myData = arrayRemove(myData, i)
                 break;
             }
         }

@@ -305,16 +305,17 @@ var GenericTablePager = (function () {
     function create_fragment(ctx) {
     	let main;
     	let span0;
+    	let span0_class_value;
     	let t0;
     	let span3;
     	let t1;
     	let span1;
     	let t2;
     	let t3;
-    	let t4_value = /*firstLineOfPage*/ ctx[3]() + "";
+    	let t4_value = /*firstLineOfPage*/ ctx[4]() + "";
     	let t4;
     	let t5;
-    	let t6_value = /*lastLineOfPage*/ ctx[4]() + "";
+    	let t6_value = /*lastLineOfPage*/ ctx[5]() + "";
     	let t6;
     	let t7;
     	let span2;
@@ -323,6 +324,7 @@ var GenericTablePager = (function () {
     	let t10;
     	let t11;
     	let span4;
+    	let span4_class_value;
     	let mounted;
     	let dispose;
 
@@ -334,21 +336,21 @@ var GenericTablePager = (function () {
     			span3 = element("span");
     			t1 = text("lines: ");
     			span1 = element("span");
-    			t2 = text(/*maxLines*/ ctx[1]);
+    			t2 = text(/*maxLines*/ ctx[2]);
     			t3 = text(" / ");
     			t4 = text(t4_value);
     			t5 = text("-");
     			t6 = text(t6_value);
     			t7 = text("\n        /\n        page: ");
     			span2 = element("span");
-    			t8 = text(/*currentPage*/ ctx[0]);
+    			t8 = text(/*currentPage*/ ctx[1]);
     			t9 = text("/");
-    			t10 = text(/*maxPages*/ ctx[2]);
+    			t10 = text(/*maxPages*/ ctx[3]);
     			t11 = space();
     			span4 = element("span");
     			this.c = noop;
     			attr(span0, "id", "left");
-    			attr(span0, "class", "options left active");
+    			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[1] > 1 ? "active" : "inactive"));
     			set_style(span0, "float", "left");
     			attr(span0, "title", "Left");
     			attr(span0, "tabindex", "0");
@@ -356,7 +358,11 @@ var GenericTablePager = (function () {
     			attr(span2, "class", "number");
     			attr(span3, "class", "info");
     			attr(span4, "id", "right");
-    			attr(span4, "class", "options right active");
+
+    			attr(span4, "class", span4_class_value = "options right " + (/*maxLines*/ ctx[2] > /*currentPage*/ ctx[1] * /*pager_config*/ ctx[0].lines
+    			? "active"
+    			: "inactive"));
+
     			set_style(span4, "float", "right");
     			attr(span4, "title", "Right");
     			attr(span4, "tabindex", "0");
@@ -394,11 +400,21 @@ var GenericTablePager = (function () {
     			}
     		},
     		p(ctx, [dirty]) {
-    			if (dirty & /*maxLines*/ 2) set_data(t2, /*maxLines*/ ctx[1]);
-    			if (dirty & /*firstLineOfPage*/ 8 && t4_value !== (t4_value = /*firstLineOfPage*/ ctx[3]() + "")) set_data(t4, t4_value);
-    			if (dirty & /*lastLineOfPage*/ 16 && t6_value !== (t6_value = /*lastLineOfPage*/ ctx[4]() + "")) set_data(t6, t6_value);
-    			if (dirty & /*currentPage*/ 1) set_data(t8, /*currentPage*/ ctx[0]);
-    			if (dirty & /*maxPages*/ 4) set_data(t10, /*maxPages*/ ctx[2]);
+    			if (dirty & /*currentPage*/ 2 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[1] > 1 ? "active" : "inactive"))) {
+    				attr(span0, "class", span0_class_value);
+    			}
+
+    			if (dirty & /*maxLines*/ 4) set_data(t2, /*maxLines*/ ctx[2]);
+    			if (dirty & /*firstLineOfPage*/ 16 && t4_value !== (t4_value = /*firstLineOfPage*/ ctx[4]() + "")) set_data(t4, t4_value);
+    			if (dirty & /*lastLineOfPage*/ 32 && t6_value !== (t6_value = /*lastLineOfPage*/ ctx[5]() + "")) set_data(t6, t6_value);
+    			if (dirty & /*currentPage*/ 2) set_data(t8, /*currentPage*/ ctx[1]);
+    			if (dirty & /*maxPages*/ 8) set_data(t10, /*maxPages*/ ctx[3]);
+
+    			if (dirty & /*maxLines, currentPage, pager_config*/ 7 && span4_class_value !== (span4_class_value = "options right " + (/*maxLines*/ ctx[2] > /*currentPage*/ ctx[1] * /*pager_config*/ ctx[0].lines
+    			? "active"
+    			: "inactive"))) {
+    				attr(span4, "class", span4_class_value);
+    			}
     		},
     		i: noop,
     		o: noop,
@@ -468,14 +484,14 @@ var GenericTablePager = (function () {
     	function getNextPage() {
     		if (currentPage < maxPages) {
     			page_data = pager_data.slice(pager_config.lines * currentPage, pager_config.lines * (currentPage + 1));
-    			$$invalidate(0, currentPage++, currentPage);
+    			$$invalidate(1, currentPage++, currentPage);
     		}
     	}
 
     	function getPreviousPage() {
     		if (currentPage > 1) {
     			page_data = pager_data.slice(pager_config.lines * currentPage - pager_config.lines * 2, pager_config.lines * (currentPage + 1) - pager_config.lines * 2);
-    			$$invalidate(0, currentPage--, currentPage);
+    			$$invalidate(1, currentPage--, currentPage);
     		}
     	}
 
@@ -520,50 +536,51 @@ var GenericTablePager = (function () {
     	const click_handler_1 = e => handleRight(e);
 
     	$$self.$set = $$props => {
-    		if ("pager_data" in $$props) $$invalidate(7, pager_data = $$props.pager_data);
-    		if ("pager_config" in $$props) $$invalidate(8, pager_config = $$props.pager_config);
+    		if ("pager_data" in $$props) $$invalidate(8, pager_data = $$props.pager_data);
+    		if ("pager_config" in $$props) $$invalidate(0, pager_config = $$props.pager_config);
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*pager_data*/ 128) {
+    		if ($$self.$$.dirty & /*pager_data*/ 256) {
     			/* istanbul ignore next line */
-    			 $$invalidate(7, pager_data = typeof pager_data === "string"
+    			 $$invalidate(8, pager_data = typeof pager_data === "string"
     			? JSON.parse(pager_data)
     			: pager_data);
     		}
 
-    		if ($$self.$$.dirty & /*pager_config*/ 256) {
+    		if ($$self.$$.dirty & /*pager_config*/ 1) {
     			/* istanbul ignore next line */
-    			 $$invalidate(8, pager_config = typeof pager_config === "string"
+    			 $$invalidate(0, pager_config = typeof pager_config === "string"
     			? JSON.parse(pager_config)
     			: pager_config);
     		}
 
-    		if ($$self.$$.dirty & /*pager_data*/ 128) {
-    			 $$invalidate(1, maxLines = pager_data.length);
+    		if ($$self.$$.dirty & /*pager_data*/ 256) {
+    			 $$invalidate(2, maxLines = pager_data.length);
     		}
 
-    		if ($$self.$$.dirty & /*maxLines, pager_config*/ 258) {
-    			 $$invalidate(2, maxPages = Math.ceil(maxLines / pager_config.lines));
+    		if ($$self.$$.dirty & /*maxLines, pager_config*/ 5) {
+    			 $$invalidate(3, maxPages = Math.ceil(maxLines / pager_config.lines));
     		}
 
-    		if ($$self.$$.dirty & /*pager_config, currentPage*/ 257) {
-    			 $$invalidate(3, firstLineOfPage = () => {
+    		if ($$self.$$.dirty & /*pager_config, currentPage*/ 3) {
+    			 $$invalidate(4, firstLineOfPage = () => {
     				return pager_config.lines * (currentPage - 1) + 1;
     			});
     		}
 
-    		if ($$self.$$.dirty & /*pager_config, currentPage, pager_data*/ 385) {
-    			 $$invalidate(4, lastLineOfPage = () => {
+    		if ($$self.$$.dirty & /*pager_config, currentPage, pager_data*/ 259) {
+    			 $$invalidate(5, lastLineOfPage = () => {
     				const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
     				return last > pager_data.length ? pager_data.length : last;
     			});
     		}
     	};
 
-    	 $$invalidate(0, currentPage = 0);
+    	 $$invalidate(1, currentPage = 0);
 
     	return [
+    		pager_config,
     		currentPage,
     		maxLines,
     		maxPages,
@@ -572,7 +589,6 @@ var GenericTablePager = (function () {
     		handleLeft,
     		handleRight,
     		pager_data,
-    		pager_config,
     		click_handler,
     		click_handler_1
     	];
@@ -581,8 +597,8 @@ var GenericTablePager = (function () {
     class GenericTablePager extends SvelteElement {
     	constructor(options) {
     		super();
-    		this.shadowRoot.innerHTML = `<style>.pager{text-align:center;min-width:220px;max-width:220px}.number{font-size:0.65em}.number-lines{font-size:0.6em}.info{position:relative;top:0.25em;color:#999999;font-size:0.7em;font-weight:200;width:200px}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:0.25em;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}</style>`;
-    		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, { pager_data: 7, pager_config: 8 });
+    		this.shadowRoot.innerHTML = `<style>.pager{text-align:center;min-width:220px;max-width:220px}.number{font-size:0.65em}.number-lines{font-size:0.6em}.info{position:relative;top:0.25em;color:#999999;font-size:0.7em;font-weight:200;width:200px}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:0.25em;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}</style>`;
+    		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, { pager_data: 8, pager_config: 0 });
 
     		if (options) {
     			if (options.target) {
@@ -601,7 +617,7 @@ var GenericTablePager = (function () {
     	}
 
     	get pager_data() {
-    		return this.$$.ctx[7];
+    		return this.$$.ctx[8];
     	}
 
     	set pager_data(pager_data) {
@@ -610,7 +626,7 @@ var GenericTablePager = (function () {
     	}
 
     	get pager_config() {
-    		return this.$$.ctx[8];
+    		return this.$$.ctx[0];
     	}
 
     	set pager_config(pager_config) {
