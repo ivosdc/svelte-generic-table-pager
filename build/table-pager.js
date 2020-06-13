@@ -603,6 +603,7 @@ var GenericTablePager = (function () {
     	}
 
     	function getFirstPage() {
+    		$$invalidate(5, currentPage = 1);
     		page_data = pager_data.slice(0, pager_config.lines);
     	}
 
