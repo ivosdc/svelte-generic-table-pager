@@ -11,7 +11,8 @@
 
     const pager_config_default = {
         name: 'table-paginator',
-        lines: 10
+        lines: 10,
+        width: '250px'
     }
 
     /* istanbul ignore next line */
@@ -140,19 +141,19 @@
     }
 </script>
 
-<main class="pager">
+<main class="pager" style="width:{(pager_config.width !== undefined) ? pager_config.width : pager_config_default.width}">
     <span id="left" class="options left {(currentPage > 1) ? 'active' : 'inactive'}" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
         {@html iconLeft}
+    </span>
+    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}" style="float:left"
+          on:click={(e) => handleRight(e)} title="Right" tabindex="0">
+        {@html iconRight}
     </span>
     <span class="info">
         lines: <span class="number-lines">{maxLines} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
         page: <span class="number">{currentPage}/{maxPages}</span>
-    </span>
-    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}" style="float:right"
-          on:click={(e) => handleRight(e)} title="Right" tabindex="0">
-        {@html iconRight}
     </span>
 
 </main>
@@ -162,7 +163,7 @@
     .pager {
         text-align: center;
         min-width: 220px;
-        max-width: 220px;
+        max-width: 100%;
     }
 
 
