@@ -1,6 +1,6 @@
 # svelte-generic-table-pager
-- Web-component: `<table-pager></table-pager>` (functional PoC)
-- or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'` (functional PoC)
+- Web-component: `<table-pager></table-pager>`
+- or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
 
 A self-containing paginator for Object-Arrays. Fits to <crud-table></crud-table>
 

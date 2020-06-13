@@ -141,7 +141,7 @@
 </script>
 
 <main class="pager">
-    <span id="left" class="options left active" style="float:left"
+    <span id="left" class="options left {(currentPage > 1) ? 'active' : 'inactive'}" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
         {@html iconLeft}
     </span>
@@ -150,7 +150,7 @@
         /
         page: <span class="number">{currentPage}/{maxPages}</span>
     </span>
-    <span id="right" class="options right active" style="float:right"
+    <span id="right" class="options right {(maxLines > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}" style="float:right"
           on:click={(e) => handleRight(e)} title="Right" tabindex="0">
         {@html iconRight}
     </span>
