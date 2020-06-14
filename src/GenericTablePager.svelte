@@ -193,17 +193,18 @@
     <span class="info range" style="float:left">
         <input id="slider" type=range bind:value={sliderIndex} min=0 max={maxSteps} steps={maxSteps}
                on:input={handlePagerConfig}>
-        <span class="number-rows"> {currentStep} rows</span>
+        <span class="number-rows"> {(currentStep !== undefined) ? currentStep : 0} rows</span>
     </span>
     <span class="info" style="float:right">
         lines: <span class="number-lines">{pager_data.length} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
-        page: <span class="number">{currentPage}/{maxPages}</span>
+        pages: <span class="number">{currentPage}/{maxPages}</span>
     </span>
 
 </main>
 
 <style>
+
     .range {
         background: #fff;
         height: 1.3em;
@@ -221,6 +222,65 @@
         position: relative;
         top: -0.3em;
         padding-left: 0.4em;
+    }
+
+    .pager {
+        text-align: center;
+        min-width: 500px;
+        max-width: 100%;
+        margin-left: 1em;
+        height: 1em;
+    }
+
+    .number {
+        font-size: 0.65em;
+    }
+
+    .number-lines {
+        font-size: 0.6em;
+    }
+
+    .info {
+        position: relative;
+        top: 0.3em;
+        color: #999999;
+        font-size: 0.7em;
+        font-weight: 200;
+        width: 200px;
+    }
+
+    .inactive {
+        visibility: hidden;
+    }
+
+    .active {
+        visibility: visible;
+    }
+
+    .active:hover {
+        color: limegreen;
+        opacity: 80%;
+    }
+
+    .options {
+        position: relative;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        padding: 0.2em 0.4em;
+        cursor: pointer;
+        opacity: 60%;
+        color: #999999;
+    }
+
+    .options:hover {
+        opacity: 100%;
+    }
+
+    .options:focus {
+        border: none;
+        outline: none;
+        opacity: 100%;
     }
 
     input[type="range"] {
@@ -326,65 +386,5 @@
         background: #ff6e40;
     }
 
-
-    .pager {
-        text-align: center;
-        min-width: 220px;
-        max-width: 100%;
-        margin-left: 1em;
-        height: 1em;
-    }
-
-
-    .number {
-        font-size: 0.65em;
-    }
-
-    .number-lines {
-        font-size: 0.6em;
-    }
-
-    .info {
-        position: relative;
-        top: 0.3em;
-        color: #999999;
-        font-size: 0.7em;
-        font-weight: 200;
-        width: 200px;
-    }
-
-    .inactive {
-        visibility: hidden;
-    }
-
-    .active {
-        visibility: visible;
-    }
-
-    .active:hover {
-        color: limegreen;
-        opacity: 80%;
-    }
-
-    .options {
-        position: relative;
-        top: 0;
-        width: 16px;
-        height: 16px;
-        padding: 0.2em 0.4em;
-        cursor: pointer;
-        opacity: 60%;
-        color: #999999;
-    }
-
-    .options:hover {
-        opacity: 100%;
-    }
-
-    .options:focus {
-        border: none;
-        outline: none;
-        opacity: 100%;
-    }
 
 </style>
