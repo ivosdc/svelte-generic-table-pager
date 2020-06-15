@@ -26,7 +26,6 @@
     /* istanbul ignore next line */
     $: pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
     let setSteps = () => {
-        console.log(pager_data.length)
         let steps = (pager_config.steps !== undefined) ? pager_config.steps : pager_config_default.steps;
         steps = steps.filter((a) => {
             return a < pager_data.length
@@ -34,21 +33,6 @@
         steps.push(pager_data.length);
         return steps;
     }
-    pager_config.steps = setSteps();
-    let setLinesBySteps = () => {
-        let current = (pager_config.lines !== undefined) ? pager_config.lines : pager_config_default.lines;
-        let current_set = 1;
-        if (pager_config.steps !== undefined) {
-            pager_config.steps.forEach((step) => {
-                if (step <= current && step >= current_set) {
-                    current_set = step;
-                }
-            })
-        }
-
-        return current_set;
-    }
-    $: pager_config.lines = setLinesBySteps();
 
     let sliderIndex = 0;
     let maxSteps = 1;
@@ -193,7 +177,7 @@
     <span class="info range" style="float:left">
         <input id="slider" type=range bind:value={sliderIndex} min=0 max={maxSteps} steps={maxSteps}
                on:input={handlePagerConfig}>
-        <span class="number-rows"> {(currentStep !== undefined) ? currentStep : 0} rows</span>
+        <span class="number-rows"> {currentStep} rows</span>
     </span>
     <span class="info" style="float:right">
         lines: <span class="number-lines">{pager_data.length} / {firstLineOfPage()}-{lastLineOfPage()}</span>
@@ -213,40 +197,38 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 0.25em;
+        padding-top: 0.1em;
         outline: none;
         border: none;
     }
 
     .number-rows {
-        position: relative;
-        top: -0.3em;
         padding-left: 0.4em;
+        padding-top: 0.1em;
     }
 
     .pager {
         text-align: center;
-        min-width: 500px;
+        min-width: 300px;
         max-width: 100%;
         margin-left: 1em;
         height: 1em;
     }
 
     .number {
-        font-size: 0.65em;
+        font-size: 0.8em;
     }
 
     .number-lines {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 
     .info {
-        position: relative;
-        top: 0.3em;
+        padding-top: 0.3em;
+        text-align: left;
         color: #999999;
         font-size: 0.7em;
         font-weight: 200;
-        width: 200px;
     }
 
     .inactive {
@@ -264,7 +246,7 @@
 
     .options {
         position: relative;
-        top: 0;
+        top: -0.1em;
         width: 16px;
         height: 16px;
         padding: 0.2em 0.4em;
