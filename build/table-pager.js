@@ -320,11 +320,6 @@ var GenericTablePager = (function () {
     	let input;
     	let t2;
     	let span2;
-
-    	let t3_value = (/*currentStep*/ ctx[4] !== undefined
-    	? /*currentStep*/ ctx[4]
-    	: 0) + "";
-
     	let t3;
     	let t4;
     	let t5;
@@ -358,7 +353,7 @@ var GenericTablePager = (function () {
     			input = element("input");
     			t2 = space();
     			span2 = element("span");
-    			t3 = text(t3_value);
+    			t3 = text(/*currentStep*/ ctx[4]);
     			t4 = text(" rows");
     			t5 = space();
     			span6 = element("span");
@@ -472,10 +467,7 @@ var GenericTablePager = (function () {
     				set_input_value(input, /*sliderIndex*/ ctx[2]);
     			}
 
-    			if (dirty & /*currentStep*/ 16 && t3_value !== (t3_value = (/*currentStep*/ ctx[4] !== undefined
-    			? /*currentStep*/ ctx[4]
-    			: 0) + "")) set_data(t3, t3_value);
-
+    			if (dirty & /*currentStep*/ 16) set_data(t3, /*currentStep*/ ctx[4]);
     			if (dirty & /*pager_data*/ 1 && t7_value !== (t7_value = /*pager_data*/ ctx[0].length + "")) set_data(t7, t7_value);
     			if (dirty & /*firstLineOfPage*/ 128 && t9_value !== (t9_value = /*firstLineOfPage*/ ctx[7]() + "")) set_data(t9, t9_value);
     			if (dirty & /*lastLineOfPage*/ 256 && t11_value !== (t11_value = /*lastLineOfPage*/ ctx[8]() + "")) set_data(t11, t11_value);
@@ -516,8 +508,6 @@ var GenericTablePager = (function () {
     	let { pager_config = pager_config_default } = $$props;
 
     	let setSteps = () => {
-    		console.log(pager_data.length);
-
     		let steps = pager_config.steps !== undefined
     		? pager_config.steps
     		: pager_config_default.steps;
@@ -528,26 +518,6 @@ var GenericTablePager = (function () {
 
     		steps.push(pager_data.length);
     		return steps;
-    	};
-
-    	pager_config.steps = setSteps();
-
-    	let setLinesBySteps = () => {
-    		let current = pager_config.lines !== undefined
-    		? pager_config.lines
-    		: pager_config_default.lines;
-
-    		let current_set = 1;
-
-    		if (pager_config.steps !== undefined) {
-    			pager_config.steps.forEach(step => {
-    				if (step <= current && step >= current_set) {
-    					current_set = step;
-    				}
-    			});
-    		}
-
-    		return current_set;
     	};
 
     	let sliderIndex = 0;
@@ -724,8 +694,6 @@ var GenericTablePager = (function () {
     		}
     	};
 
-    	 $$invalidate(1, pager_config.lines = setLinesBySteps(), pager_config);
-
     	return [
     		pager_data,
     		pager_config,
@@ -749,7 +717,7 @@ var GenericTablePager = (function () {
     class GenericTablePager extends SvelteElement {
     	constructor(options) {
     		super();
-    		this.shadowRoot.innerHTML = `<style>.range{background:#fff;height:1.3em;border-radius:5rem;box-shadow:1px 1px 1px rgba(255, 255, 255, 0.3);display:flex;align-items:center;justify-content:center;padding-top:0.25em;outline:none;border:none}.number-rows{position:relative;top:-0.3em;padding-left:0.4em}.pager{text-align:center;min-width:500px;max-width:100%;margin-left:1em;height:1em}.number{font-size:0.65em}.number-lines{font-size:0.6em}.info{position:relative;top:0.3em;color:#999999;font-size:0.7em;font-weight:200;width:200px}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:0;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}input[type="range"]{-webkit-appearance:none;width:100px;background:transparent}input[type="range"]:focus{outline:none}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;height:1em;width:1em;border-radius:50%;background:#ffffff;margin-top:-0.25em;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-webkit-slider-runnable-track{width:60%;height:9px;background:#dddddd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-webkit-slider-runnable-track{background:#ff6e40}input[type="range"]::-ms-track{width:60%;cursor:pointer;height:9px;transition:all 0.5s;background:transparent;border-color:transparent;color:transparent}input[type="range"]::-ms-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-ms-fill-lower{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-lower{background:#ff6e40}input[type="range"]::-ms-fill-upper{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-upper{background:#ff6e40}input[type="range"]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-moz-range-track{width:60%;height:9px;background:#bdbdbd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-moz-range-track{background:#ff6e40}</style>`;
+    		this.shadowRoot.innerHTML = `<style>.range{background:#fff;height:1.3em;border-radius:5rem;box-shadow:1px 1px 1px rgba(255, 255, 255, 0.3);display:flex;align-items:center;justify-content:center;padding-top:0.1em;outline:none;border:none}.number-rows{padding-left:0.4em;padding-top:0.1em}.pager{text-align:center;min-width:300px;max-width:100%;margin-left:1em;height:1em}.number{font-size:0.8em}.number-lines{font-size:0.8em}.info{padding-top:0.3em;text-align:left;color:#999999;font-size:0.7em;font-weight:200}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:-0.1em;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}input[type="range"]{-webkit-appearance:none;width:100px;background:transparent}input[type="range"]:focus{outline:none}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;height:1em;width:1em;border-radius:50%;background:#ffffff;margin-top:-0.25em;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-webkit-slider-runnable-track{width:60%;height:9px;background:#dddddd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-webkit-slider-runnable-track{background:#ff6e40}input[type="range"]::-ms-track{width:60%;cursor:pointer;height:9px;transition:all 0.5s;background:transparent;border-color:transparent;color:transparent}input[type="range"]::-ms-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-ms-fill-lower{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-lower{background:#ff6e40}input[type="range"]::-ms-fill-upper{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-upper{background:#ff6e40}input[type="range"]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-moz-range-track{width:60%;height:9px;background:#bdbdbd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-moz-range-track{background:#ff6e40}</style>`;
     		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, { pager_data: 0, pager_config: 1 });
 
     		if (options) {
