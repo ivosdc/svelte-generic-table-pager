@@ -160,13 +160,18 @@
         return (last > pager_data.length) ? pager_data.length : last;
     }
 
+
 </script>
 
 <main class="pager"
       style="width:{(pager_config.width !== undefined) ? pager_config.width : pager_config_default.width}">
     <span id="left" class="options left {(currentPage > 1) ? 'active' : 'inactive'}" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
-        {@html iconLeft}
+        {#if (currentPage > 1)}
+            {@html iconLeft}
+        {:else}
+            o
+        {/if}
     </span>
     <span id="right"
           class="options right {(pager_data.length > (currentPage * pager_config.lines)) ? 'active' : 'inactive'}"
@@ -179,7 +184,7 @@
                on:input={handlePagerConfig}>
         <span class="number-rows"> {currentStep} rows</span>
     </span>
-    <span class="info" style="float:right">
+    <span class="info" style="clear:both">
         lines: <span class="number-lines">{pager_data.length} / {firstLineOfPage()}-{lastLineOfPage()}</span>
         /
         pages: <span class="number">{currentPage}/{maxPages}</span>
@@ -249,7 +254,7 @@
         top: -0.1em;
         width: 16px;
         height: 16px;
-        padding: 0.2em 0.4em;
+        padding: 0.2em;
         cursor: pointer;
         opacity: 60%;
         color: #999999;
