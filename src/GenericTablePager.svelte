@@ -217,7 +217,7 @@
         min-width: 300px;
         max-width: 100%;
         margin-left: 1em;
-        height: 1.5em;
+        height: 1.8em;
     }
 
     .number {
