@@ -1,6 +1,6 @@
 {
   "name": "svelte-generic-table-pager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "<table-pager> extracts a configurable number of lines an dispatches them as actual page data. As self-containing webcomponent or for Svelte in 21KB.",
   "main": "dist/build/table-pager.js",
   "module": "dist/build/table-pager.mjs",
