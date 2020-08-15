@@ -1,6 +1,6 @@
 {
   "name": "svelte-generic-table-pager",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "<table-pager> extracts a configurable number of lines an dispatches them as actual page data. As self-containing webcomponent or for Svelte in 21KB.",
   "main": "dist/build/table-pager.js",
   "module": "dist/build/table-pager.mjs",
@@ -37,19 +37,19 @@
   },
   "homepage": "https://github.com/ivosdc/svelte-generic-table-pager#readme",
   "devDependencies": {
-    "@babel/core": "^7.11.0",
+    "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
     "@testing-library/svelte": "^3.0.0",
-    "babel-jest": "^26.2.2",
+    "babel-jest": "^26.3.0",
     "coveralls": "^3.1.0",
-    "jest": "^26.2.2",
-    "jest-mock": "^26.2.0",
+    "jest": "^26.4.0",
+    "jest-mock": "^26.3.0",
     "jest-svelte-resolver": "^1.0.0",
-    "rollup": "^2.23.0",
+    "rollup": "^2.26.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.2.3",
-    "svelte": "^3.24.0",
-    "svelte-jester": "^1.0.6"
+    "svelte": "^3.24.1",
+    "svelte-jester": "^1.1.0"
   },
   "dependencies": {}
 }

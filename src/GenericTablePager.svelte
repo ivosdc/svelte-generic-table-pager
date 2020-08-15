@@ -290,7 +290,6 @@
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
-
     }
 
     input[type="range"]::-webkit-slider-runnable-track {
@@ -360,7 +359,7 @@
     }
 
     input[type="range"]::-moz-range-track {
-        width: 60%;
+        width: 80%;
         height: 9px;
         background: #bdbdbd;
         border-radius: 3rem;
