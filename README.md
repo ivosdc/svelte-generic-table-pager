@@ -39,20 +39,12 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 </head>
 
 <body>
-<h1>&lt;table-pager&gt;&lt;/table-pager&gt;</h1>
-<p>Agnostic paginator web-component for object-arrays.</p>
-<span style="background-color: #dddddd; padding: 0.4em; display:inline-block">&gt; npm install -save svelte-generic-table-pager</span>
-<p></p>
 <hr>
-<crud-table></crud-table>
 <table-pager></table-pager>
+<crud-table></crud-table>
 <hr>
 </span style="text-align: right"><a href="https://ivolution.one">ivolution.one product - MIT License</a>
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7V5M288MUT7GE&source=url">donate
-</a></p>
-
-<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7V5M288MUT7GE&source=url" target="_blank">
-    <img src="https://github.com/ivosdc/svelte-generic-crud-table/raw/master/assets/donate.gif" title="donate">
 </a></p>
 
 </body>
