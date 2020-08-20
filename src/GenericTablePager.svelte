@@ -1,8 +1,9 @@
 <svelte:options tag={'table-pager'}/>
 <script>
-    import {afterUpdate, createEventDispatcher, onDestroy, onMount} from 'svelte';
+    import {createEventDispatcher, beforeUpdate, afterUpdate} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
+    import SvelteGenericCrudTable from 'svelte-generic-crud-table';
 
     /* istanbul ignore next line */
     let shadowed = document.querySelector('table-pager') !== null ? true : false;
@@ -28,13 +29,13 @@
     let setSteps = () => {
         let steps = (pager_config.steps !== undefined) ? pager_config.steps : pager_config_default.steps;
         steps = steps.filter((a) => {
-            return a < pager_data.length
+            return parseInt(a) < pager_data.length
         });
         steps.push(pager_data.length);
         return steps;
     }
 
-    let sliderIndex = 0;
+    let sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
     let maxSteps = 1;
     let currentStep = 0;
     $: currentStep = (pager_config.steps !== undefined) ? pager_config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
@@ -42,41 +43,31 @@
 
     let pagerService = new GenericTablePagerService();
 
-    let currentPage = 0;
+    let currentPage = 1;
 
-    let maxPages = 0;
-    $: maxPages = Math.ceil(pager_data.length / pager_config.lines);
+    let maxPages = 1;
+    let max
+    $: max = Math.ceil(pager_data.length / pager_config.lines);
+    $: maxPages = max > 0 ? max : 1;
 
 
-    let page_data = [];
+    export let page_data;
+    $: page_data = typeof page_data === 'Array' ? page_data : [];
 
-    // workaround for webcomponent behaviour
-    if (!shadowed) {
-        onMount(initFirstPage);
+    if (!shadowed)  {
+        beforeUpdate(() => {
+            initPage();
+        });
     } else {
-        afterUpdate(initFirstPage);
+        afterUpdate(() => {
+            initPage();
+        });
+
     }
 
-    let initpage = 0;
 
-    function initFirstPage() {
-        if (shadowed) {
-            if (initpage < 3) { // ToDo : WTF
-                let elem = document.querySelector('table-pager').shadowRoot.getElementById('right');
-                elem.click();
-                initpage++;
-                sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
-            }
-        } else {
-            getNextPage()
-            const details = {
-                page: currentPage,
-                pages: maxPages,
-                body: page_data
-            }
-            dispatcher('newpage', details);
-            sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
-        }
+    function initPage() {
+        page_data = pager_data.slice(pager_config.lines * (currentPage - 1), pager_config.lines * (currentPage));
     }
 
 
@@ -91,58 +82,35 @@
     function getPreviousPage() {
         if (currentPage > 1) {
             page_data = pager_data.slice((pager_config.lines * currentPage) - pager_config.lines * 2,
-                    (pager_config.lines * (currentPage + 1)) - pager_config.lines * 2);
+                (pager_config.lines * (currentPage + 1)) - pager_config.lines * 2);
             currentPage--;
         }
     }
 
-    function getFirstPage() {
-        currentPage = 1;
-        page_data = pager_data.slice(0, pager_config.lines);
-    }
 
     function handleLeft(event) {
         if (currentPage > 1) {
             getPreviousPage();
-            const details = {
-                page: currentPage,
-                pages: maxPages,
-                body: page_data
-            }
-            dispatcher('newpage', details, event);
         }
     }
 
     function handleRight(event) {
         getNextPage();
-        const details = {
-            page: currentPage,
-            pages: maxPages,
-            body: page_data
-        }
-        dispatcher('newpage', details, event);
     }
 
     function handlePagerConfig(event) {
-        pager_config.lines = pager_config.steps[sliderIndex];
         pager_config.steps = setSteps();
-        getFirstPage();
-        const details = {
-            page: currentPage,
-            pages: maxPages,
-            body: page_data
-        }
-        dispatcher('newpage', details, event);
+        pager_config.lines = pager_config.steps[sliderIndex];
     }
 
     function dispatcher(name, details, event) {
         /* istanbul ignore next */
         if (shadowed) {
             event.target.dispatchEvent(
-                    new CustomEvent(name, {
-                        composed: true,
-                        detail: details
-                    }))
+                new CustomEvent(name, {
+                    composed: true,
+                    detail: details
+                }))
         } else {
             dispatch(name, details);
         }
@@ -159,6 +127,69 @@
         const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
         return (last > pager_data.length) ? pager_data.length : last;
     }
+
+
+    function handleCreate(event) {
+        console.log(event)
+        const details = {
+        };
+        dispatcher('create', details, event);
+    }
+
+    function handleDelete(event) {
+        console.log(event)
+        const details = {
+            id: event.detail.id,
+            body: event.detail.body
+        };
+        dispatcher('delete', details, event);
+    }
+
+    function handleUpdate(event) {
+        console.log(event)
+        const details = {
+            id: event.detail.id,
+            body: event.detail.body
+        };
+        dispatcher('update', details, event);
+    }
+
+    function handleDetail(event) {
+        console.log(event)
+        const details = {
+            id: event.detail.id,
+            body: event.detail.body
+        };
+        dispatcher('details', details, event);
+    }
+
+    let sortStore = [];
+
+    function handleSort(event) {
+        const column = event.detail.column;
+        if (sortStore[column] === undefined || sortStore[column] === 'DESC') {
+            sortStore[column] = 'ASC';
+        } else {
+            sortStore[column] = 'DESC';
+        }
+
+        const tableSort = (a, b) => {
+            var keyA = a[column];
+            var keyB = b[column];
+            if (sortStore[column] === 'ASC') {
+                if (keyA < keyB) return -1;
+                if (keyA > keyB) return 1;
+            } else {
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
+            }
+            return 0;
+        };
+
+        pager_data = pager_data.sort(tableSort);
+    }
+
+    export let table_config;
 
 
 </script>
@@ -179,20 +210,31 @@
           on:click={(e) => handleRight(e)} title="Right" tabindex="0">
         {@html iconRight}
     </span>
-    <span class="info range" style="float:left">
+    <span class="range" style="float:left">
         <input id="slider" type=range bind:value={sliderIndex} min=0 max={maxSteps} steps={maxSteps}
                on:input={handlePagerConfig}>
         <span class="number-rows"> {currentStep} rows</span>
     </span>
     <span class="info" style="clear:both">
-        lines: <span class="number-lines">{pager_data.length} / {firstLineOfPage()}-{lastLineOfPage()}</span>
-        /
-        pages: <span class="number">{currentPage}/{maxPages}</span>
+        lines: <span class="number-lines">{firstLineOfPage()}-{lastLineOfPage()} ({pager_data.length})</span>
+         -
+        pages: <span class="number-pages">{currentPage}/{maxPages}</span>
     </span>
-
 </main>
+<SvelteGenericCrudTable on:delete={handleDelete}
+                        on:update={handleUpdate}
+                        on:create={handleCreate}
+                        on:details={handleDetail}
+                        on:sort={handleSort}
+                        table_config={table_config}
+                        bind:table_data={page_data}/>
 
 <style>
+
+    main {
+        position: inherit;
+        padding-top: 0.4em;
+    }
 
     .range {
         background: #fff;
@@ -202,9 +244,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 0.1em;
+        padding-top: 0.3em;
         outline: none;
         border: none;
+        text-align: left;
+        color: #999999;
+        font-size: 0.7em;
+        font-weight: 200;
     }
 
     .number-rows {
@@ -214,26 +260,31 @@
 
     .pager {
         text-align: center;
-        min-width: 300px;
+        min-width: 400px;
         max-width: 100%;
         margin-left: 1em;
         height: 1.8em;
     }
 
-    .number {
-        font-size: 0.8em;
+    .number-pages {
+        font-size: 110%;
+        font-weight: 200;
     }
 
     .number-lines {
-        font-size: 0.8em;
+        padding-top: 0.3em;
+        font-size: 110%;
+        font-weight: 200;
     }
 
     .info {
-        padding-top: 0.3em;
+        position: relative;
+        top: -0.2em;
         text-align: left;
         color: #999999;
         font-size: 0.7em;
         font-weight: 200;
+        padding-left: 2em;
     }
 
     .inactive {

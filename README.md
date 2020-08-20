@@ -1,4 +1,9 @@
 # svelte-generic-table-pager
+
+With Version 0.2.0 <table-pager> integrates <crud-table>.
+Depending on the need of the `svelte component` in actual development project  I will fix the web component-Example ASAP.
+ 
+
 - Web-component: `<table-pager></table-pager>`
 - or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
 
@@ -57,7 +62,6 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 
 ```html
 <table-pager></table-pager>
-<crud-table></crud-table>
 ```
 
 ###  Svelte-Component:
@@ -127,40 +131,30 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
     ];
 
 
-    // GenericTablePager
-    let page_data = [];
-
-    function handleNewPage(event) {
-       page_data = event.detail;
-    }
-
 </script>
 
 <main>
-    <SvelteGenericCrudTable on:delete={handleDelete}
-                            on:update={handleUpdate}
-                            on:create={handleCreate}
-                            on:details={handleDetails}
-                            on:sort={handleSort}
-                            table_config={{
-                                name: 'Awesome:',
-                                options: ['CREATE', 'EDIT', 'DELETE', 'DETAILS'],
-                                columns_setting: [
-                                    {name: 'id', show: false, edit: true, size: '200px'},
-                                    {name: 'name', show: true, edit: true, size: '200px'},
-                                    {name: 'why', show: true, edit: true, size: '200px'},
-                                    {name: 'sthg', show: true, edit: false, size: '200px'}
-                                ]
-                            }}
-                            table_data={page_data}></SvelteGenericCrudTable>
-
-    <GenericTablePager on:newpage={handleNewPage}
+    <GenericTablePager on:delete={handleDelete}
+                       on:update={handleUpdate}
+                       on:create={handleCreate}
+                       on:details={handleDetails}
+                       on:sort={handleSort}
+                       table_config={{
+                           name: 'Awesome:',
+                           options: ['CREATE', 'EDIT', 'DELETE', 'DETAILS'],
+                           columns_setting: [
+                               {name: 'id', show: false, edit: true, size: '200px'},
+                               {name: 'name', show: true, edit: true, size: '200px'},
+                               {name: 'why', show: true, edit: true, size: '200px'},
+                               {name: 'sthg', show: true, edit: false, size: '200px'}
+                           ]
+                       }}
                        pager_data={myObjectArray}
                        pager_config={{
                                     name: 'crud-table-pager',
                                     lines: 5,
                                     steps: [1, 2, 5, 10, 20, 50],
                                     width: '600px'
-                                    }}></GenericTablePager>
+                                    }}/></GenericTablePager>
 </main>
 ```
