@@ -130,14 +130,12 @@
 
 
     function handleCreate(event) {
-        console.log(event)
         const details = {
         };
         dispatcher('create', details, event);
     }
 
     function handleDelete(event) {
-        console.log(event)
         const details = {
             id: event.detail.id,
             body: event.detail.body
@@ -146,7 +144,6 @@
     }
 
     function handleUpdate(event) {
-        console.log(event)
         const details = {
             id: event.detail.id,
             body: event.detail.body
@@ -155,7 +152,6 @@
     }
 
     function handleDetail(event) {
-        console.log(event)
         const details = {
             id: event.detail.id,
             body: event.detail.body
