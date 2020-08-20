@@ -159,30 +159,12 @@
         dispatcher('details', details, event);
     }
 
-    let sortStore = [];
-
     function handleSort(event) {
         const column = event.detail.column;
-        if (sortStore[column] === undefined || sortStore[column] === 'DESC') {
-            sortStore[column] = 'ASC';
-        } else {
-            sortStore[column] = 'DESC';
-        }
-
-        const tableSort = (a, b) => {
-            var keyA = a[column];
-            var keyB = b[column];
-            if (sortStore[column] === 'ASC') {
-                if (keyA < keyB) return -1;
-                if (keyA > keyB) return 1;
-            } else {
-                if (keyA < keyB) return 1;
-                if (keyA > keyB) return -1;
-            }
-            return 0;
+        const details = {
+            column: column
         };
-
-        pager_data = pager_data.sort(tableSort);
+        dispatcher('sort', details, event);
     }
 
     export let table_config;
