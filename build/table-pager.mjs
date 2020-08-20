@@ -2230,7 +2230,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (201:8) {#if (currentPage > 1)}
+    // (197:8) {#if (currentPage > 1)}
     function create_if_block$1(ctx) {
     	let html_tag;
     	let html_anchor;
@@ -2603,14 +2603,11 @@ var GenericTablePager = (function () {
     	let lastLineOfPage = 0;
 
     	function handleCreate(event) {
-    		console.log(event);
     		const details = {};
     		dispatcher("create", details, event);
     	}
 
     	function handleDelete(event) {
-    		console.log(event);
-
     		const details = {
     			id: event.detail.id,
     			body: event.detail.body
@@ -2620,8 +2617,6 @@ var GenericTablePager = (function () {
     	}
 
     	function handleUpdate(event) {
-    		console.log(event);
-
     		const details = {
     			id: event.detail.id,
     			body: event.detail.body
@@ -2631,8 +2626,6 @@ var GenericTablePager = (function () {
     	}
 
     	function handleDetail(event) {
-    		console.log(event);
-
     		const details = {
     			id: event.detail.id,
     			body: event.detail.body
