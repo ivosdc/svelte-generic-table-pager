@@ -2230,7 +2230,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (197:8) {#if (currentPage > 1)}
+    // (179:8) {#if (currentPage > 1)}
     function create_if_block$1(ctx) {
     	let html_tag;
     	let html_anchor;
@@ -2634,33 +2634,10 @@ var GenericTablePager = (function () {
     		dispatcher("details", details, event);
     	}
 
-    	let sortStore = [];
-
     	function handleSort(event) {
     		const column = event.detail.column;
-
-    		if (sortStore[column] === undefined || sortStore[column] === "DESC") {
-    			sortStore[column] = "ASC";
-    		} else {
-    			sortStore[column] = "DESC";
-    		}
-
-    		const tableSort = (a, b) => {
-    			var keyA = a[column];
-    			var keyB = b[column];
-
-    			if (sortStore[column] === "ASC") {
-    				if (keyA < keyB) return -1;
-    				if (keyA > keyB) return 1;
-    			} else {
-    				if (keyA < keyB) return 1;
-    				if (keyA > keyB) return -1;
-    			}
-
-    			return 0;
-    		};
-
-    		$$invalidate(0, pager_data = pager_data.sort(tableSort));
+    		const details = { column };
+    		dispatcher("sort", details, event);
     	}
 
     	let { table_config } = $$props;
