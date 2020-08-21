@@ -874,75 +874,7 @@ var GenericTablePager = (function () {
     	return child_ctx;
     }
 
-    // (143:4) {#if table_data.length === 0}
-    function create_if_block_10(ctx) {
-    	let show_if = /*options*/ ctx[3].includes(CREATE);
-    	let if_block_anchor;
-    	let if_block = show_if && create_if_block_11(ctx);
-
-    	return {
-    		c() {
-    			if (if_block) if_block.c();
-    			if_block_anchor = empty();
-    		},
-    		m(target, anchor) {
-    			if (if_block) if_block.m(target, anchor);
-    			insert(target, if_block_anchor, anchor);
-    		},
-    		p(ctx, dirty) {
-    			if (dirty[0] & /*options*/ 8) show_if = /*options*/ ctx[3].includes(CREATE);
-
-    			if (show_if) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block_11(ctx);
-    					if_block.c();
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-    				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
-    			}
-    		},
-    		d(detaching) {
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach(if_block_anchor);
-    		}
-    	};
-    }
-
-    // (144:8) {#if options.includes(CREATE)}
-    function create_if_block_11(ctx) {
-    	let div;
-    	let mounted;
-    	let dispose;
-
-    	return {
-    		c() {
-    			div = element("div");
-    			attr(div, "class", "blue");
-    			attr(div, "title", "Create");
-    		},
-    		m(target, anchor) {
-    			insert(target, div, anchor);
-    			div.innerHTML = iconcreate;
-
-    			if (!mounted) {
-    				dispose = listen(div, "click", /*handleCreate*/ ctx[11]);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		d(detaching) {
-    			if (detaching) detach(div);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-    }
-
-    // (151:4) {#if (table_data !== undefined)}
+    // (142:4) {#if (table_data !== undefined)}
     function create_if_block(ctx) {
     	let show_if = Array.isArray(/*table_data*/ ctx[0]);
     	let if_block_anchor;
@@ -989,7 +921,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (153:8) {#if Array.isArray(table_data)}
+    // (144:8) {#if Array.isArray(table_data)}
     function create_if_block_1(ctx) {
     	let div2;
     	let div1;
@@ -1119,7 +1051,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (157:20) {#each table_config.columns_setting as elem}
+    // (148:20) {#each table_config.columns_setting as elem}
     function create_each_block_3(ctx) {
     	let div;
     	let textarea;
@@ -1204,7 +1136,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (170:24) {#if options.includes(CREATE)}
+    // (161:24) {#if options.includes(CREATE)}
     function create_if_block_9(ctx) {
     	let div;
     	let mounted;
@@ -1234,7 +1166,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (185:32) {#if (column_order.name === genericCrudTable.getKey(elem))}
+    // (176:32) {#if (column_order.name === genericCrudTable.getKey(elem))}
     function create_if_block_8(ctx) {
     	let div;
     	let textarea;
@@ -1301,7 +1233,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (194:32) {#if table_config.columns_setting.length - 1 === j && Object.entries(tableRow).length - 1 === k }
+    // (185:32) {#if table_config.columns_setting.length - 1 === j && Object.entries(tableRow).length - 1 === k }
     function create_if_block_2(ctx) {
     	let div3;
     	let div0;
@@ -1474,7 +1406,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (200:44) {#if options.includes(DELETE)}
+    // (191:44) {#if options.includes(DELETE)}
     function create_if_block_7(ctx) {
     	let div;
     	let div_aria_label_value;
@@ -1517,7 +1449,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (208:44) {#if options.includes(EDIT)}
+    // (199:44) {#if options.includes(EDIT)}
     function create_if_block_6(ctx) {
     	let div;
     	let mounted;
@@ -1554,7 +1486,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (215:44) {#if options.includes(DETAILS)}
+    // (206:44) {#if options.includes(DETAILS)}
     function create_if_block_5(ctx) {
     	let div;
     	let mounted;
@@ -1591,7 +1523,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (225:44) {#if options.includes(EDIT)}
+    // (216:44) {#if options.includes(EDIT)}
     function create_if_block_4(ctx) {
     	let div0;
     	let t;
@@ -1654,7 +1586,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (243:44) {#if options.includes(DELETE)}
+    // (234:44) {#if options.includes(DELETE)}
     function create_if_block_3(ctx) {
     	let div0;
     	let div0_aria_label_value;
@@ -1723,7 +1655,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (183:28) {#each Object.entries(tableRow) as elem, k}
+    // (174:28) {#each Object.entries(tableRow) as elem, k}
     function create_each_block_2(ctx) {
     	let show_if_1 = /*column_order*/ ctx[33].name === /*genericCrudTable*/ ctx[4].getKey(/*elem*/ ctx[36]);
     	let t;
@@ -1785,7 +1717,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (182:24) {#each table_config.columns_setting as column_order, j}
+    // (173:24) {#each table_config.columns_setting as column_order, j}
     function create_each_block_1(ctx) {
     	let each_1_anchor;
     	let each_value_2 = Object.entries(/*tableRow*/ ctx[30]);
@@ -1841,7 +1773,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (180:16) {#each table_data as tableRow, i (tableRow)}
+    // (171:16) {#each table_data as tableRow, i (tableRow)}
     function create_each_block(key_1, ctx) {
     	let div;
     	let t;
@@ -1918,64 +1850,44 @@ var GenericTablePager = (function () {
 
     function create_fragment(ctx) {
     	let main;
-    	let t;
-    	let if_block0 = /*table_data*/ ctx[0].length === 0 && create_if_block_10(ctx);
-    	let if_block1 = /*table_data*/ ctx[0] !== undefined && create_if_block(ctx);
+    	let if_block = /*table_data*/ ctx[0] !== undefined && create_if_block(ctx);
 
     	return {
     		c() {
     			main = element("main");
-    			if (if_block0) if_block0.c();
-    			t = space();
-    			if (if_block1) if_block1.c();
+    			if (if_block) if_block.c();
     			this.c = noop;
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
-    			if (if_block0) if_block0.m(main, null);
-    			append(main, t);
-    			if (if_block1) if_block1.m(main, null);
+    			if (if_block) if_block.m(main, null);
     		},
     		p(ctx, dirty) {
-    			if (/*table_data*/ ctx[0].length === 0) {
-    				if (if_block0) {
-    					if_block0.p(ctx, dirty);
-    				} else {
-    					if_block0 = create_if_block_10(ctx);
-    					if_block0.c();
-    					if_block0.m(main, t);
-    				}
-    			} else if (if_block0) {
-    				if_block0.d(1);
-    				if_block0 = null;
-    			}
-
     			if (/*table_data*/ ctx[0] !== undefined) {
-    				if (if_block1) {
-    					if_block1.p(ctx, dirty);
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
 
     					if (dirty[0] & /*table_data*/ 1) {
-    						transition_in(if_block1, 1);
+    						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block1 = create_if_block(ctx);
-    					if_block1.c();
-    					transition_in(if_block1, 1);
-    					if_block1.m(main, null);
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(main, null);
     				}
-    			} else if (if_block1) {
-    				if_block1.d(1);
-    				if_block1 = null;
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
     			}
     		},
     		i(local) {
-    			transition_in(if_block1);
+    			transition_in(if_block);
     		},
     		o: noop,
     		d(detaching) {
     			if (detaching) detach(main);
-    			if (if_block0) if_block0.d();
-    			if (if_block1) if_block1.d();
+    			if (if_block) if_block.d();
     		}
     	};
     }
