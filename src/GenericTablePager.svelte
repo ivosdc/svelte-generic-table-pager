@@ -1,4 +1,4 @@
-<svelte:options tag={'table-pager'}/>
+<svelte:options tag={'table-pager'} accessors/>
 <script>
     import {createEventDispatcher, beforeUpdate, afterUpdate} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
