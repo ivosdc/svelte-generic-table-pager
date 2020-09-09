@@ -137,7 +137,7 @@
 
     function handleDelete(event) {
         const details = {
-            id: event.detail.id,
+            id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
             body: event.detail.body
         };
         dispatcher('delete', details, event);
@@ -145,7 +145,7 @@
 
     function handleUpdate(event) {
         const details = {
-            id: event.detail.id,
+            id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
             body: event.detail.body
         };
         dispatcher('update', details, event);
@@ -153,7 +153,7 @@
 
     function handleDetail(event) {
         const details = {
-            id: event.detail.id,
+            id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
             body: event.detail.body
         };
         dispatcher('details', details, event);
