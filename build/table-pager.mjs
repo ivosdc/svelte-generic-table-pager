@@ -2303,7 +2303,7 @@ var GenericTablePager = (function () {
 
     	function handleDelete(event) {
     		const details = {
-    			id: event.detail.id,
+    			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
     			body: event.detail.body
     		};
 
@@ -2312,7 +2312,7 @@ var GenericTablePager = (function () {
 
     	function handleUpdate(event) {
     		const details = {
-    			id: event.detail.id,
+    			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
     			body: event.detail.body
     		};
 
@@ -2321,7 +2321,7 @@ var GenericTablePager = (function () {
 
     	function handleDetail(event) {
     		const details = {
-    			id: event.detail.id,
+    			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
     			body: event.detail.body
     		};
 
