@@ -189,7 +189,7 @@
         {@html iconRight}
     </span>
     <span class="range" style="float:left">
-        <input id="slider" type=range bind:value={sliderIndex} min=0 max={maxSteps} steps={maxSteps}
+        <input id="slider" type=range bind:value={sliderIndex} min=1 max={maxSteps} steps={maxSteps}
                on:input={handlePagerConfig}>
         <span class="number-rows"> {currentStep} rows</span>
     </span>
