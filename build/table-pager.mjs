@@ -857,7 +857,7 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[17](/*elem*/ ctx[39], ...args);
+    		return /*click_handler*/ ctx[18](/*elem*/ ctx[39], ...args);
     	}
 
     	return {
@@ -1207,7 +1207,7 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler_1(...args) {
-    		return /*click_handler_1*/ ctx[18](/*i*/ ctx[35], ...args);
+    		return /*click_handler_1*/ ctx[19](/*i*/ ctx[35], ...args);
     	}
 
     	return {
@@ -1249,7 +1249,7 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler_2(...args) {
-    		return /*click_handler_2*/ ctx[19](/*i*/ ctx[35], ...args);
+    		return /*click_handler_2*/ ctx[20](/*i*/ ctx[35], ...args);
     	}
 
     	return {
@@ -1286,7 +1286,7 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler_3(...args) {
-    		return /*click_handler_3*/ ctx[20](/*i*/ ctx[35], ...args);
+    		return /*click_handler_3*/ ctx[21](/*i*/ ctx[35], ...args);
     	}
 
     	return {
@@ -1326,11 +1326,11 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler_4(...args) {
-    		return /*click_handler_4*/ ctx[21](/*i*/ ctx[35], ...args);
+    		return /*click_handler_4*/ ctx[22](/*i*/ ctx[35], ...args);
     	}
 
     	function click_handler_5(...args) {
-    		return /*click_handler_5*/ ctx[22](/*i*/ ctx[35], ...args);
+    		return /*click_handler_5*/ ctx[23](/*i*/ ctx[35], ...args);
     	}
 
     	return {
@@ -1390,11 +1390,11 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function click_handler_6(...args) {
-    		return /*click_handler_6*/ ctx[23](/*i*/ ctx[35], ...args);
+    		return /*click_handler_6*/ ctx[24](/*i*/ ctx[35], ...args);
     	}
 
     	function click_handler_7(...args) {
-    		return /*click_handler_7*/ ctx[24](/*i*/ ctx[35], ...args);
+    		return /*click_handler_7*/ ctx[25](/*i*/ ctx[35], ...args);
     	}
 
     	return {
@@ -1674,10 +1674,7 @@ var GenericTablePager = (function () {
     const DETAILS = "DETAILS";
 
     function instance($$self, $$props, $$invalidate) {
-    	let shadowed = document.querySelector("crud-table") !== null
-    	? true
-    	: false;
-
+    	let { shadowed = false } = $$props;
     	const dispatch = createEventDispatcher();
 
     	const table_config_default = {
@@ -1822,6 +1819,7 @@ var GenericTablePager = (function () {
     	const click_handler_7 = (i, e) => handleDeleteConfirmation(i, e);
 
     	$$self.$$set = $$props => {
+    		if ("shadowed" in $$props) $$invalidate(17, shadowed = $$props.shadowed);
     		if ("table_data" in $$props) $$invalidate(0, table_data = $$props.table_data);
     		if ("table_config" in $$props) $$invalidate(1, table_config = $$props.table_config);
     	};
@@ -1852,7 +1850,7 @@ var GenericTablePager = (function () {
     			: []);
     		}
 
-    		if ($$self.$$.dirty[0] & /*table_config*/ 2) {
+    		if ($$self.$$.dirty[0] & /*table_config, shadowed*/ 131074) {
     			 $$invalidate(4, genericCrudTable = new SvelteGenericCrudTableService(table_config, shadowed));
     		}
     	};
@@ -1875,6 +1873,7 @@ var GenericTablePager = (function () {
     		handleResize,
     		getWidth,
     		setWidth,
+    		shadowed,
     		click_handler,
     		click_handler_1,
     		click_handler_2,
@@ -1890,7 +1889,20 @@ var GenericTablePager = (function () {
     	constructor(options) {
     		super();
     		this.shadowRoot.innerHTML = `<style>main{position:inherit;padding-top:0.4em}.red:hover{fill:red;fill-opacity:80%}.green:hover{fill:limegreen;fill-opacity:80%}.blue:hover{fill:dodgerblue;fill-opacity:80%}.table{display:inline-grid;text-align:left}.thead{display:inline-flex;padding:0 0 0.4em 0}.row{display:inline-flex;padding:0;margin:0 0 1px;resize:vertical}.row:hover{background-color:#efefef}.td{color:#5f5f5f;border:none;border-left:0.1em solid #efefef;font-weight:100;padding:0.2em 0 0.1em 0.4em;float:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;resize:none}.td-disabled{vertical-align:middle;color:#5f5f5f;border:none;font-weight:200;float:left;line-height:1em;min-height:1.3em;max-height:1.3em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;width:-moz-available;width:-webkit-fill-available;width:stretch}.headline{border-bottom:1px solid #dddddd;cursor:pointer;min-height:1.3em;max-height:1.3em;height:1.3em;font-weight:300;padding:0 0 0.3em 0.4em;margin-bottom:0.3em;resize:horizontal}#labelOptions{width:85px;resize:none}.options-field{min-height:1.3em;min-width:100px;max-width:100px;width:100px;opacity:60%;resize:inherit}.options{float:left;position:relative;width:16px;height:16px;padding:0.2em 0.4em;cursor:pointer;opacity:60%}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}.hidden{display:none}.shown{display:block}textarea{position:relative;resize:vertical;overflow:hidden;width:100%;height:calc(100% - 2px);padding:1px 1px;background-color:#ffffff;border:none;font-size:0.95em;font-weight:300;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;text-overflow:ellipsis;white-space:pre;-webkit-transition:box-shadow 0.3s;border-bottom:0.5px solid #5f5f5f;overflow-y:scroll}textarea:focus{outline:none;font-weight:300;white-space:normal;overflow:auto;padding-top:1px}textarea:not(:focus){height:100%}</style>`;
-    		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, { table_data: 0, table_config: 1 }, [-1, -1]);
+
+    		init(
+    			this,
+    			{ target: this.shadowRoot },
+    			instance,
+    			create_fragment,
+    			safe_not_equal,
+    			{
+    				shadowed: 17,
+    				table_data: 0,
+    				table_config: 1
+    			},
+    			[-1, -1]
+    		);
 
     		if (options) {
     			if (options.target) {
@@ -1905,7 +1917,16 @@ var GenericTablePager = (function () {
     	}
 
     	static get observedAttributes() {
-    		return ["table_data", "table_config"];
+    		return ["shadowed", "table_data", "table_config"];
+    	}
+
+    	get shadowed() {
+    		return this.$$.ctx[17];
+    	}
+
+    	set shadowed(shadowed) {
+    		this.$set({ shadowed });
+    		flush();
     	}
 
     	get table_data() {
@@ -1948,7 +1969,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (180:8) {#if (currentPage > 1)}
+    // (178:8) {#if (currentPage > 1)}
     function create_if_block$1(ctx) {
     	let html_tag;
     	let html_anchor;
@@ -1988,10 +2009,10 @@ var GenericTablePager = (function () {
     	let span6;
     	let t6;
     	let span4;
-    	let t7_value = /*firstLineOfPage*/ ctx[9]() + "";
+    	let t7_value = /*firstLineOfPage*/ ctx[10]() + "";
     	let t7;
     	let t8;
-    	let t9_value = /*lastLineOfPage*/ ctx[10]() + "";
+    	let t9_value = /*lastLineOfPage*/ ctx[11]() + "";
     	let t9;
     	let t10;
     	let t11_value = /*pager_data*/ ctx[0].length + "";
@@ -2010,7 +2031,7 @@ var GenericTablePager = (function () {
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*currentPage*/ ctx[7] > 1) return create_if_block$1;
+    		if (/*currentPage*/ ctx[8] > 1) return create_if_block$1;
     		return create_else_block;
     	}
 
@@ -2018,10 +2039,13 @@ var GenericTablePager = (function () {
     	let if_block = current_block_type(ctx);
 
     	function sveltegenericcrudtable_table_data_binding(value) {
-    		/*sveltegenericcrudtable_table_data_binding*/ ctx[23].call(null, value);
+    		/*sveltegenericcrudtable_table_data_binding*/ ctx[24].call(null, value);
     	}
 
-    	let sveltegenericcrudtable_props = { table_config: /*table_config*/ ctx[3] };
+    	let sveltegenericcrudtable_props = {
+    		shadowed: /*shadowed*/ ctx[3],
+    		table_config: /*table_config*/ ctx[4]
+    	};
 
     	if (/*page_data*/ ctx[2] !== void 0) {
     		sveltegenericcrudtable_props.table_data = /*page_data*/ ctx[2];
@@ -2029,11 +2053,11 @@ var GenericTablePager = (function () {
 
     	sveltegenericcrudtable = new SvelteGenericCrudTable({ props: sveltegenericcrudtable_props });
     	binding_callbacks.push(() => bind(sveltegenericcrudtable, "table_data", sveltegenericcrudtable_table_data_binding));
-    	sveltegenericcrudtable.$on("delete", /*handleDelete*/ ctx[16]);
-    	sveltegenericcrudtable.$on("update", /*handleUpdate*/ ctx[17]);
-    	sveltegenericcrudtable.$on("create", /*handleCreate*/ ctx[15]);
-    	sveltegenericcrudtable.$on("details", /*handleDetail*/ ctx[18]);
-    	sveltegenericcrudtable.$on("sort", /*handleSort*/ ctx[19]);
+    	sveltegenericcrudtable.$on("delete", /*handleDelete*/ ctx[17]);
+    	sveltegenericcrudtable.$on("update", /*handleUpdate*/ ctx[18]);
+    	sveltegenericcrudtable.$on("create", /*handleCreate*/ ctx[16]);
+    	sveltegenericcrudtable.$on("details", /*handleDetail*/ ctx[19]);
+    	sveltegenericcrudtable.$on("sort", /*handleSort*/ ctx[20]);
 
     	return {
     		c() {
@@ -2047,7 +2071,7 @@ var GenericTablePager = (function () {
     			input = element("input");
     			t2 = space();
     			span2 = element("span");
-    			t3 = text(/*currentStep*/ ctx[6]);
+    			t3 = text(/*currentStep*/ ctx[7]);
     			t4 = text(" rows");
     			t5 = space();
     			span6 = element("span");
@@ -2061,20 +2085,20 @@ var GenericTablePager = (function () {
     			t12 = text(")");
     			t13 = text("\n         -\n        pages: ");
     			span5 = element("span");
-    			t14 = text(/*currentPage*/ ctx[7]);
+    			t14 = text(/*currentPage*/ ctx[8]);
     			t15 = text("/");
-    			t16 = text(/*maxPages*/ ctx[8]);
+    			t16 = text(/*maxPages*/ ctx[9]);
     			t17 = space();
     			create_component(sveltegenericcrudtable.$$.fragment);
     			this.c = noop;
     			attr(span0, "id", "left");
-    			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[7] > 1 ? "active" : "inactive"));
+    			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[8] > 1 ? "active" : "inactive"));
     			set_style(span0, "float", "left");
     			attr(span0, "title", "Left");
     			attr(span0, "tabindex", "0");
     			attr(span1, "id", "right");
 
-    			attr(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[7] * /*pager_config*/ ctx[1].lines
+    			attr(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[8] * /*pager_config*/ ctx[1].lines
     			? "active"
     			: "inactive"));
 
@@ -2084,8 +2108,8 @@ var GenericTablePager = (function () {
     			attr(input, "id", "slider");
     			attr(input, "type", "range");
     			attr(input, "min", "1");
-    			attr(input, "max", /*maxSteps*/ ctx[5]);
-    			attr(input, "steps", /*maxSteps*/ ctx[5]);
+    			attr(input, "max", /*maxSteps*/ ctx[6]);
+    			attr(input, "steps", /*maxSteps*/ ctx[6]);
     			attr(span2, "class", "number-rows");
     			attr(span3, "class", "range");
     			set_style(span3, "float", "left");
@@ -2097,7 +2121,7 @@ var GenericTablePager = (function () {
 
     			set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
     			? /*pager_config*/ ctx[1].width
-    			: /*pager_config_default*/ ctx[11].width);
+    			: /*pager_config_default*/ ctx[12].width);
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
@@ -2109,7 +2133,7 @@ var GenericTablePager = (function () {
     			append(main, t1);
     			append(main, span3);
     			append(span3, input);
-    			set_input_value(input, /*sliderIndex*/ ctx[4]);
+    			set_input_value(input, /*sliderIndex*/ ctx[5]);
     			append(span3, t2);
     			append(span3, span2);
     			append(span2, t3);
@@ -2135,11 +2159,11 @@ var GenericTablePager = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen(span0, "click", /*click_handler*/ ctx[20]),
-    					listen(span1, "click", /*click_handler_1*/ ctx[21]),
-    					listen(input, "change", /*input_change_input_handler*/ ctx[22]),
-    					listen(input, "input", /*input_change_input_handler*/ ctx[22]),
-    					listen(input, "input", /*handlePagerConfig*/ ctx[14])
+    					listen(span0, "click", /*click_handler*/ ctx[21]),
+    					listen(span1, "click", /*click_handler_1*/ ctx[22]),
+    					listen(input, "change", /*input_change_input_handler*/ ctx[23]),
+    					listen(input, "input", /*input_change_input_handler*/ ctx[23]),
+    					listen(input, "input", /*handlePagerConfig*/ ctx[15])
     				];
 
     				mounted = true;
@@ -2158,43 +2182,44 @@ var GenericTablePager = (function () {
     				}
     			}
 
-    			if (!current || dirty[0] & /*currentPage*/ 128 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[7] > 1 ? "active" : "inactive"))) {
+    			if (!current || dirty[0] & /*currentPage*/ 256 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[8] > 1 ? "active" : "inactive"))) {
     				attr(span0, "class", span0_class_value);
     			}
 
-    			if (!current || dirty[0] & /*pager_data, currentPage, pager_config*/ 131 && span1_class_value !== (span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[7] * /*pager_config*/ ctx[1].lines
+    			if (!current || dirty[0] & /*pager_data, currentPage, pager_config*/ 259 && span1_class_value !== (span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[8] * /*pager_config*/ ctx[1].lines
     			? "active"
     			: "inactive"))) {
     				attr(span1, "class", span1_class_value);
     			}
 
-    			if (!current || dirty[0] & /*maxSteps*/ 32) {
-    				attr(input, "max", /*maxSteps*/ ctx[5]);
+    			if (!current || dirty[0] & /*maxSteps*/ 64) {
+    				attr(input, "max", /*maxSteps*/ ctx[6]);
     			}
 
-    			if (!current || dirty[0] & /*maxSteps*/ 32) {
-    				attr(input, "steps", /*maxSteps*/ ctx[5]);
+    			if (!current || dirty[0] & /*maxSteps*/ 64) {
+    				attr(input, "steps", /*maxSteps*/ ctx[6]);
     			}
 
-    			if (dirty[0] & /*sliderIndex*/ 16) {
-    				set_input_value(input, /*sliderIndex*/ ctx[4]);
+    			if (dirty[0] & /*sliderIndex*/ 32) {
+    				set_input_value(input, /*sliderIndex*/ ctx[5]);
     			}
 
-    			if (!current || dirty[0] & /*currentStep*/ 64) set_data(t3, /*currentStep*/ ctx[6]);
-    			if ((!current || dirty[0] & /*firstLineOfPage*/ 512) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[9]() + "")) set_data(t7, t7_value);
-    			if ((!current || dirty[0] & /*lastLineOfPage*/ 1024) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[10]() + "")) set_data(t9, t9_value);
+    			if (!current || dirty[0] & /*currentStep*/ 128) set_data(t3, /*currentStep*/ ctx[7]);
+    			if ((!current || dirty[0] & /*firstLineOfPage*/ 1024) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[10]() + "")) set_data(t7, t7_value);
+    			if ((!current || dirty[0] & /*lastLineOfPage*/ 2048) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[11]() + "")) set_data(t9, t9_value);
     			if ((!current || dirty[0] & /*pager_data*/ 1) && t11_value !== (t11_value = /*pager_data*/ ctx[0].length + "")) set_data(t11, t11_value);
-    			if (!current || dirty[0] & /*currentPage*/ 128) set_data(t14, /*currentPage*/ ctx[7]);
-    			if (!current || dirty[0] & /*maxPages*/ 256) set_data(t16, /*maxPages*/ ctx[8]);
+    			if (!current || dirty[0] & /*currentPage*/ 256) set_data(t14, /*currentPage*/ ctx[8]);
+    			if (!current || dirty[0] & /*maxPages*/ 512) set_data(t16, /*maxPages*/ ctx[9]);
 
     			if (!current || dirty[0] & /*pager_config*/ 2) {
     				set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
     				? /*pager_config*/ ctx[1].width
-    				: /*pager_config_default*/ ctx[11].width);
+    				: /*pager_config_default*/ ctx[12].width);
     			}
 
     			const sveltegenericcrudtable_changes = {};
-    			if (dirty[0] & /*table_config*/ 8) sveltegenericcrudtable_changes.table_config = /*table_config*/ ctx[3];
+    			if (dirty[0] & /*shadowed*/ 8) sveltegenericcrudtable_changes.shadowed = /*shadowed*/ ctx[3];
+    			if (dirty[0] & /*table_config*/ 16) sveltegenericcrudtable_changes.table_config = /*table_config*/ ctx[4];
 
     			if (!updating_table_data && dirty[0] & /*page_data*/ 4) {
     				updating_table_data = true;
@@ -2225,10 +2250,7 @@ var GenericTablePager = (function () {
     }
 
     function instance$1($$self, $$props, $$invalidate) {
-    	let shadowed = document.querySelector("table-pager") !== null
-    	? true
-    	: false;
-
+    	let { shadowed = false } = $$props;
     	const dispatch = createEventDispatcher();
 
     	const pager_config_default = {
@@ -2282,14 +2304,14 @@ var GenericTablePager = (function () {
     	function getNextPage() {
     		if (currentPage < maxPages) {
     			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage, pager_config.lines * (currentPage + 1)));
-    			$$invalidate(7, currentPage++, currentPage);
+    			$$invalidate(8, currentPage++, currentPage);
     		}
     	}
 
     	function getPreviousPage() {
     		if (currentPage > 1) {
     			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage - pager_config.lines * 2, pager_config.lines * (currentPage + 1) - pager_config.lines * 2));
-    			$$invalidate(7, currentPage--, currentPage);
+    			$$invalidate(8, currentPage--, currentPage);
     		}
     	}
 
@@ -2304,7 +2326,7 @@ var GenericTablePager = (function () {
     	}
 
     	function handlePagerConfig(event) {
-    		$$invalidate(7, currentPage = 1);
+    		$$invalidate(8, currentPage = 1);
     		$$invalidate(1, pager_config.steps = setSteps(), pager_config);
     		$$invalidate(1, pager_config.lines = pager_config.steps[sliderIndex], pager_config);
     	}
@@ -2359,13 +2381,13 @@ var GenericTablePager = (function () {
     		dispatcher("sort", details, event);
     	}
 
-    	let { table_config } = $$props;
+    	let { table_config = {} } = $$props;
     	const click_handler = e => handleLeft();
     	const click_handler_1 = e => handleRight();
 
     	function input_change_input_handler() {
     		sliderIndex = to_number(this.value);
-    		$$invalidate(4, sliderIndex);
+    		$$invalidate(5, sliderIndex);
     	}
 
     	function sveltegenericcrudtable_table_data_binding(value) {
@@ -2374,10 +2396,11 @@ var GenericTablePager = (function () {
     	}
 
     	$$self.$$set = $$props => {
+    		if ("shadowed" in $$props) $$invalidate(3, shadowed = $$props.shadowed);
     		if ("pager_data" in $$props) $$invalidate(0, pager_data = $$props.pager_data);
     		if ("pager_config" in $$props) $$invalidate(1, pager_config = $$props.pager_config);
     		if ("page_data" in $$props) $$invalidate(2, page_data = $$props.page_data);
-    		if ("table_config" in $$props) $$invalidate(3, table_config = $$props.table_config);
+    		if ("table_config" in $$props) $$invalidate(4, table_config = $$props.table_config);
     	};
 
     	$$self.$$.update = () => {
@@ -2395,38 +2418,38 @@ var GenericTablePager = (function () {
     			: pager_config);
     		}
 
-    		if ($$self.$$.dirty[0] & /*pager_config, sliderIndex*/ 18) {
-    			 $$invalidate(6, currentStep = pager_config.steps !== undefined
+    		if ($$self.$$.dirty[0] & /*pager_config, sliderIndex*/ 34) {
+    			 $$invalidate(7, currentStep = pager_config.steps !== undefined
     			? pager_config.steps[sliderIndex]
     			: pager_config_default.steps[sliderIndex]);
     		}
 
     		if ($$self.$$.dirty[0] & /*pager_config*/ 2) {
-    			 $$invalidate(5, maxSteps = pager_config.steps !== undefined
+    			 $$invalidate(6, maxSteps = pager_config.steps !== undefined
     			? pager_config.steps.length - 1
     			: pager_config_default.steps.length - 1);
     		}
 
     		if ($$self.$$.dirty[0] & /*pager_data, pager_config*/ 3) {
-    			 $$invalidate(24, max = Math.ceil(pager_data.length / pager_config.lines));
+    			 $$invalidate(25, max = Math.ceil(pager_data.length / pager_config.lines));
     		}
 
-    		if ($$self.$$.dirty[0] & /*max*/ 16777216) {
-    			 $$invalidate(8, maxPages = max > 0 ? max : 1);
+    		if ($$self.$$.dirty[0] & /*max*/ 33554432) {
+    			 $$invalidate(9, maxPages = max > 0 ? max : 1);
     		}
 
     		if ($$self.$$.dirty[0] & /*page_data*/ 4) {
     			 $$invalidate(2, page_data = typeof page_data === "Array" ? page_data : []);
     		}
 
-    		if ($$self.$$.dirty[0] & /*pager_config, currentPage*/ 130) {
-    			 $$invalidate(9, firstLineOfPage = () => {
+    		if ($$self.$$.dirty[0] & /*pager_config, currentPage*/ 258) {
+    			 $$invalidate(10, firstLineOfPage = () => {
     				return pager_config.lines * (currentPage - 1) + 1;
     			});
     		}
 
-    		if ($$self.$$.dirty[0] & /*pager_config, currentPage, pager_data*/ 131) {
-    			 $$invalidate(10, lastLineOfPage = () => {
+    		if ($$self.$$.dirty[0] & /*pager_config, currentPage, pager_data*/ 259) {
+    			 $$invalidate(11, lastLineOfPage = () => {
     				const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
     				return last > pager_data.length ? pager_data.length : last;
     			});
@@ -2437,6 +2460,7 @@ var GenericTablePager = (function () {
     		pager_data,
     		pager_config,
     		page_data,
+    		shadowed,
     		table_config,
     		sliderIndex,
     		maxSteps,
@@ -2473,10 +2497,11 @@ var GenericTablePager = (function () {
     			create_fragment$1,
     			safe_not_equal,
     			{
+    				shadowed: 3,
     				pager_data: 0,
     				pager_config: 1,
     				page_data: 2,
-    				table_config: 3
+    				table_config: 4
     			},
     			[-1, -1]
     		);
@@ -2494,7 +2519,16 @@ var GenericTablePager = (function () {
     	}
 
     	static get observedAttributes() {
-    		return ["pager_data", "pager_config", "page_data", "table_config"];
+    		return ["shadowed", "pager_data", "pager_config", "page_data", "table_config"];
+    	}
+
+    	get shadowed() {
+    		return this.$$.ctx[3];
+    	}
+
+    	set shadowed(shadowed) {
+    		this.$set({ shadowed });
+    		flush();
     	}
 
     	get pager_data() {
@@ -2525,7 +2559,7 @@ var GenericTablePager = (function () {
     	}
 
     	get table_config() {
-    		return this.$$.ctx[3];
+    		return this.$$.ctx[4];
     	}
 
     	set table_config(table_config) {
