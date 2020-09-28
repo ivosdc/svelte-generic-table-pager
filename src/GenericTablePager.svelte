@@ -99,6 +99,7 @@
     }
 
     function handlePagerConfig(event) {
+        currentPage = 1;
         pager_config.steps = setSteps();
         pager_config.lines = pager_config.steps[sliderIndex];
     }
