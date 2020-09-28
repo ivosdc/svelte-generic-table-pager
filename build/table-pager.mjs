@@ -1951,7 +1951,7 @@ var GenericTablePager = (function () {
     	};
     }
 
-    // (179:8) {#if (currentPage > 1)}
+    // (180:8) {#if (currentPage > 1)}
     function create_if_block$1(ctx) {
     	let html_tag;
     	let html_anchor;
@@ -2307,6 +2307,7 @@ var GenericTablePager = (function () {
     	}
 
     	function handlePagerConfig(event) {
+    		$$invalidate(7, currentPage = 1);
     		$$invalidate(1, pager_config.steps = setSteps(), pager_config);
     		$$invalidate(1, pager_config.lines = pager_config.steps[sliderIndex], pager_config);
     	}
