@@ -2086,7 +2086,7 @@ var GenericTablePager = (function () {
     			attr(span1, "tabindex", "0");
     			attr(input, "id", "slider");
     			attr(input, "type", "range");
-    			attr(input, "min", "0");
+    			attr(input, "min", "1");
     			attr(input, "max", /*maxSteps*/ ctx[5]);
     			attr(input, "steps", /*maxSteps*/ ctx[5]);
     			attr(span2, "class", "number-rows");
