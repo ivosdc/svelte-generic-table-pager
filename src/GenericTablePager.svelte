@@ -6,8 +6,7 @@
     import SvelteGenericCrudTable from 'svelte-generic-crud-table';
 
     /* istanbul ignore next line */
-    let shadowed = document.querySelector('table-pager') !== null ? true : false;
-
+    export let shadowed = false;
     const dispatch = createEventDispatcher();
 
     const pager_config_default = {
@@ -54,7 +53,7 @@
     export let page_data;
     $: page_data = typeof page_data === 'Array' ? page_data : [];
 
-    if (!shadowed)  {
+    if (!shadowed) {
         beforeUpdate(() => {
             initPage();
         });
@@ -131,8 +130,7 @@
 
 
     function handleCreate(event) {
-        const details = {
-        };
+        const details = {};
         dispatcher('create', details, event);
     }
 
@@ -168,7 +166,7 @@
         dispatcher('sort', details, event);
     }
 
-    export let table_config;
+    export let table_config = {};
 
 
 </script>
@@ -205,6 +203,7 @@
                         on:create={handleCreate}
                         on:details={handleDetail}
                         on:sort={handleSort}
+                        shadowed={shadowed}
                         table_config={table_config}
                         bind:table_data={page_data}/>
 
