@@ -1,6 +1,6 @@
 <svelte:options tag={'table-pager'} accessors/>
 <script>
-    import {createEventDispatcher, beforeUpdate, afterUpdate} from 'svelte';
+    import {createEventDispatcher, onMount, beforeUpdate, afterUpdate} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
     import SvelteGenericCrudTable from 'svelte-generic-crud-table';
@@ -11,8 +11,8 @@
 
     const pager_config_default = {
         name: 'table-paginator',
-        lines: 10,
-        steps: [1, 2, 5, 10, 20, 50],
+        lines: 0,
+        steps: [1],
         width: '500px'
     }
 
@@ -56,7 +56,7 @@
     if (!shadowed) {
         beforeUpdate(() => {
             initPage();
-        });
+       });
     } else {
         afterUpdate(() => {
             initPage();

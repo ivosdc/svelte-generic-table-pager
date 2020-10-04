@@ -1,13 +1,11 @@
 # svelte-generic-table-pager
 
-With Version 0.2.0 <table-pager> integrates <crud-table>.
-Depending on the need of the `svelte component` in actual development project  I will fix the web component-Example ASAP.
+With Version 0.2.0 table-pager integrates crud-table.
+I will fix the web component-Example ASAP.
  
 
 - Web-component: `<table-pager></table-pager>`
 - or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
-
-A self-containing paginator for Object-Arrays. Fits to <crud-table></crud-table>
 
 [Try out live example:](https://ivosdc.github.io/svelte-generic-table-pager/ "GeneralCrudTable Example")
 
@@ -22,7 +20,7 @@ npm install svelte-generic-table-pager
 
 
 # Usage
-Use the svelte-generic-crud-table in your component to show and, if you like, edit,update and delete it's content.
+Use the svelte-generic-table-pager in your component to show and, if you like, edit,update and delete it's content.
 Just include the table as seen in the example below.
 
 The svelte-generic-table-pager prepares the incoming data into pages which might be displayed in any table component.
@@ -67,7 +65,6 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 ###  Svelte-Component:
 ```
 <script>
-    import SvelteGenericCrudTable from 'svelte-generic-crud-table'
     import GenericTablePager from 'svelte-generic-table-pager'
 
 
@@ -147,7 +144,8 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
                                {name: 'name', show: true, edit: true, size: '200px'},
                                {name: 'why', show: true, edit: true, size: '200px'},
                                {name: 'sthg', show: true, edit: false, size: '200px'}
-                           ]
+                           ],
+                       details_text: 'detail'   // replace the standard icon with an text-link
                        }}
                        pager_data={myObjectArray}
                        pager_config={{
