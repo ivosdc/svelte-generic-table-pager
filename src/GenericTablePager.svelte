@@ -3,7 +3,7 @@
     import {createEventDispatcher, onMount, beforeUpdate, afterUpdate} from 'svelte';
     import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
-    import SvelteGenericCrudTable from 'svelte-generic-crud-table';
+    import SvelteGenericCrudTable from './CrudTable/src/SvelteGenericCrudTable.svelte';
 
     /* istanbul ignore next line */
     export let shadowed = false;
