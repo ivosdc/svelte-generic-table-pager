@@ -1,0 +1,58 @@
+{
+  "name": "svelte-generic-crud-table",
+  "version": "1.5.44",
+  "description": "<crud-table> renders object-arrays with options-panel and inline edit per row. Dispatches events for ongoing data handling. As self-containing webcomponent or for Svelte in 60KB",
+  "main": "dist/build/crud-table.js",
+  "module": "dist/build/crud-table.mjs",
+  "svelte": "src/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest --coverage",
+    "coverage": "npm test && cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivosdc/svelte-generic-crud-table.git"
+  },
+  "keywords": [
+    "webcomponent",
+    "svelte",
+    "table",
+    "generic",
+    "crud",
+    "self-contained",
+    "sort",
+    "<table-pager>",
+    "inline edit",
+    "fancy icons",
+    "60KB",
+    "tested",
+    "clean code",
+    "easy",
+    "flexible",
+    "<crud-table/>"
+  ],
+  "author": "Ivo Bozic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivosdc/svelte-generic-crud-table/issues"
+  },
+  "homepage": "https://github.com/ivosdc/svelte-generic-crud-table#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@testing-library/svelte": "^3.0.0",
+    "babel-jest": "^26.3.0",
+    "coveralls": "^3.1.0",
+    "jest": "^26.4.2",
+    "jest-mock": "^26.3.0",
+    "jest-svelte-resolver": "^1.0.0",
+    "rollup": "^2.28.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.2.3",
+    "svelte": "^3.25.1",
+    "svelte-jester": "^1.1.5"
+  },
+  "dependencies": {}
+}
