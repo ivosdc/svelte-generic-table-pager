@@ -19,7 +19,6 @@ jobs:
           file:
             - "./dist/build/table-pager.js"
             - "./dist/build/table-pager.mjs"
-            - "./dist/build/table-pager.css"
           skip_cleanup: true
           on:
             tags: true

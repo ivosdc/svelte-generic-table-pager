@@ -14,10 +14,7 @@ export default {
     plugins: [
         svelte({
             customElement: true,
-            tag: null,
-            css: css => {
-                css.write('dist/build/table-pager.css');
-            }
+            tag: 'table-pager'
         }),
         resolve({
                 extensions: ['.svelte', '.mjs', '.js', '.jsx', '.json'],
