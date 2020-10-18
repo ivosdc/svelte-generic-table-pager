@@ -26,7 +26,7 @@ Just include the table as seen in the example below.
 The svelte-generic-table-pager prepares the incoming data into pages which might be displayed in any table component.
 
 ### `<table-pager></table-pager>`
-```
+```html
 <custom-element-demo>
 <template>
 <head>
@@ -34,17 +34,13 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
     <meta name='viewport' content='width=device-width,initial-scale=1'>
     <title>Generic Crud Table</title>
     <link rel='icon' type='image/png' href='favicon.png'>
-    <link rel='stylesheet' href='https://ivosdc.github.io/svelte-generic-crud-table/build/crud-table.css'>
-    <script defer src='https://ivosdc.github.io/svelte-generic-crud-table/build/crud-table.js'></script>
     <link rel='stylesheet' href='https://ivosdc.github.io/svelte-generic-table-pager/global.css'>
-    <link rel='stylesheet' href='https://ivosdc.github.io/svelte-generic-table-pager/build/table-pager.css'>
     <script defer src='https://ivosdc.github.io/svelte-generic-table-pager/build/table-pager.js'></script>
 </head>
 
 <body>
 <hr>
 <table-pager></table-pager>
-<crud-table></crud-table>
 <hr>
 </span style="text-align: right"><a href="https://ivolution.one">ivolution.one product - MIT License</a>
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7V5M288MUT7GE&source=url">donate
@@ -53,7 +49,6 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 </body>
 <script src='https://ivosdc.github.io/svelte-generic-table-pager/test-data.js'></script>
 <script src='https://ivosdc.github.io/svelte-generic-table-pager/table-pager-config-html.js'></script>
-<script src='https://ivosdc.github.io/svelte-generic-table-pager/crud-table-config-html.js'></script>
 </template>
 </custom-element-demo>
 ```
@@ -63,10 +58,9 @@ The svelte-generic-table-pager prepares the incoming data into pages which might
 ```
 
 ###  Svelte-Component:
-```
+```html
 <script>
     import GenericTablePager from 'svelte-generic-table-pager'
-
 
     function handleDelete(event) {
         const id = event.detail.id; // position in myObjectArray
