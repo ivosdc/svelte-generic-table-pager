@@ -1,0 +1,3 @@
+[submodule "src/svelte-generic-crud-table"]
+	path = src/svelte-generic-crud-table
+	url = git@github.com:ivosdc/svelte-generic-crud-table.git

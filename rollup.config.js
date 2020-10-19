@@ -5,7 +5,7 @@ const pkg = require('./package.json');
 
 export default {
     input: [
-        'src/index.js'
+        'src/GenericTablePager.svelte'
     ],
     output: [
         {file: pkg.module, format: 'iife', name: 'GenericTablePager'},
