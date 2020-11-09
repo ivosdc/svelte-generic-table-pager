@@ -8,8 +8,8 @@ export default {
         'src/GenericTablePager.svelte'
     ],
     output: [
-        {file: pkg.module, format: 'iife', name: 'GenericTablePager'},
-        {file: pkg.main, format: 'iife', name: 'GenericTablePager'},
+        {file: pkg.module, format: 'es', name: 'GenericTablePager'},
+        {file: pkg.main, format: 'umd', name: 'GenericTablePager'},
     ],
     plugins: [
         svelte({
