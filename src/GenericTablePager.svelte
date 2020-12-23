@@ -1,7 +1,6 @@
 <svelte:options tag={'table-pager'} accessors/>
 <script>
     import {createEventDispatcher, onMount, beforeUpdate, afterUpdate} from 'svelte';
-    import {GenericTablePagerService} from "./GenericTablePagerService";
     import {iconLeft, iconRight} from './SvgIcons'
     import SvelteGenericCrudTable from 'svelte-generic-crud-table';
 
@@ -39,8 +38,6 @@
     let currentStep = 0;
     $: currentStep = (pager_config.steps !== undefined) ? pager_config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
     $: maxSteps = (pager_config.steps !== undefined) ? (pager_config.steps.length - 1) : (pager_config_default.steps.length - 1);
-
-    let pagerService = new GenericTablePagerService();
 
     let currentPage = 1;
 
