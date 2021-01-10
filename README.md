@@ -1,13 +1,8 @@
 # svelte-generic-table-pager
 
-With Version 0.2.0 table-pager integrates crud-table.
-I will fix the web component-Example ASAP.
- 
+A svelte paginator using svelte-generic-crud-table.
 
-- Web-component: `<table-pager></table-pager>`
-- or Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
-
-[Try out live example:](https://ivosdc.github.io/svelte-generic-table-pager/ "GeneralCrudTable Example")
+- Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
 
 
 ## Install
@@ -16,46 +11,9 @@ I will fix the web component-Example ASAP.
 npm install svelte-generic-table-pager
 ```
 
-[![Donate](https://github.com/ivosdc/svelte-generic-crud-table/raw/master/assets/donate.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7V5M288MUT7GE&source=url)
-
-
 # Usage
-Use the svelte-generic-table-pager in your component to show and, if you like, edit,update and delete it's content.
+Use the svelte-generic-table-pager in your component to show, edit, update and delete it's content *paginated*.
 Just include the table as seen in the example below.
-
-The svelte-generic-table-pager prepares the incoming data into pages which might be displayed in any table component.
-
-### `<table-pager></table-pager>`
-```html
-<custom-element-demo>
-<template>
-<head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <title>Generic Crud Table</title>
-    <link rel='icon' type='image/png' href='favicon.png'>
-    <link rel='stylesheet' href='https://ivosdc.github.io/svelte-generic-table-pager/global.css'>
-    <script defer src='https://ivosdc.github.io/svelte-generic-table-pager/build/table-pager.js'></script>
-</head>
-
-<body>
-<hr>
-<table-pager></table-pager>
-<hr>
-</span style="text-align: right"><a href="https://ivolution.one">ivolution.one product - MIT License</a>
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7V5M288MUT7GE&source=url">donate
-</a></p>
-
-</body>
-<script src='https://ivosdc.github.io/svelte-generic-table-pager/test-data.js'></script>
-<script src='https://ivosdc.github.io/svelte-generic-table-pager/table-pager-config-html.js'></script>
-</template>
-</custom-element-demo>
-```
-
-```html
-<table-pager></table-pager>
-```
 
 ###  Svelte-Component:
 ```html
