@@ -2384,7 +2384,7 @@
     		width: "500px"
     	};
 
-    	let { pager_data = [] } = $$props;
+    	let { pager_data = {} } = $$props;
     	let { pager_config = pager_config_default } = $$props;
 
     	let setSteps = () => {
@@ -2422,11 +2422,13 @@
     	}
 
     	function initPage() {
+    		$$invalidate(0, pager_data = typeof pager_data === "Array" ? pager_data : []);
     		$$invalidate(2, page_data = pager_data.slice(pager_config.lines * (currentPage - 1), pager_config.lines * currentPage));
     	}
 
     	function getNextPage() {
     		if (currentPage < maxPages) {
+    			$$invalidate(0, pager_data = typeof pager_data === "Array" ? pager_data : []);
     			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage, pager_config.lines * (currentPage + 1)));
     			$$invalidate(6, currentPage++, currentPage);
     		}
@@ -2434,6 +2436,7 @@
 
     	function getPreviousPage() {
     		if (currentPage > 1) {
+    			$$invalidate(0, pager_data = typeof pager_data === "Array" ? pager_data : []);
     			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage - pager_config.lines * 2, pager_config.lines * (currentPage + 1) - pager_config.lines * 2));
     			$$invalidate(6, currentPage--, currentPage);
     		}
