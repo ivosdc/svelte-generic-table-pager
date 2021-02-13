@@ -2384,7 +2384,7 @@
     		width: "500px"
     	};
 
-    	let { pager_data = {} } = $$props;
+    	let { pager_data = [] } = $$props;
     	let { pager_config = pager_config_default } = $$props;
 
     	let setSteps = () => {

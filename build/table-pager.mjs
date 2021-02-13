@@ -2378,7 +2378,7 @@ function instance$1($$self, $$props, $$invalidate) {
 		width: "500px"
 	};
 
-	let { pager_data = {} } = $$props;
+	let { pager_data = [] } = $$props;
 	let { pager_config = pager_config_default } = $$props;
 
 	let setSteps = () => {
