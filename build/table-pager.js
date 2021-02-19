@@ -2171,6 +2171,7 @@
     	let t16;
     	let t17;
     	let crud_table;
+    	let crud_table_table_data_value;
     	let mounted;
     	let dispose;
 
@@ -2248,7 +2249,7 @@
 
     			set_custom_element_data(crud_table, "shadowed", /*shadowed*/ ctx[3]);
     			set_custom_element_data(crud_table, "table_config", /*table_config*/ ctx[4]);
-    			set_custom_element_data(crud_table, "table_data", /*page_data*/ ctx[2]);
+    			set_custom_element_data(crud_table, "table_data", crud_table_table_data_value = { page_data: /*page_data*/ ctx[2] });
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
@@ -2356,8 +2357,8 @@
     				set_custom_element_data(crud_table, "table_config", /*table_config*/ ctx[4]);
     			}
 
-    			if (dirty & /*page_data*/ 4) {
-    				set_custom_element_data(crud_table, "table_data", /*page_data*/ ctx[2]);
+    			if (dirty & /*page_data*/ 4 && crud_table_table_data_value !== (crud_table_table_data_value = { page_data: /*page_data*/ ctx[2] })) {
+    				set_custom_element_data(crud_table, "table_data", crud_table_table_data_value);
     			}
     		},
     		i: noop,
