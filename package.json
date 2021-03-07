@@ -52,6 +52,6 @@
     "svelte-jester": "^1.3.0"
   },
   "dependencies": {
-    "svelte-generic-crud-table": "^1.5.69"
+    "svelte-generic-crud-table": "^1.5.70"
   }
 }
