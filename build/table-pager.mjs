@@ -693,7 +693,7 @@ function get_each_context_3(ctx, list, i) {
 	return child_ctx;
 }
 
-// (223:4) {#if (table_data !== undefined)}
+// (224:4) {#if (table_data !== undefined)}
 function create_if_block$1(ctx) {
 	let show_if = Array.isArray(/*table_data*/ ctx[0]);
 	let if_block_anchor;
@@ -731,7 +731,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (225:8) {#if Array.isArray(table_data)}
+// (226:8) {#if Array.isArray(table_data)}
 function create_if_block_1(ctx) {
 	let div2;
 	let div1;
@@ -865,7 +865,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (230:20) {#each table_config.columns_setting as elem, index}
+// (231:20) {#each table_config.columns_setting as elem, index}
 function create_each_block_3(ctx) {
 	let div;
 	let span;
@@ -942,7 +942,7 @@ function create_each_block_3(ctx) {
 	};
 }
 
-// (247:24) {#if options.includes(CREATE)}
+// (248:24) {#if options.includes(CREATE)}
 function create_if_block_11(ctx) {
 	let div;
 	let mounted;
@@ -972,7 +972,7 @@ function create_if_block_11(ctx) {
 	};
 }
 
-// (263:32) {#if (column_order.name === genericCrudTable.getKey(elem))}
+// (264:32) {#if (column_order.name === genericCrudTable.getKey(elem))}
 function create_if_block_9(ctx) {
 	let div1;
 	let div0;
@@ -1088,7 +1088,7 @@ function create_if_block_9(ctx) {
 	};
 }
 
-// (274:44) {:else}
+// (275:44) {:else}
 function create_else_block_1(ctx) {
 	let t_value = /*table_data*/ ctx[0][/*i*/ ctx[40]][/*column_order*/ ctx[41].name] + "";
 	let t;
@@ -1109,7 +1109,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (272:44) {#if column_order.type === 'html'}
+// (273:44) {#if column_order.type === 'html'}
 function create_if_block_10(ctx) {
 	let html_tag;
 	let raw_value = /*table_data*/ ctx[0][/*i*/ ctx[40]][/*column_order*/ ctx[41].name] + "";
@@ -1134,7 +1134,7 @@ function create_if_block_10(ctx) {
 	};
 }
 
-// (284:32) {#if table_config.columns_setting.length - 1 === j && Object.entries(tableRow).length - 1 === k }
+// (285:32) {#if table_config.columns_setting.length - 1 === j && Object.entries(tableRow).length - 1 === k }
 function create_if_block_2(ctx) {
 	let div3;
 	let div0;
@@ -1307,7 +1307,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (290:44) {#if options.includes(DELETE)}
+// (291:44) {#if options.includes(DELETE)}
 function create_if_block_8(ctx) {
 	let div;
 	let div_aria_label_value;
@@ -1350,7 +1350,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (298:44) {#if options.includes(EDIT)}
+// (299:44) {#if options.includes(EDIT)}
 function create_if_block_7(ctx) {
 	let div;
 	let mounted;
@@ -1387,7 +1387,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (305:44) {#if options.includes(DETAILS)}
+// (306:44) {#if options.includes(DETAILS)}
 function create_if_block_5(ctx) {
 	let div;
 	let div_title_value;
@@ -1457,7 +1457,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (311:52) {:else}
+// (312:52) {:else}
 function create_else_block$1(ctx) {
 	let html_tag;
 	let html_anchor;
@@ -1479,7 +1479,7 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (309:52) {#if table_config.details_text !== undefined}
+// (310:52) {#if table_config.details_text !== undefined}
 function create_if_block_6(ctx) {
 	let t_value = /*table_config*/ ctx[1].details_text + "";
 	let t;
@@ -1500,7 +1500,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (320:44) {#if options.includes(EDIT)}
+// (321:44) {#if options.includes(EDIT)}
 function create_if_block_4(ctx) {
 	let div0;
 	let t;
@@ -1563,7 +1563,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (338:44) {#if options.includes(DELETE)}
+// (339:44) {#if options.includes(DELETE)}
 function create_if_block_3(ctx) {
 	let div0;
 	let div0_aria_label_value;
@@ -1632,7 +1632,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (261:28) {#each Object.entries(tableRow) as elem, k}
+// (262:28) {#each Object.entries(tableRow) as elem, k}
 function create_each_block_2(ctx) {
 	let show_if_1 = /*column_order*/ ctx[41].name === /*genericCrudTable*/ ctx[4].getKey(/*elem*/ ctx[44]);
 	let t;
@@ -1694,7 +1694,7 @@ function create_each_block_2(ctx) {
 	};
 }
 
-// (260:24) {#each table_config.columns_setting as column_order, j}
+// (261:24) {#each table_config.columns_setting as column_order, j}
 function create_each_block_1(ctx) {
 	let each_1_anchor;
 	let each_value_2 = Object.entries(/*tableRow*/ ctx[38]);
@@ -1750,7 +1750,7 @@ function create_each_block_1(ctx) {
 	};
 }
 
-// (257:16) {#each table_data as tableRow, i (tableRow)}
+// (258:16) {#each table_data as tableRow, i (tableRow)}
 function create_each_block(key_1, ctx) {
 	let div;
 	let t;
@@ -2052,9 +2052,11 @@ function instance$1($$self, $$props, $$invalidate) {
 	}
 
 	function setWidth(elem, i) {
-		const width = genericCrudTable.getShowFieldWidth(elem.name); // incl.px
-		columnsWidth[i] = width;
-		return "width:" + width + ";";
+		if (columnsWidth[i] === undefined) {
+			columnsWidth[i] = genericCrudTable.getShowFieldWidth(elem.name); // incl.px;
+		}
+
+		return "width:" + columnsWidth[i] + ";";
 	}
 
 	const click_handler = (elem, e) => handleSort(elem.name, e);
