@@ -4,7 +4,7 @@
     import {iconLeft, iconRight} from './SvgIcons'
     import SvelteGenericCrudTable from 'svelte-generic-crud-table/src/SvelteGenericCrudTable.svelte';
 
-    export let shadowed = false;
+    let shadowed = false;
     const dispatch = createEventDispatcher();
 
     const pager_config_default = {
@@ -91,6 +91,8 @@
     export let page_data;
 
     function getPageData(data) {
+        pager_config.steps = setSteps();
+        sliderIndex = sliderIndex > 1 ? sliderIndex-- : sliderIndex;
         return data === undefined ? [] : data;
     }
 
@@ -141,16 +143,9 @@
     }
 
     function dispatcher(name, details, event) {
-        /* istanbul ignore next */
-        if (shadowed) {
-            event.target.dispatchEvent(
-                new CustomEvent(name, {
-                    composed: true,
-                    detail: details
-                }))
-        } else {
+        console.log(details)
+
             dispatch(name, details);
-        }
     }
 
     let firstLineOfPage = 0;
@@ -172,6 +167,7 @@
     }
 
     function handleDelete(event) {
+        console.log(event)
         const details = {
             id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
             body: event.detail.body
@@ -240,7 +236,7 @@
                         on:create={handleCreate}
                         on:details={handleDetail}
                         on:sort={handleSort}
-                        shadowed={shadowed}
+                        shadowed={false}
                         table_config={table_config}
                         bind:table_data={page_data}/>
 
