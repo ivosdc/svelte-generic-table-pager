@@ -31,10 +31,22 @@
         let p_config = config === undefined ? pager_config_default : config;
         p_config = (typeof config === 'string') ? JSON.parse(config) : config;
         p_config.lines = p_config.lines === undefined ? p_config.steps[0] : p_config.lines;
+        p_config.steps = setSteps();
+
         return p_config;
     }
 
     $: pager_config = getPagerConfig(pager_config);
+    let setSteps = () => {
+        let steps = (pager_config.steps !== undefined) ? pager_config.steps : pager_config_default.steps;
+        if (pager_data.length > 0) {
+            steps = steps.filter((a) => {
+                return parseInt(a) < pager_data.length
+            });
+            steps.push(pager_data.length);
+        }
+        return steps;
+    }
 
     function getSliderIndex(config) {
         let checkIndex = (config.steps !== undefined) ? config.steps.indexOf(config.lines) : 0;
@@ -48,6 +60,7 @@
 
     function getCurrentStep(config) {
         let conf = (config.steps !== undefined) ? config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
+        sliderIndex = conf === undefined ? 1 : sliderIndex;
         return conf === undefined ? 1 : conf;
     }
 
@@ -121,7 +134,9 @@
 
     function handlePagerConfig(event) {
         currentPage = 1;
+        pager_config.steps = setSteps();
         pager_config.lines = pager_config.steps[sliderIndex];
+
         initPage();
     }
 
