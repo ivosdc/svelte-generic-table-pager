@@ -789,7 +789,7 @@ function create_if_block_1(ctx) {
 
 			set_style(div1, "max-height", /*table_config*/ ctx[1].row_settings !== undefined && /*table_config*/ ctx[1].row_settings.height !== undefined
 			? /*table_config*/ ctx[1].row_settings.height
-			: /*table_config_default*/ ctx[4].row_settings.height);
+			: /*table_config_default*/ ctx[5].row_settings.height);
 
 			attr(div2, "class", "table");
 		},
@@ -811,7 +811,7 @@ function create_if_block_1(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*genericCrudTableService, table_config, setWidth, startResize, handleResize, stopResize, handleSort*/ 770082) {
+			if (dirty[0] & /*genericCrudTableService, table_config, setWidth, startResize, handleResize, stopResize, handleSort*/ 770066) {
 				each_value_3 = /*table_config*/ ctx[1].columns_setting;
 				let i;
 
@@ -852,7 +852,7 @@ function create_if_block_1(ctx) {
 			if (dirty[0] & /*table_config*/ 2) {
 				set_style(div1, "max-height", /*table_config*/ ctx[1].row_settings !== undefined && /*table_config*/ ctx[1].row_settings.height !== undefined
 				? /*table_config*/ ctx[1].row_settings.height
-				: /*table_config_default*/ ctx[4].row_settings.height);
+				: /*table_config_default*/ ctx[5].row_settings.height);
 			}
 
 			if (dirty[0] & /*table_data, table_config, table_config_default, name, handleDeleteConfirmation, handleCancelDelete, options, handleCancelEdit, handleEditConfirmation, handleDetails, handleEdit, handleDelete, genericCrudTableService, getWidth, showTooltipByConfig*/ 1323007) {
@@ -876,7 +876,7 @@ function create_if_block_1(ctx) {
 function create_each_block_3(ctx) {
 	let div;
 	let span;
-	let t_value = /*genericCrudTableService*/ ctx[5].makeCapitalLead(/*elem*/ ctx[45].name) + "";
+	let t_value = /*genericCrudTableService*/ ctx[4].makeCapitalLead(/*elem*/ ctx[45].name) + "";
 	let t;
 	let span_aria_label_value;
 	let div_class_value;
@@ -900,7 +900,7 @@ function create_each_block_3(ctx) {
 			attr(span, "aria-label", span_aria_label_value = "Sort" + /*elem*/ ctx[45].name);
 			attr(div, "id", /*index*/ ctx[49]);
 
-			attr(div, "class", div_class_value = "td headline " + (/*genericCrudTableService*/ ctx[5].isShowField(/*elem*/ ctx[45].name) === false
+			attr(div, "class", div_class_value = "td headline " + (/*genericCrudTableService*/ ctx[4].isShowField(/*elem*/ ctx[45].name) === false
 			? "hidden"
 			: "shown"));
 
@@ -925,13 +925,13 @@ function create_each_block_3(ctx) {
 		},
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
-			if (dirty[0] & /*table_config*/ 2 && t_value !== (t_value = /*genericCrudTableService*/ ctx[5].makeCapitalLead(/*elem*/ ctx[45].name) + "")) set_data(t, t_value);
+			if (dirty[0] & /*genericCrudTableService, table_config*/ 18 && t_value !== (t_value = /*genericCrudTableService*/ ctx[4].makeCapitalLead(/*elem*/ ctx[45].name) + "")) set_data(t, t_value);
 
 			if (dirty[0] & /*table_config*/ 2 && span_aria_label_value !== (span_aria_label_value = "Sort" + /*elem*/ ctx[45].name)) {
 				attr(span, "aria-label", span_aria_label_value);
 			}
 
-			if (dirty[0] & /*table_config*/ 2 && div_class_value !== (div_class_value = "td headline " + (/*genericCrudTableService*/ ctx[5].isShowField(/*elem*/ ctx[45].name) === false
+			if (dirty[0] & /*genericCrudTableService, table_config*/ 18 && div_class_value !== (div_class_value = "td headline " + (/*genericCrudTableService*/ ctx[4].isShowField(/*elem*/ ctx[45].name) === false
 			? "hidden"
 			: "shown"))) {
 				attr(div, "class", div_class_value);
@@ -1023,7 +1023,7 @@ function create_if_block_9(ctx) {
 			textarea.value = textarea_value_value = /*table_data*/ ctx[0][/*i*/ ctx[41]][/*column_order*/ ctx[42].name];
 			attr(div1, "id", div1_id_value = /*j*/ ctx[44] + "-" + tableNameToId(/*table_config*/ ctx[1].name) + "-" + /*k*/ ctx[47]);
 
-			attr(div1, "class", div1_class_value = "td " + (/*genericCrudTableService*/ ctx[5].isShowField(/*column_order*/ ctx[42].name) === false
+			attr(div1, "class", div1_class_value = "td " + (/*genericCrudTableService*/ ctx[4].isShowField(/*column_order*/ ctx[42].name) === false
 			? "hidden"
 			: "shown"));
 
@@ -1080,7 +1080,7 @@ function create_if_block_9(ctx) {
 				attr(div1, "id", div1_id_value);
 			}
 
-			if (dirty[0] & /*table_config*/ 2 && div1_class_value !== (div1_class_value = "td " + (/*genericCrudTableService*/ ctx[5].isShowField(/*column_order*/ ctx[42].name) === false
+			if (dirty[0] & /*genericCrudTableService, table_config*/ 18 && div1_class_value !== (div1_class_value = "td " + (/*genericCrudTableService*/ ctx[4].isShowField(/*column_order*/ ctx[42].name) === false
 			? "hidden"
 			: "shown"))) {
 				attr(div1, "class", div1_class_value);
@@ -1641,7 +1641,7 @@ function create_if_block_3(ctx) {
 
 // (229:28) {#each Object.entries(tableRow) as elem, k}
 function create_each_block_2(ctx) {
-	let show_if_1 = /*column_order*/ ctx[42].name === /*genericCrudTableService*/ ctx[5].getKey(/*elem*/ ctx[45]);
+	let show_if_1 = /*column_order*/ ctx[42].name === /*genericCrudTableService*/ ctx[4].getKey(/*elem*/ ctx[45]);
 	let t;
 	let show_if = /*table_config*/ ctx[1].columns_setting.length - 1 === /*j*/ ctx[44] && Object.entries(/*tableRow*/ ctx[39]).length - 1 === /*k*/ ctx[47];
 	let if_block1_anchor;
@@ -1662,7 +1662,7 @@ function create_each_block_2(ctx) {
 			insert(target, if_block1_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*table_config, table_data*/ 3) show_if_1 = /*column_order*/ ctx[42].name === /*genericCrudTableService*/ ctx[5].getKey(/*elem*/ ctx[45]);
+			if (dirty[0] & /*table_config, genericCrudTableService, table_data*/ 19) show_if_1 = /*column_order*/ ctx[42].name === /*genericCrudTableService*/ ctx[4].getKey(/*elem*/ ctx[45]);
 
 			if (show_if_1) {
 				if (if_block0) {
@@ -1727,7 +1727,7 @@ function create_each_block_1(ctx) {
 			insert(target, each_1_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*name, table_data, table_config, handleDeleteConfirmation, handleCancelDelete, options, handleCancelEdit, handleEditConfirmation, handleDetails, handleEdit, handleDelete, genericCrudTableService, getWidth, showTooltipByConfig*/ 1322991) {
+			if (dirty[0] & /*name, table_data, table_config, handleDeleteConfirmation, handleCancelDelete, options, handleCancelEdit, handleEditConfirmation, handleDetails, handleEdit, handleDelete, genericCrudTableService, getWidth, showTooltipByConfig*/ 1322975) {
 				each_value_2 = Object.entries(/*tableRow*/ ctx[39]);
 				let i;
 
@@ -1784,7 +1784,7 @@ function create_each_block(key_1, ctx) {
 
 			set_style(div, "min-height", /*table_config*/ ctx[1].row_settings !== undefined && /*table_config*/ ctx[1].row_settings.height !== undefined
 			? /*table_config*/ ctx[1].row_settings.height
-			: /*table_config_default*/ ctx[4].row_settings.height);
+			: /*table_config_default*/ ctx[5].row_settings.height);
 
 			this.first = div;
 		},
@@ -1800,7 +1800,7 @@ function create_each_block(key_1, ctx) {
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 
-			if (dirty[0] & /*table_data, name, table_config, handleDeleteConfirmation, handleCancelDelete, options, handleCancelEdit, handleEditConfirmation, handleDetails, handleEdit, handleDelete, genericCrudTableService, getWidth, showTooltipByConfig*/ 1322991) {
+			if (dirty[0] & /*table_data, name, table_config, handleDeleteConfirmation, handleCancelDelete, options, handleCancelEdit, handleEditConfirmation, handleDetails, handleEdit, handleDelete, genericCrudTableService, getWidth, showTooltipByConfig*/ 1322975) {
 				each_value_1 = /*table_config*/ ctx[1].columns_setting;
 				let i;
 
@@ -1830,7 +1830,7 @@ function create_each_block(key_1, ctx) {
 			if (dirty[0] & /*table_config*/ 2) {
 				set_style(div, "min-height", /*table_config*/ ctx[1].row_settings !== undefined && /*table_config*/ ctx[1].row_settings.height !== undefined
 				? /*table_config*/ ctx[1].row_settings.height
-				: /*table_config_default*/ ctx[4].row_settings.height);
+				: /*table_config_default*/ ctx[5].row_settings.height);
 			}
 		},
 		d(detaching) {
@@ -1906,7 +1906,6 @@ function instance$1($$self, $$props, $$invalidate) {
 	let cursor = NO_ROW_IN_EDIT_MODE;
 	let genericCrudTableService = new SvelteGenericCrudTableService(table_config, name);
 
-	//    $: genericCrudTableService = new SvelteGenericCrudTableService(table_config, name);
 	function handleEdit(id, event) {
 		resetRawInEditMode(id, event);
 		cursor = id;
@@ -2091,6 +2090,10 @@ function instance$1($$self, $$props, $$invalidate) {
 			? table_config.options
 			: []);
 		}
+
+		if ($$self.$$.dirty[0] & /*table_config, name*/ 6) {
+			$$invalidate(4, genericCrudTableService = new SvelteGenericCrudTableService(table_config, name));
+		}
 	};
 
 	return [
@@ -2098,8 +2101,8 @@ function instance$1($$self, $$props, $$invalidate) {
 		table_config,
 		name,
 		options,
-		table_config_default,
 		genericCrudTableService,
+		table_config_default,
 		handleEdit,
 		handleCancelEdit,
 		handleEditConfirmation,
@@ -2217,7 +2220,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (215:8) {#if (currentPage > 1)}
+// (211:8) {#if (currentPage > 1)}
 function create_if_block(ctx) {
 	let html_tag;
 	let html_anchor;
@@ -2257,10 +2260,10 @@ function create_fragment(ctx) {
 	let span6;
 	let t6;
 	let span4;
-	let t7_value = /*firstLineOfPage*/ ctx[10]() + "";
+	let t7_value = /*firstLineOfPage*/ ctx[9]() + "";
 	let t7;
 	let t8;
-	let t9_value = /*lastLineOfPage*/ ctx[11]() + "";
+	let t9_value = /*lastLineOfPage*/ ctx[10]() + "";
 	let t9;
 	let t10;
 	let t11_value = /*pager_data*/ ctx[0].length + "";
@@ -2279,7 +2282,7 @@ function create_fragment(ctx) {
 	let dispose;
 
 	function select_block_type(ctx, dirty) {
-		if (/*currentPage*/ ctx[5] > 1) return create_if_block;
+		if (/*currentPage*/ ctx[4] > 1) return create_if_block;
 		return create_else_block;
 	}
 
@@ -2287,12 +2290,12 @@ function create_fragment(ctx) {
 	let if_block = current_block_type(ctx);
 
 	function sveltegenericcrudtable_table_data_binding(value) {
-		/*sveltegenericcrudtable_table_data_binding*/ ctx[25](value);
+		/*sveltegenericcrudtable_table_data_binding*/ ctx[24](value);
 	}
 
 	let sveltegenericcrudtable_props = {
-		shadowed: /*shadowed*/ ctx[3],
-		table_config: /*table_config*/ ctx[4]
+		shadowed: false,
+		table_config: /*table_config*/ ctx[3]
 	};
 
 	if (/*page_data*/ ctx[2] !== void 0) {
@@ -2301,11 +2304,11 @@ function create_fragment(ctx) {
 
 	sveltegenericcrudtable = new SvelteGenericCrudTable({ props: sveltegenericcrudtable_props });
 	binding_callbacks.push(() => bind(sveltegenericcrudtable, "table_data", sveltegenericcrudtable_table_data_binding));
-	sveltegenericcrudtable.$on("delete", /*handleDelete*/ ctx[17]);
-	sveltegenericcrudtable.$on("update", /*handleUpdate*/ ctx[18]);
-	sveltegenericcrudtable.$on("create", /*handleCreate*/ ctx[16]);
-	sveltegenericcrudtable.$on("details", /*handleDetail*/ ctx[19]);
-	sveltegenericcrudtable.$on("sort", /*handleSort*/ ctx[20]);
+	sveltegenericcrudtable.$on("delete", /*handleDelete*/ ctx[16]);
+	sveltegenericcrudtable.$on("update", /*handleUpdate*/ ctx[17]);
+	sveltegenericcrudtable.$on("create", /*handleCreate*/ ctx[15]);
+	sveltegenericcrudtable.$on("details", /*handleDetail*/ ctx[18]);
+	sveltegenericcrudtable.$on("sort", /*handleSort*/ ctx[19]);
 
 	return {
 		c() {
@@ -2319,7 +2322,7 @@ function create_fragment(ctx) {
 			input = element("input");
 			t2 = space();
 			span2 = element("span");
-			t3 = text(/*currentStep*/ ctx[8]);
+			t3 = text(/*currentStep*/ ctx[7]);
 			t4 = text(" rows");
 			t5 = space();
 			span6 = element("span");
@@ -2333,20 +2336,20 @@ function create_fragment(ctx) {
 			t12 = text(")");
 			t13 = text("\n         -\n        pages: ");
 			span5 = element("span");
-			t14 = text(/*currentPage*/ ctx[5]);
+			t14 = text(/*currentPage*/ ctx[4]);
 			t15 = text("/");
-			t16 = text(/*maxPages*/ ctx[9]);
+			t16 = text(/*maxPages*/ ctx[8]);
 			t17 = space();
 			create_component(sveltegenericcrudtable.$$.fragment);
 			this.c = noop;
 			attr(span0, "id", "left");
-			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[5] > 1 ? "active" : "inactive"));
+			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[4] > 1 ? "active" : "inactive"));
 			set_style(span0, "float", "left");
 			attr(span0, "title", "Left");
 			attr(span0, "tabindex", "0");
 			attr(span1, "id", "right");
 
-			attr(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[5] * /*pager_config*/ ctx[1].lines
+			attr(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[4] * /*pager_config*/ ctx[1].lines
 			? "active"
 			: "inactive"));
 
@@ -2356,8 +2359,8 @@ function create_fragment(ctx) {
 			attr(input, "id", "slider");
 			attr(input, "type", "range");
 			attr(input, "min", "1");
-			attr(input, "max", /*maxSteps*/ ctx[7]);
-			attr(input, "steps", /*maxSteps*/ ctx[7]);
+			attr(input, "max", /*maxSteps*/ ctx[6]);
+			attr(input, "steps", /*maxSteps*/ ctx[6]);
 			attr(span2, "class", "number-rows");
 			attr(span3, "class", "range");
 			set_style(span3, "float", "left");
@@ -2369,7 +2372,7 @@ function create_fragment(ctx) {
 
 			set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
 			? /*pager_config*/ ctx[1].width
-			: /*pager_config_default*/ ctx[12].width);
+			: /*pager_config_default*/ ctx[11].width);
 		},
 		m(target, anchor) {
 			insert(target, main, anchor);
@@ -2381,7 +2384,7 @@ function create_fragment(ctx) {
 			append(main, t1);
 			append(main, span3);
 			append(span3, input);
-			set_input_value(input, /*sliderIndex*/ ctx[6]);
+			set_input_value(input, /*sliderIndex*/ ctx[5]);
 			append(span3, t2);
 			append(span3, span2);
 			append(span2, t3);
@@ -2407,11 +2410,11 @@ function create_fragment(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(span0, "click", /*click_handler*/ ctx[22]),
-					listen(span1, "click", /*click_handler_1*/ ctx[23]),
-					listen(input, "change", /*input_change_input_handler*/ ctx[24]),
-					listen(input, "input", /*input_change_input_handler*/ ctx[24]),
-					listen(input, "input", /*handlePagerConfig*/ ctx[15])
+					listen(span0, "click", /*click_handler*/ ctx[21]),
+					listen(span1, "click", /*click_handler_1*/ ctx[22]),
+					listen(input, "change", /*input_change_input_handler*/ ctx[23]),
+					listen(input, "input", /*input_change_input_handler*/ ctx[23]),
+					listen(input, "input", /*handlePagerConfig*/ ctx[14])
 				];
 
 				mounted = true;
@@ -2430,44 +2433,43 @@ function create_fragment(ctx) {
 				}
 			}
 
-			if (!current || dirty[0] & /*currentPage*/ 32 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[5] > 1 ? "active" : "inactive"))) {
+			if (!current || dirty[0] & /*currentPage*/ 16 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[4] > 1 ? "active" : "inactive"))) {
 				attr(span0, "class", span0_class_value);
 			}
 
-			if (!current || dirty[0] & /*pager_data, currentPage, pager_config*/ 35 && span1_class_value !== (span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[5] * /*pager_config*/ ctx[1].lines
+			if (!current || dirty[0] & /*pager_data, currentPage, pager_config*/ 19 && span1_class_value !== (span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[4] * /*pager_config*/ ctx[1].lines
 			? "active"
 			: "inactive"))) {
 				attr(span1, "class", span1_class_value);
 			}
 
-			if (!current || dirty[0] & /*maxSteps*/ 128) {
-				attr(input, "max", /*maxSteps*/ ctx[7]);
+			if (!current || dirty[0] & /*maxSteps*/ 64) {
+				attr(input, "max", /*maxSteps*/ ctx[6]);
 			}
 
-			if (!current || dirty[0] & /*maxSteps*/ 128) {
-				attr(input, "steps", /*maxSteps*/ ctx[7]);
+			if (!current || dirty[0] & /*maxSteps*/ 64) {
+				attr(input, "steps", /*maxSteps*/ ctx[6]);
 			}
 
-			if (dirty[0] & /*sliderIndex*/ 64) {
-				set_input_value(input, /*sliderIndex*/ ctx[6]);
+			if (dirty[0] & /*sliderIndex*/ 32) {
+				set_input_value(input, /*sliderIndex*/ ctx[5]);
 			}
 
-			if (!current || dirty[0] & /*currentStep*/ 256) set_data(t3, /*currentStep*/ ctx[8]);
-			if ((!current || dirty[0] & /*firstLineOfPage*/ 1024) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[10]() + "")) set_data(t7, t7_value);
-			if ((!current || dirty[0] & /*lastLineOfPage*/ 2048) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[11]() + "")) set_data(t9, t9_value);
+			if (!current || dirty[0] & /*currentStep*/ 128) set_data(t3, /*currentStep*/ ctx[7]);
+			if ((!current || dirty[0] & /*firstLineOfPage*/ 512) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[9]() + "")) set_data(t7, t7_value);
+			if ((!current || dirty[0] & /*lastLineOfPage*/ 1024) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[10]() + "")) set_data(t9, t9_value);
 			if ((!current || dirty[0] & /*pager_data*/ 1) && t11_value !== (t11_value = /*pager_data*/ ctx[0].length + "")) set_data(t11, t11_value);
-			if (!current || dirty[0] & /*currentPage*/ 32) set_data(t14, /*currentPage*/ ctx[5]);
-			if (!current || dirty[0] & /*maxPages*/ 512) set_data(t16, /*maxPages*/ ctx[9]);
+			if (!current || dirty[0] & /*currentPage*/ 16) set_data(t14, /*currentPage*/ ctx[4]);
+			if (!current || dirty[0] & /*maxPages*/ 256) set_data(t16, /*maxPages*/ ctx[8]);
 
 			if (!current || dirty[0] & /*pager_config*/ 2) {
 				set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
 				? /*pager_config*/ ctx[1].width
-				: /*pager_config_default*/ ctx[12].width);
+				: /*pager_config_default*/ ctx[11].width);
 			}
 
 			const sveltegenericcrudtable_changes = {};
-			if (dirty[0] & /*shadowed*/ 8) sveltegenericcrudtable_changes.shadowed = /*shadowed*/ ctx[3];
-			if (dirty[0] & /*table_config*/ 16) sveltegenericcrudtable_changes.table_config = /*table_config*/ ctx[4];
+			if (dirty[0] & /*table_config*/ 8) sveltegenericcrudtable_changes.table_config = /*table_config*/ ctx[3];
 
 			if (!updating_table_data && dirty[0] & /*page_data*/ 4) {
 				updating_table_data = true;
@@ -2510,12 +2512,7 @@ function getMaxPages(current_max) {
 	return check_max === Infinity ? 1 : check_max;
 }
 
-function getPageData(data) {
-	return data === undefined ? [] : data;
-}
-
 function instance($$self, $$props, $$invalidate) {
-	let { shadowed = false } = $$props;
 	const dispatch = createEventDispatcher();
 
 	const pager_config_default = {
@@ -2574,7 +2571,7 @@ function instance($$self, $$props, $$invalidate) {
 		? config.steps[sliderIndex]
 		: pager_config_default.steps[sliderIndex];
 
-		$$invalidate(6, sliderIndex = conf === undefined ? 1 : sliderIndex);
+		$$invalidate(5, sliderIndex = conf === undefined ? 1 : sliderIndex);
 		return conf === undefined ? 1 : conf;
 	}
 
@@ -2591,6 +2588,16 @@ function instance($$self, $$props, $$invalidate) {
 	let max;
 	let { page_data } = $$props;
 
+	function getPageData(data) {
+		$$invalidate(1, pager_config.steps = setSteps(), pager_config);
+
+		$$invalidate(5, sliderIndex = sliderIndex > 1
+		? $$invalidate(5, sliderIndex--, sliderIndex)
+		: sliderIndex);
+
+		return data === undefined ? [] : data;
+	}
+
 	function initPage() {
 		if (pager_config.lines === undefined) {
 			$$invalidate(1, pager_config.lines = 1, pager_config);
@@ -2602,14 +2609,14 @@ function instance($$self, $$props, $$invalidate) {
 	function getNextPage() {
 		if (currentPage < maxPages) {
 			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage, pager_config.lines * (currentPage + 1)));
-			$$invalidate(5, currentPage++, currentPage);
+			$$invalidate(4, currentPage++, currentPage);
 		}
 	}
 
 	function getPreviousPage() {
 		if (currentPage > 1) {
 			$$invalidate(2, page_data = pager_data.slice(pager_config.lines * currentPage - pager_config.lines * 2, pager_config.lines * (currentPage + 1) - pager_config.lines * 2));
-			$$invalidate(5, currentPage--, currentPage);
+			$$invalidate(4, currentPage--, currentPage);
 		}
 	}
 
@@ -2624,19 +2631,15 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function handlePagerConfig(event) {
-		$$invalidate(5, currentPage = 1);
+		$$invalidate(4, currentPage = 1);
 		$$invalidate(1, pager_config.steps = setSteps(), pager_config);
 		$$invalidate(1, pager_config.lines = pager_config.steps[sliderIndex], pager_config);
 		initPage();
 	}
 
 	function dispatcher(name, details, event) {
-		/* istanbul ignore next */
-		if (shadowed) {
-			event.target.dispatchEvent(new CustomEvent(name, { composed: true, detail: details }));
-		} else {
-			dispatch(name, details);
-		}
+		console.log(details);
+		dispatch(name, details);
 	}
 
 	let firstLineOfPage = 0;
@@ -2644,16 +2647,18 @@ function instance($$self, $$props, $$invalidate) {
 
 	function handleCreate(event) {
 		const details = {};
-		dispatcher("create", details, event);
+		dispatcher("create", details);
 	}
 
 	function handleDelete(event) {
+		console.log(event);
+
 		const details = {
 			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
 			body: event.detail.body
 		};
 
-		dispatcher("delete", details, event);
+		dispatcher("delete", details);
 	}
 
 	function handleUpdate(event) {
@@ -2662,7 +2667,7 @@ function instance($$self, $$props, $$invalidate) {
 			body: event.detail.body
 		};
 
-		dispatcher("update", details, event);
+		dispatcher("update", details);
 	}
 
 	function handleDetail(event) {
@@ -2671,13 +2676,13 @@ function instance($$self, $$props, $$invalidate) {
 			body: event.detail.body
 		};
 
-		dispatcher("details", details, event);
+		dispatcher("details", details);
 	}
 
 	function handleSort(event) {
 		const column = event.detail.column;
 		const details = { column };
-		dispatcher("sort", details, event);
+		dispatcher("sort", details);
 	}
 
 	let { table_config = {} } = $$props;
@@ -2686,7 +2691,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	function input_change_input_handler() {
 		sliderIndex = to_number(this.value);
-		$$invalidate(6, sliderIndex);
+		$$invalidate(5, sliderIndex);
 	}
 
 	function sveltegenericcrudtable_table_data_binding(value) {
@@ -2695,11 +2700,10 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	$$self.$$set = $$props => {
-		if ("shadowed" in $$props) $$invalidate(3, shadowed = $$props.shadowed);
 		if ("pager_data" in $$props) $$invalidate(0, pager_data = $$props.pager_data);
 		if ("pager_config" in $$props) $$invalidate(1, pager_config = $$props.pager_config);
 		if ("page_data" in $$props) $$invalidate(2, page_data = $$props.page_data);
-		if ("table_config" in $$props) $$invalidate(4, table_config = $$props.table_config);
+		if ("table_config" in $$props) $$invalidate(3, table_config = $$props.table_config);
 	};
 
 	$$self.$$.update = () => {
@@ -2712,33 +2716,33 @@ function instance($$self, $$props, $$invalidate) {
 		}
 
 		if ($$self.$$.dirty[0] & /*pager_config*/ 2) {
-			$$invalidate(8, currentStep = getCurrentStep(pager_config));
+			$$invalidate(7, currentStep = getCurrentStep(pager_config));
 		}
 
 		if ($$self.$$.dirty[0] & /*pager_config*/ 2) {
-			$$invalidate(7, maxSteps = getMaxSteps(pager_config));
+			$$invalidate(6, maxSteps = getMaxSteps(pager_config));
 		}
 
 		if ($$self.$$.dirty[0] & /*pager_data, pager_config*/ 3) {
-			$$invalidate(21, max = Math.ceil(pager_data.length / pager_config.lines));
+			$$invalidate(20, max = Math.ceil(pager_data.length / pager_config.lines));
 		}
 
-		if ($$self.$$.dirty[0] & /*max*/ 2097152) {
-			$$invalidate(9, maxPages = getMaxPages(max));
+		if ($$self.$$.dirty[0] & /*max*/ 1048576) {
+			$$invalidate(8, maxPages = getMaxPages(max));
 		}
 
 		if ($$self.$$.dirty[0] & /*page_data*/ 4) {
 			$$invalidate(2, page_data = getPageData(page_data));
 		}
 
-		if ($$self.$$.dirty[0] & /*pager_config, currentPage*/ 34) {
-			$$invalidate(10, firstLineOfPage = () => {
+		if ($$self.$$.dirty[0] & /*pager_config, currentPage*/ 18) {
+			$$invalidate(9, firstLineOfPage = () => {
 				return pager_config.lines * (currentPage - 1) + 1;
 			});
 		}
 
-		if ($$self.$$.dirty[0] & /*pager_config, currentPage, pager_data*/ 35) {
-			$$invalidate(11, lastLineOfPage = () => {
+		if ($$self.$$.dirty[0] & /*pager_config, currentPage, pager_data*/ 19) {
+			$$invalidate(10, lastLineOfPage = () => {
 				const last = pager_config.lines * (currentPage - 1) + pager_config.lines;
 				return last > pager_data.length ? pager_data.length : last;
 			});
@@ -2749,7 +2753,6 @@ function instance($$self, $$props, $$invalidate) {
 		pager_data,
 		pager_config,
 		page_data,
-		shadowed,
 		table_config,
 		currentPage,
 		sliderIndex,
@@ -2791,11 +2794,10 @@ class GenericTablePager extends SvelteElement {
 			create_fragment,
 			safe_not_equal,
 			{
-				shadowed: 3,
 				pager_data: 0,
 				pager_config: 1,
 				page_data: 2,
-				table_config: 4
+				table_config: 3
 			},
 			[-1, -1]
 		);
@@ -2813,16 +2815,7 @@ class GenericTablePager extends SvelteElement {
 	}
 
 	static get observedAttributes() {
-		return ["shadowed", "pager_data", "pager_config", "page_data", "table_config"];
-	}
-
-	get shadowed() {
-		return this.$$.ctx[3];
-	}
-
-	set shadowed(shadowed) {
-		this.$set({ shadowed });
-		flush();
+		return ["pager_data", "pager_config", "page_data", "table_config"];
 	}
 
 	get pager_data() {
@@ -2853,7 +2846,7 @@ class GenericTablePager extends SvelteElement {
 	}
 
 	get table_config() {
-		return this.$$.ctx[4];
+		return this.$$.ctx[3];
 	}
 
 	set table_config(table_config) {
