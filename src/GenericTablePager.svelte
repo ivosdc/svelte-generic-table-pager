@@ -1,68 +1,93 @@
 <svelte:options tag={'table-pager'} accessors/>
 <script>
-    import {createEventDispatcher, onMount, beforeUpdate, afterUpdate} from 'svelte';
+    import {createEventDispatcher, onMount} from 'svelte';
     import {iconLeft, iconRight} from './SvgIcons'
-    import SvelteGenericCrudTable from 'svelte-generic-crud-table';
+    import SvelteGenericCrudTable from 'svelte-generic-crud-table/src/SvelteGenericCrudTable.svelte';
 
-    /* istanbul ignore next line */
     export let shadowed = false;
     const dispatch = createEventDispatcher();
 
     const pager_config_default = {
         name: 'table-paginator',
-        lines: 0,
-        steps: [1],
+        lines: 1,
+        steps: [0, 1, 2, 3, 4, 5, 10, 15, 20, 30],
         width: '500px'
     }
 
-    /* istanbul ignore next line */
     export let pager_data = {};
-    /* istanbul ignore next line */
-    $: pager_data = (typeof pager_data === 'string') ? JSON.parse(pager_data) : pager_data;
 
-    /* istanbul ignore next line */
-    export let pager_config = pager_config_default;
-    /* istanbul ignore next line */
-    $: pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
-    let setSteps = () => {
-        let steps = (pager_config.steps !== undefined) ? pager_config.steps : pager_config_default.steps;
-        steps = steps.filter((a) => {
-            return parseInt(a) < pager_data.length
-        });
-        steps.push(pager_data.length);
-        return steps;
+    function getPagerData(data) {
+        if (data.length > 0) {
+            initPage();
+        }
+        return data;
     }
 
-    let sliderIndex = (pager_config.steps !== undefined) ? pager_config.steps.indexOf(pager_config.lines) : 0;
+    $: pager_data = getPagerData(pager_data);
+
+    export let pager_config = pager_config_default;
+
+    function getPagerConfig(config) {
+        let p_config = config === undefined ? pager_config_default : config;
+        p_config = (typeof config === 'string') ? JSON.parse(config) : config;
+        p_config.lines = p_config.lines === undefined ? p_config.steps[0] : p_config.lines;
+        return p_config;
+    }
+
+    $: pager_config = getPagerConfig(pager_config);
+
+    function getSliderIndex(config) {
+        let checkIndex = (config.steps !== undefined) ? config.steps.indexOf(config.lines) : 0;
+        return checkIndex;
+    }
+
+    let sliderIndex = getSliderIndex(pager_config);
+
     let maxSteps = 1;
     let currentStep = 0;
-    $: currentStep = (pager_config.steps !== undefined) ? pager_config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
-    $: maxSteps = (pager_config.steps !== undefined) ? (pager_config.steps.length - 1) : (pager_config_default.steps.length - 1);
+
+    function getCurrentStep(config) {
+        let conf = (config.steps !== undefined) ? config.steps[sliderIndex] : pager_config_default.steps[sliderIndex];
+        return conf === undefined ? 1 : conf;
+    }
+
+    $: currentStep = getCurrentStep(pager_config);
+
+    function getMaxSteps(config) {
+        let checkMax = (config.steps !== undefined) ? (config.steps.length - 1) : (pager_config_default.steps.length - 1);
+
+        return checkMax === 0 ? config.steps.length : checkMax;
+    }
+
+    $: maxSteps = getMaxSteps(pager_config);
 
     let currentPage = 1;
 
     let maxPages = 1;
     let max
     $: max = Math.ceil(pager_data.length / pager_config.lines);
-    $: maxPages = max > 0 ? max : 1;
+
+    function getMaxPages(current_max) {
+        let check_max = current_max > 0 ? current_max : 1;
+        return check_max === Infinity ? 1 : check_max;
+    }
+
+    $: maxPages = getMaxPages(max);
 
 
     export let page_data;
-    $: page_data = typeof page_data === 'Array' ? page_data : [];
 
-    if (!shadowed) {
-        beforeUpdate(() => {
-            initPage();
-       });
-    } else {
-        afterUpdate(() => {
-            initPage();
-        });
-
+    function getPageData(data) {
+        return data === undefined ? [] : data;
     }
+
+    $: page_data = getPageData(page_data);
 
 
     function initPage() {
+        if (pager_config.lines === undefined) {
+            pager_config.lines = 1;
+        }
         page_data = pager_data.slice(pager_config.lines * (currentPage - 1), pager_config.lines * (currentPage));
     }
 
@@ -96,8 +121,8 @@
 
     function handlePagerConfig(event) {
         currentPage = 1;
-        pager_config.steps = setSteps();
         pager_config.lines = pager_config.steps[sliderIndex];
+        initPage();
     }
 
     function dispatcher(name, details, event) {
