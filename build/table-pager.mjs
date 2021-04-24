@@ -2217,7 +2217,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (200:8) {#if (currentPage > 1)}
+// (215:8) {#if (currentPage > 1)}
 function create_if_block(ctx) {
 	let html_tag;
 	let html_anchor;
@@ -2545,8 +2545,25 @@ function instance($$self, $$props, $$invalidate) {
 		? p_config.steps[0]
 		: p_config.lines;
 
+		p_config.steps = setSteps();
 		return p_config;
 	}
+
+	let setSteps = () => {
+		let steps = pager_config.steps !== undefined
+		? pager_config.steps
+		: pager_config_default.steps;
+
+		if (pager_data.length > 0) {
+			steps = steps.filter(a => {
+				return parseInt(a) < pager_data.length;
+			});
+
+			steps.push(pager_data.length);
+		}
+
+		return steps;
+	};
 
 	let sliderIndex = getSliderIndex(pager_config);
 	let maxSteps = 1;
@@ -2557,6 +2574,7 @@ function instance($$self, $$props, $$invalidate) {
 		? config.steps[sliderIndex]
 		: pager_config_default.steps[sliderIndex];
 
+		$$invalidate(6, sliderIndex = conf === undefined ? 1 : sliderIndex);
 		return conf === undefined ? 1 : conf;
 	}
 
@@ -2607,6 +2625,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	function handlePagerConfig(event) {
 		$$invalidate(5, currentPage = 1);
+		$$invalidate(1, pager_config.steps = setSteps(), pager_config);
 		$$invalidate(1, pager_config.lines = pager_config.steps[sliderIndex], pager_config);
 		initPage();
 	}
