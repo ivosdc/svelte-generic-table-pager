@@ -2220,7 +2220,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (211:8) {#if (currentPage > 1)}
+// (208:8) {#if (currentPage > 1)}
 function create_if_block(ctx) {
 	let html_tag;
 	let html_anchor;
@@ -2638,7 +2638,6 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function dispatcher(name, details, event) {
-		console.log(details);
 		dispatch(name, details);
 	}
 
@@ -2651,8 +2650,6 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function handleDelete(event) {
-		console.log(event);
-
 		const details = {
 			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
 			body: event.detail.body
