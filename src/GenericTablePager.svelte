@@ -18,6 +18,7 @@
 
     function getPagerData(data) {
         if (data.length > 0) {
+            data = (typeof data === 'string') ? JSON.parse(data) : data;
             initPage();
         }
         return data;
@@ -100,6 +101,8 @@
 
 
     function initPage() {
+        pager_config = (typeof pager_config === 'string') ? JSON.parse(pager_config) : pager_config;
+
         if (pager_config.lines === undefined) {
             pager_config.lines = 1;
         }
@@ -143,7 +146,7 @@
     }
 
     function dispatcher(name, details, event) {
-            dispatch(name, details);
+        dispatch(name, details);
     }
 
     let firstLineOfPage = 0;
@@ -201,7 +204,7 @@
 
 </script>
 
-<main class="pager"
+<div class="pager"
       style="width:{(pager_config.width !== undefined) ? pager_config.width : pager_config_default.width}">
     <span id="left" class="options left {(currentPage > 1) ? 'active' : 'inactive'}" style="float:left"
           on:click={(e) => handleLeft(e)} title="Left" tabindex="0">
@@ -227,22 +230,18 @@
          -
         pages: <span class="number-pages">{currentPage}/{maxPages}</span>
     </span>
-</main>
-<SvelteGenericCrudTable on:delete={handleDelete}
-                        on:update={handleUpdate}
-                        on:create={handleCreate}
-                        on:details={handleDetail}
-                        on:sort={handleSort}
-                        shadowed={false}
-                        table_config={table_config}
-                        bind:table_data={page_data}/>
-
+</div>
+{#if typeof page_data !== 'string'}
+    <SvelteGenericCrudTable on:delete={handleDelete}
+                            on:update={handleUpdate}
+                            on:create={handleCreate}
+                            on:details={handleDetail}
+                            on:sort={handleSort}
+                            shadowed={false}
+                            table_config={table_config}
+                            bind:table_data={page_data}/>
+{/if}
 <style>
-
-    main {
-        position: inherit;
-        padding-top: 0.4em;
-    }
 
     .range {
         background: #fff;

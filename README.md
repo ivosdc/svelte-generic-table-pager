@@ -4,6 +4,7 @@ A svelte paginator using svelte-generic-crud-table.
 
 - Svelte-component: `import GenericTablePager from 'svelte-generic-table-pager'`
 
+[See REPL on svelte.dev:](https://svelte.dev/repl/b81c81da687c432fa407bb6bbd1a1713?version=3.38.2 "Example")
 
 ## Install
 
@@ -44,12 +45,12 @@ Only wanted keys of your source array have to be mapped by columns_settings *nam
     - *text*: Default.
     - *html*: The value/text will be interpreted as HTML.
 
-[See example:](https://ivosdc.github.io/svelte-generic-crud-table/ "GeneralCrudTable Example")
+[See REPL on svelte.dev:](https://svelte.dev/repl/b81c81da687c432fa407bb6bbd1a1713?version=3.38.2 "Example")
 
 ###  Svelte-Component:
 ```html
 <script>
-    import GenericTablePager from 'svelte-generic-table-pager'
+    import GenericTablePager from 'svelte-generic-table-pager/src/GenericTablePager.svelte'
 
     function handleDelete(event) {
         const id = event.detail.id; // position in myObjectArray
