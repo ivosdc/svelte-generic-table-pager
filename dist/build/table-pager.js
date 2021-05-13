@@ -4,393 +4,6 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.GenericTablePager = factory());
 }(this, (function () { 'use strict';
 
-    function noop$1() { }
-    function run$1(fn) {
-        return fn();
-    }
-    function blank_object$1() {
-        return Object.create(null);
-    }
-    function run_all$1(fns) {
-        fns.forEach(run$1);
-    }
-    function is_function$1(thing) {
-        return typeof thing === 'function';
-    }
-    function safe_not_equal$1(a, b) {
-        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
-    }
-    function is_empty$1(obj) {
-        return Object.keys(obj).length === 0;
-    }
-
-    function append$1(target, node) {
-        target.appendChild(node);
-    }
-    function insert$1(target, node, anchor) {
-        target.insertBefore(node, anchor || null);
-    }
-    function detach$1(node) {
-        node.parentNode.removeChild(node);
-    }
-    function element$1(name) {
-        return document.createElement(name);
-    }
-    function text$1(data) {
-        return document.createTextNode(data);
-    }
-    function space$1() {
-        return text$1(' ');
-    }
-    function empty$1() {
-        return text$1('');
-    }
-    function listen$1(node, event, handler, options) {
-        node.addEventListener(event, handler, options);
-        return () => node.removeEventListener(event, handler, options);
-    }
-    function attr$1(node, attribute, value) {
-        if (value == null)
-            node.removeAttribute(attribute);
-        else if (node.getAttribute(attribute) !== value)
-            node.setAttribute(attribute, value);
-    }
-    function to_number(value) {
-        return value === '' ? null : +value;
-    }
-    function children$1(element) {
-        return Array.from(element.childNodes);
-    }
-    function set_data$1(text, data) {
-        data = '' + data;
-        if (text.wholeText !== data)
-            text.data = data;
-    }
-    function set_input_value(input, value) {
-        input.value = value == null ? '' : value;
-    }
-    function set_style$1(node, key, value, important) {
-        node.style.setProperty(key, value, important ? 'important' : '');
-    }
-    function custom_event$1(type, detail) {
-        const e = document.createEvent('CustomEvent');
-        e.initCustomEvent(type, false, false, detail);
-        return e;
-    }
-    class HtmlTag$1 {
-        constructor(anchor = null) {
-            this.a = anchor;
-            this.e = this.n = null;
-        }
-        m(html, target, anchor = null) {
-            if (!this.e) {
-                this.e = element$1(target.nodeName);
-                this.t = target;
-                this.h(html);
-            }
-            this.i(anchor);
-        }
-        h(html) {
-            this.e.innerHTML = html;
-            this.n = Array.from(this.e.childNodes);
-        }
-        i(anchor) {
-            for (let i = 0; i < this.n.length; i += 1) {
-                insert$1(this.t, this.n[i], anchor);
-            }
-        }
-        p(html) {
-            this.d();
-            this.h(html);
-            this.i(this.a);
-        }
-        d() {
-            this.n.forEach(detach$1);
-        }
-    }
-    function attribute_to_object$1(attributes) {
-        const result = {};
-        for (const attribute of attributes) {
-            result[attribute.name] = attribute.value;
-        }
-        return result;
-    }
-
-    let current_component$1;
-    function set_current_component$1(component) {
-        current_component$1 = component;
-    }
-    function get_current_component$1() {
-        if (!current_component$1)
-            throw new Error('Function called outside component initialization');
-        return current_component$1;
-    }
-    function createEventDispatcher$1() {
-        const component = get_current_component$1();
-        return (type, detail) => {
-            const callbacks = component.$$.callbacks[type];
-            if (callbacks) {
-                // TODO are there situations where events could be dispatched
-                // in a server (non-DOM) environment?
-                const event = custom_event$1(type, detail);
-                callbacks.slice().forEach(fn => {
-                    fn.call(component, event);
-                });
-            }
-        };
-    }
-
-    const dirty_components$1 = [];
-    const binding_callbacks$1 = [];
-    const render_callbacks$1 = [];
-    const flush_callbacks$1 = [];
-    const resolved_promise$1 = Promise.resolve();
-    let update_scheduled$1 = false;
-    function schedule_update$1() {
-        if (!update_scheduled$1) {
-            update_scheduled$1 = true;
-            resolved_promise$1.then(flush$1);
-        }
-    }
-    function add_render_callback$1(fn) {
-        render_callbacks$1.push(fn);
-    }
-    function add_flush_callback(fn) {
-        flush_callbacks$1.push(fn);
-    }
-    let flushing$1 = false;
-    const seen_callbacks$1 = new Set();
-    function flush$1() {
-        if (flushing$1)
-            return;
-        flushing$1 = true;
-        do {
-            // first, call beforeUpdate functions
-            // and update components
-            for (let i = 0; i < dirty_components$1.length; i += 1) {
-                const component = dirty_components$1[i];
-                set_current_component$1(component);
-                update$1(component.$$);
-            }
-            set_current_component$1(null);
-            dirty_components$1.length = 0;
-            while (binding_callbacks$1.length)
-                binding_callbacks$1.pop()();
-            // then, once components are updated, call
-            // afterUpdate functions. This may cause
-            // subsequent updates...
-            for (let i = 0; i < render_callbacks$1.length; i += 1) {
-                const callback = render_callbacks$1[i];
-                if (!seen_callbacks$1.has(callback)) {
-                    // ...so guard against infinite loops
-                    seen_callbacks$1.add(callback);
-                    callback();
-                }
-            }
-            render_callbacks$1.length = 0;
-        } while (dirty_components$1.length);
-        while (flush_callbacks$1.length) {
-            flush_callbacks$1.pop()();
-        }
-        update_scheduled$1 = false;
-        flushing$1 = false;
-        seen_callbacks$1.clear();
-    }
-    function update$1($$) {
-        if ($$.fragment !== null) {
-            $$.update();
-            run_all$1($$.before_update);
-            const dirty = $$.dirty;
-            $$.dirty = [-1];
-            $$.fragment && $$.fragment.p($$.ctx, dirty);
-            $$.after_update.forEach(add_render_callback$1);
-        }
-    }
-    const outroing$1 = new Set();
-    let outros;
-    function transition_in$1(block, local) {
-        if (block && block.i) {
-            outroing$1.delete(block);
-            block.i(local);
-        }
-    }
-    function transition_out(block, local, detach, callback) {
-        if (block && block.o) {
-            if (outroing$1.has(block))
-                return;
-            outroing$1.add(block);
-            outros.c.push(() => {
-                outroing$1.delete(block);
-                if (callback) {
-                    if (detach)
-                        block.d(1);
-                    callback();
-                }
-            });
-            block.o(local);
-        }
-    }
-
-    function bind(component, name, callback) {
-        const index = component.$$.props[name];
-        if (index !== undefined) {
-            component.$$.bound[index] = callback;
-            callback(component.$$.ctx[index]);
-        }
-    }
-    function create_component(block) {
-        block && block.c();
-    }
-    function mount_component$1(component, target, anchor, customElement) {
-        const { fragment, on_mount, on_destroy, after_update } = component.$$;
-        fragment && fragment.m(target, anchor);
-        if (!customElement) {
-            // onMount happens before the initial afterUpdate
-            add_render_callback$1(() => {
-                const new_on_destroy = on_mount.map(run$1).filter(is_function$1);
-                if (on_destroy) {
-                    on_destroy.push(...new_on_destroy);
-                }
-                else {
-                    // Edge case - component was destroyed immediately,
-                    // most likely as a result of a binding initialising
-                    run_all$1(new_on_destroy);
-                }
-                component.$$.on_mount = [];
-            });
-        }
-        after_update.forEach(add_render_callback$1);
-    }
-    function destroy_component$1(component, detaching) {
-        const $$ = component.$$;
-        if ($$.fragment !== null) {
-            run_all$1($$.on_destroy);
-            $$.fragment && $$.fragment.d(detaching);
-            // TODO null out other refs, including component.$$ (but need to
-            // preserve final state?)
-            $$.on_destroy = $$.fragment = null;
-            $$.ctx = [];
-        }
-    }
-    function make_dirty$1(component, i) {
-        if (component.$$.dirty[0] === -1) {
-            dirty_components$1.push(component);
-            schedule_update$1();
-            component.$$.dirty.fill(0);
-        }
-        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
-    }
-    function init$1(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
-        const parent_component = current_component$1;
-        set_current_component$1(component);
-        const $$ = component.$$ = {
-            fragment: null,
-            ctx: null,
-            // state
-            props,
-            update: noop$1,
-            not_equal,
-            bound: blank_object$1(),
-            // lifecycle
-            on_mount: [],
-            on_destroy: [],
-            on_disconnect: [],
-            before_update: [],
-            after_update: [],
-            context: new Map(parent_component ? parent_component.$$.context : options.context || []),
-            // everything else
-            callbacks: blank_object$1(),
-            dirty,
-            skip_bound: false
-        };
-        let ready = false;
-        $$.ctx = instance
-            ? instance(component, options.props || {}, (i, ret, ...rest) => {
-                const value = rest.length ? rest[0] : ret;
-                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
-                    if (!$$.skip_bound && $$.bound[i])
-                        $$.bound[i](value);
-                    if (ready)
-                        make_dirty$1(component, i);
-                }
-                return ret;
-            })
-            : [];
-        $$.update();
-        ready = true;
-        run_all$1($$.before_update);
-        // `false` as a special case of no DOM component
-        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
-        if (options.target) {
-            if (options.hydrate) {
-                const nodes = children$1(options.target);
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                $$.fragment && $$.fragment.l(nodes);
-                nodes.forEach(detach$1);
-            }
-            else {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                $$.fragment && $$.fragment.c();
-            }
-            if (options.intro)
-                transition_in$1(component.$$.fragment);
-            mount_component$1(component, options.target, options.anchor, options.customElement);
-            flush$1();
-        }
-        set_current_component$1(parent_component);
-    }
-    let SvelteElement$1;
-    if (typeof HTMLElement === 'function') {
-        SvelteElement$1 = class extends HTMLElement {
-            constructor() {
-                super();
-                this.attachShadow({ mode: 'open' });
-            }
-            connectedCallback() {
-                const { on_mount } = this.$$;
-                this.$$.on_disconnect = on_mount.map(run$1).filter(is_function$1);
-                // @ts-ignore todo: improve typings
-                for (const key in this.$$.slotted) {
-                    // @ts-ignore todo: improve typings
-                    this.appendChild(this.$$.slotted[key]);
-                }
-            }
-            attributeChangedCallback(attr, _oldValue, newValue) {
-                this[attr] = newValue;
-            }
-            disconnectedCallback() {
-                run_all$1(this.$$.on_disconnect);
-            }
-            $destroy() {
-                destroy_component$1(this, 1);
-                this.$destroy = noop$1;
-            }
-            $on(type, callback) {
-                // TODO should this delegate to addEventListener?
-                const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
-                callbacks.push(callback);
-                return () => {
-                    const index = callbacks.indexOf(callback);
-                    if (index !== -1)
-                        callbacks.splice(index, 1);
-                };
-            }
-            $set($$props) {
-                if (this.$$set && !is_empty$1($$props)) {
-                    this.$$.skip_bound = true;
-                    this.$$set($$props);
-                    this.$$.skip_bound = false;
-                }
-            }
-        };
-    }
-
-    const iconLeft =
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
-
-    const iconRight =
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-
     function noop() { }
     function run(fn) {
         return fn();
@@ -448,6 +61,9 @@
         else if (node.getAttribute(attribute) !== value)
             node.setAttribute(attribute, value);
     }
+    function to_number(value) {
+        return value === '' ? null : +value;
+    }
     function children(element) {
         return Array.from(element.childNodes);
     }
@@ -455,6 +71,9 @@
         data = '' + data;
         if (text.wholeText !== data)
             text.data = data;
+    }
+    function set_input_value(input, value) {
+        input.value = value == null ? '' : value;
     }
     function set_style(node, key, value, important) {
         node.style.setProperty(key, value, important ? 'important' : '');
@@ -542,6 +161,9 @@
     function add_render_callback(fn) {
         render_callbacks.push(fn);
     }
+    function add_flush_callback(fn) {
+        flush_callbacks.push(fn);
+    }
     let flushing = false;
     const seen_callbacks = new Set();
     function flush() {
@@ -591,10 +213,27 @@
         }
     }
     const outroing = new Set();
+    let outros;
     function transition_in(block, local) {
         if (block && block.i) {
             outroing.delete(block);
             block.i(local);
+        }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
         }
     }
 
@@ -677,6 +316,17 @@
             insert(new_blocks[n - 1]);
         return new_blocks;
     }
+
+    function bind(component, name, callback) {
+        const index = component.$$.props[name];
+        if (index !== undefined) {
+            component.$$.bound[index] = callback;
+            callback(component.$$.ctx[index]);
+        }
+    }
+    function create_component(block) {
+        block && block.c();
+    }
     function mount_component(component, target, anchor, customElement) {
         const { fragment, on_mount, on_destroy, after_update } = component.$$;
         fragment && fragment.m(target, anchor);
@@ -733,7 +383,7 @@
             on_disconnect: [],
             before_update: [],
             after_update: [],
-            context: new Map(parent_component ? parent_component.$$.context : []),
+            context: new Map(parent_component ? parent_component.$$.context : options.context || []),
             // everything else
             callbacks: blank_object(),
             dirty,
@@ -820,6 +470,12 @@
             }
         };
     }
+
+    const iconLeft =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
+
+    const iconRight =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
 
     class SvelteGenericCrudTableService {
 
@@ -1020,7 +676,7 @@
         '<path d="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z"></path>\n' +
         '</svg>';
 
-    /* Users/ivo/IdeaProjects/svelte-generic-crud-table/src/SvelteGenericCrudTable.svelte generated by Svelte v3.37.0 */
+    /* node_modules/svelte-generic-crud-table/src/SvelteGenericCrudTable.svelte generated by Svelte v3.38.2 */
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -2485,7 +2141,7 @@
     class SvelteGenericCrudTable extends SvelteElement {
     	constructor(options) {
     		super();
-    		this.shadowRoot.innerHTML = `<style>main{position:inherit;padding-top:0.4em}.red:hover{fill:red;fill-opacity:80%}.green:hover{fill:limegreen;fill-opacity:80%}.blue:hover{fill:dodgerblue;fill-opacity:80%}.table{display:inline-grid;text-align:left}.thead{display:inline-flex;padding:0 0 0.4em 0}.row{display:inline-flex;padding:0;margin:0 0 1px;resize:vertical}.dark{background-color:#efefef}.row:hover{background-color:rgba(0, 0, 0, 0.1)}.td{color:#5f5f5f;border:none;border-left:0.1em solid transparent;font-weight:100;padding:0.2em 0 0.1em 0.4em;float:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;resize:none}.td-disabled{vertical-align:middle;color:#5f5f5f;border:none;font-weight:200;float:left;line-height:1em;min-height:1.3em;max-height:1.3em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;width:-moz-available;width:-webkit-fill-available;width:stretch}.headline{cursor:pointer;min-height:1.3em;max-height:1.3em;height:1.3em;font-weight:300;padding:0 0 0.3em 0.4em;margin-bottom:0.3em;resize:horizontal}#labelOptions{width:85px;resize:none}.options-field{min-height:1.3em;max-height:1.3em;width:fit-content;width:-moz-fit-content;opacity:60%;resize:inherit}.options{float:left;position:relative;width:fit-content;width:-moz-fit-content;height:16px;padding:0.2em 0.4em;cursor:pointer;fill:#999999;color:#666666;line-height:0.9em}.options:hover{color:#333333;text-decoration:underline}.options:focus{border:none;outline:none;opacity:100%}.hidden{display:none}.shown{display:block}textarea{position:relative;resize:vertical;overflow:hidden;width:100%;height:100%;min-height:1.3em;padding:1px 1px;background-color:#ffffff;border:none;font-size:0.95em;font-weight:300;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;text-overflow:ellipsis;white-space:pre;-webkit-transition:box-shadow 0.3s;border-bottom:0.5px solid #5f5f5f;overflow-y:scroll}textarea:focus{outline:none;font-weight:300;white-space:normal;overflow:auto;padding-top:1px}textarea:not(:focus){height:100%}</style>`;
+    		this.shadowRoot.innerHTML = `<style>main{position:inherit;padding-top:0.4em}.red:hover{fill:red;fill-opacity:80%}.green:hover{fill:limegreen;fill-opacity:80%}.blue:hover{fill:dodgerblue;fill-opacity:80%}.table{display:inline-grid;text-align:left}.thead{display:inline-flex;padding:0 0 0.4em 0}.row{display:inline-flex;padding:0;margin:0 0 1px;resize:vertical}.dark{background-color:#efefef}.row:hover{background-color:rgba(0, 0, 0, 0.1)}.td{color:#5f5f5f;border:none;border-left:0.1em solid transparent;font-weight:100;padding:0.2em 0 0.1em 0.4em;float:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;resize:none}.td-disabled{vertical-align:middle;color:#5f5f5f;border:none;font-weight:200;float:left;line-height:1em;min-height:1.3em;max-height:1.3em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;width:-moz-available;width:-webkit-fill-available;width:stretch}.headline{cursor:pointer;min-height:1.3em;max-height:1.3em;height:1.3em;font-weight:300;padding:0 0 0.3em 0.4em;margin-bottom:0.3em;resize:horizontal}#labelOptions{width:fit-content;width:-moz-fit-content;resize:none}.options-field{min-height:1.3em;max-height:1.3em;width:fit-content;width:-moz-fit-content;opacity:60%;resize:inherit}.options{float:left;position:relative;width:fit-content;width:-moz-fit-content;height:16px;padding:0.2em 0.4em;cursor:pointer;fill:#999999;color:#666666;line-height:0.9em}.options:hover{color:#333333;text-decoration:underline}.options:focus{border:none;outline:none;opacity:100%}.hidden{display:none}.shown{display:block}textarea{position:relative;resize:vertical;overflow:hidden;width:100%;height:100%;min-height:1.3em;padding:1px 1px;background-color:#ffffff;border:none;font-size:0.95em;font-weight:300;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;text-overflow:ellipsis;white-space:pre;-webkit-transition:box-shadow 0.3s;border-bottom:0.5px solid #5f5f5f;overflow-y:scroll}textarea:focus{outline:none;font-weight:300;white-space:normal;overflow:auto;padding-top:1px}textarea:not(:focus){height:100%}</style>`;
 
     		init(
     			this,
@@ -2551,42 +2207,42 @@
 
     customElements.define("crud-table", SvelteGenericCrudTable);
 
-    /* src/GenericTablePager.svelte generated by Svelte v3.37.0 */
+    /* src/GenericTablePager.svelte generated by Svelte v3.38.2 */
 
     function create_else_block(ctx) {
     	let t;
 
     	return {
     		c() {
-    			t = text$1("o");
+    			t = text("o");
     		},
     		m(target, anchor) {
-    			insert$1(target, t, anchor);
+    			insert(target, t, anchor);
     		},
-    		p: noop$1,
+    		p: noop,
     		d(detaching) {
-    			if (detaching) detach$1(t);
+    			if (detaching) detach(t);
     		}
     	};
     }
 
-    // (211:8) {#if (currentPage > 1)}
+    // (208:8) {#if (currentPage > 1)}
     function create_if_block(ctx) {
     	let html_tag;
     	let html_anchor;
 
     	return {
     		c() {
-    			html_anchor = empty$1();
-    			html_tag = new HtmlTag$1(html_anchor);
+    			html_anchor = empty();
+    			html_tag = new HtmlTag(html_anchor);
     		},
     		m(target, anchor) {
     			html_tag.m(iconLeft, target, anchor);
-    			insert$1(target, html_anchor, anchor);
+    			insert(target, html_anchor, anchor);
     		},
-    		p: noop$1,
+    		p: noop,
     		d(detaching) {
-    			if (detaching) detach$1(html_anchor);
+    			if (detaching) detach(html_anchor);
     			if (detaching) html_tag.d();
     		}
     	};
@@ -2653,7 +2309,7 @@
     	}
 
     	sveltegenericcrudtable = new SvelteGenericCrudTable({ props: sveltegenericcrudtable_props });
-    	binding_callbacks$1.push(() => bind(sveltegenericcrudtable, "table_data", sveltegenericcrudtable_table_data_binding));
+    	binding_callbacks.push(() => bind(sveltegenericcrudtable, "table_data", sveltegenericcrudtable_table_data_binding));
     	sveltegenericcrudtable.$on("delete", /*handleDelete*/ ctx[16]);
     	sveltegenericcrudtable.$on("update", /*handleUpdate*/ ctx[17]);
     	sveltegenericcrudtable.$on("create", /*handleCreate*/ ctx[15]);
@@ -2662,109 +2318,109 @@
 
     	return {
     		c() {
-    			main = element$1("main");
-    			span0 = element$1("span");
+    			main = element("main");
+    			span0 = element("span");
     			if_block.c();
-    			t0 = space$1();
-    			span1 = element$1("span");
-    			t1 = space$1();
-    			span3 = element$1("span");
-    			input = element$1("input");
-    			t2 = space$1();
-    			span2 = element$1("span");
-    			t3 = text$1(/*currentStep*/ ctx[7]);
-    			t4 = text$1(" rows");
-    			t5 = space$1();
-    			span6 = element$1("span");
-    			t6 = text$1("lines: ");
-    			span4 = element$1("span");
-    			t7 = text$1(t7_value);
-    			t8 = text$1("-");
-    			t9 = text$1(t9_value);
-    			t10 = text$1(" (");
-    			t11 = text$1(t11_value);
-    			t12 = text$1(")");
-    			t13 = text$1("\n         -\n        pages: ");
-    			span5 = element$1("span");
-    			t14 = text$1(/*currentPage*/ ctx[4]);
-    			t15 = text$1("/");
-    			t16 = text$1(/*maxPages*/ ctx[8]);
-    			t17 = space$1();
+    			t0 = space();
+    			span1 = element("span");
+    			t1 = space();
+    			span3 = element("span");
+    			input = element("input");
+    			t2 = space();
+    			span2 = element("span");
+    			t3 = text(/*currentStep*/ ctx[7]);
+    			t4 = text(" rows");
+    			t5 = space();
+    			span6 = element("span");
+    			t6 = text("lines: ");
+    			span4 = element("span");
+    			t7 = text(t7_value);
+    			t8 = text("-");
+    			t9 = text(t9_value);
+    			t10 = text(" (");
+    			t11 = text(t11_value);
+    			t12 = text(")");
+    			t13 = text("\n         -\n        pages: ");
+    			span5 = element("span");
+    			t14 = text(/*currentPage*/ ctx[4]);
+    			t15 = text("/");
+    			t16 = text(/*maxPages*/ ctx[8]);
+    			t17 = space();
     			create_component(sveltegenericcrudtable.$$.fragment);
-    			this.c = noop$1;
-    			attr$1(span0, "id", "left");
-    			attr$1(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[4] > 1 ? "active" : "inactive"));
-    			set_style$1(span0, "float", "left");
-    			attr$1(span0, "title", "Left");
-    			attr$1(span0, "tabindex", "0");
-    			attr$1(span1, "id", "right");
+    			this.c = noop;
+    			attr(span0, "id", "left");
+    			attr(span0, "class", span0_class_value = "options left " + (/*currentPage*/ ctx[4] > 1 ? "active" : "inactive"));
+    			set_style(span0, "float", "left");
+    			attr(span0, "title", "Left");
+    			attr(span0, "tabindex", "0");
+    			attr(span1, "id", "right");
 
-    			attr$1(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[4] * /*pager_config*/ ctx[1].lines
+    			attr(span1, "class", span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[4] * /*pager_config*/ ctx[1].lines
     			? "active"
     			: "inactive"));
 
-    			set_style$1(span1, "float", "left");
-    			attr$1(span1, "title", "Right");
-    			attr$1(span1, "tabindex", "0");
-    			attr$1(input, "id", "slider");
-    			attr$1(input, "type", "range");
-    			attr$1(input, "min", "1");
-    			attr$1(input, "max", /*maxSteps*/ ctx[6]);
-    			attr$1(input, "steps", /*maxSteps*/ ctx[6]);
-    			attr$1(span2, "class", "number-rows");
-    			attr$1(span3, "class", "range");
-    			set_style$1(span3, "float", "left");
-    			attr$1(span4, "class", "number-lines");
-    			attr$1(span5, "class", "number-pages");
-    			attr$1(span6, "class", "info");
-    			set_style$1(span6, "clear", "both");
-    			attr$1(main, "class", "pager");
+    			set_style(span1, "float", "left");
+    			attr(span1, "title", "Right");
+    			attr(span1, "tabindex", "0");
+    			attr(input, "id", "slider");
+    			attr(input, "type", "range");
+    			attr(input, "min", "1");
+    			attr(input, "max", /*maxSteps*/ ctx[6]);
+    			attr(input, "steps", /*maxSteps*/ ctx[6]);
+    			attr(span2, "class", "number-rows");
+    			attr(span3, "class", "range");
+    			set_style(span3, "float", "left");
+    			attr(span4, "class", "number-lines");
+    			attr(span5, "class", "number-pages");
+    			attr(span6, "class", "info");
+    			set_style(span6, "clear", "both");
+    			attr(main, "class", "pager");
 
-    			set_style$1(main, "width", /*pager_config*/ ctx[1].width !== undefined
+    			set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
     			? /*pager_config*/ ctx[1].width
     			: /*pager_config_default*/ ctx[11].width);
     		},
     		m(target, anchor) {
-    			insert$1(target, main, anchor);
-    			append$1(main, span0);
+    			insert(target, main, anchor);
+    			append(main, span0);
     			if_block.m(span0, null);
-    			append$1(main, t0);
-    			append$1(main, span1);
+    			append(main, t0);
+    			append(main, span1);
     			span1.innerHTML = iconRight;
-    			append$1(main, t1);
-    			append$1(main, span3);
-    			append$1(span3, input);
+    			append(main, t1);
+    			append(main, span3);
+    			append(span3, input);
     			set_input_value(input, /*sliderIndex*/ ctx[5]);
-    			append$1(span3, t2);
-    			append$1(span3, span2);
-    			append$1(span2, t3);
-    			append$1(span2, t4);
-    			append$1(main, t5);
-    			append$1(main, span6);
-    			append$1(span6, t6);
-    			append$1(span6, span4);
-    			append$1(span4, t7);
-    			append$1(span4, t8);
-    			append$1(span4, t9);
-    			append$1(span4, t10);
-    			append$1(span4, t11);
-    			append$1(span4, t12);
-    			append$1(span6, t13);
-    			append$1(span6, span5);
-    			append$1(span5, t14);
-    			append$1(span5, t15);
-    			append$1(span5, t16);
-    			insert$1(target, t17, anchor);
-    			mount_component$1(sveltegenericcrudtable, target, anchor);
+    			append(span3, t2);
+    			append(span3, span2);
+    			append(span2, t3);
+    			append(span2, t4);
+    			append(main, t5);
+    			append(main, span6);
+    			append(span6, t6);
+    			append(span6, span4);
+    			append(span4, t7);
+    			append(span4, t8);
+    			append(span4, t9);
+    			append(span4, t10);
+    			append(span4, t11);
+    			append(span4, t12);
+    			append(span6, t13);
+    			append(span6, span5);
+    			append(span5, t14);
+    			append(span5, t15);
+    			append(span5, t16);
+    			insert(target, t17, anchor);
+    			mount_component(sveltegenericcrudtable, target, anchor);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen$1(span0, "click", /*click_handler*/ ctx[21]),
-    					listen$1(span1, "click", /*click_handler_1*/ ctx[22]),
-    					listen$1(input, "change", /*input_change_input_handler*/ ctx[23]),
-    					listen$1(input, "input", /*input_change_input_handler*/ ctx[23]),
-    					listen$1(input, "input", /*handlePagerConfig*/ ctx[14])
+    					listen(span0, "click", /*click_handler*/ ctx[21]),
+    					listen(span1, "click", /*click_handler_1*/ ctx[22]),
+    					listen(input, "change", /*input_change_input_handler*/ ctx[23]),
+    					listen(input, "input", /*input_change_input_handler*/ ctx[23]),
+    					listen(input, "input", /*handlePagerConfig*/ ctx[14])
     				];
 
     				mounted = true;
@@ -2784,36 +2440,36 @@
     			}
 
     			if (!current || dirty[0] & /*currentPage*/ 16 && span0_class_value !== (span0_class_value = "options left " + (/*currentPage*/ ctx[4] > 1 ? "active" : "inactive"))) {
-    				attr$1(span0, "class", span0_class_value);
+    				attr(span0, "class", span0_class_value);
     			}
 
     			if (!current || dirty[0] & /*pager_data, currentPage, pager_config*/ 19 && span1_class_value !== (span1_class_value = "options right " + (/*pager_data*/ ctx[0].length > /*currentPage*/ ctx[4] * /*pager_config*/ ctx[1].lines
     			? "active"
     			: "inactive"))) {
-    				attr$1(span1, "class", span1_class_value);
+    				attr(span1, "class", span1_class_value);
     			}
 
     			if (!current || dirty[0] & /*maxSteps*/ 64) {
-    				attr$1(input, "max", /*maxSteps*/ ctx[6]);
+    				attr(input, "max", /*maxSteps*/ ctx[6]);
     			}
 
     			if (!current || dirty[0] & /*maxSteps*/ 64) {
-    				attr$1(input, "steps", /*maxSteps*/ ctx[6]);
+    				attr(input, "steps", /*maxSteps*/ ctx[6]);
     			}
 
     			if (dirty[0] & /*sliderIndex*/ 32) {
     				set_input_value(input, /*sliderIndex*/ ctx[5]);
     			}
 
-    			if (!current || dirty[0] & /*currentStep*/ 128) set_data$1(t3, /*currentStep*/ ctx[7]);
-    			if ((!current || dirty[0] & /*firstLineOfPage*/ 512) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[9]() + "")) set_data$1(t7, t7_value);
-    			if ((!current || dirty[0] & /*lastLineOfPage*/ 1024) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[10]() + "")) set_data$1(t9, t9_value);
-    			if ((!current || dirty[0] & /*pager_data*/ 1) && t11_value !== (t11_value = /*pager_data*/ ctx[0].length + "")) set_data$1(t11, t11_value);
-    			if (!current || dirty[0] & /*currentPage*/ 16) set_data$1(t14, /*currentPage*/ ctx[4]);
-    			if (!current || dirty[0] & /*maxPages*/ 256) set_data$1(t16, /*maxPages*/ ctx[8]);
+    			if (!current || dirty[0] & /*currentStep*/ 128) set_data(t3, /*currentStep*/ ctx[7]);
+    			if ((!current || dirty[0] & /*firstLineOfPage*/ 512) && t7_value !== (t7_value = /*firstLineOfPage*/ ctx[9]() + "")) set_data(t7, t7_value);
+    			if ((!current || dirty[0] & /*lastLineOfPage*/ 1024) && t9_value !== (t9_value = /*lastLineOfPage*/ ctx[10]() + "")) set_data(t9, t9_value);
+    			if ((!current || dirty[0] & /*pager_data*/ 1) && t11_value !== (t11_value = /*pager_data*/ ctx[0].length + "")) set_data(t11, t11_value);
+    			if (!current || dirty[0] & /*currentPage*/ 16) set_data(t14, /*currentPage*/ ctx[4]);
+    			if (!current || dirty[0] & /*maxPages*/ 256) set_data(t16, /*maxPages*/ ctx[8]);
 
     			if (!current || dirty[0] & /*pager_config*/ 2) {
-    				set_style$1(main, "width", /*pager_config*/ ctx[1].width !== undefined
+    				set_style(main, "width", /*pager_config*/ ctx[1].width !== undefined
     				? /*pager_config*/ ctx[1].width
     				: /*pager_config_default*/ ctx[11].width);
     			}
@@ -2831,7 +2487,7 @@
     		},
     		i(local) {
     			if (current) return;
-    			transition_in$1(sveltegenericcrudtable.$$.fragment, local);
+    			transition_in(sveltegenericcrudtable.$$.fragment, local);
     			current = true;
     		},
     		o(local) {
@@ -2839,12 +2495,12 @@
     			current = false;
     		},
     		d(detaching) {
-    			if (detaching) detach$1(main);
+    			if (detaching) detach(main);
     			if_block.d();
-    			if (detaching) detach$1(t17);
-    			destroy_component$1(sveltegenericcrudtable, detaching);
+    			if (detaching) detach(t17);
+    			destroy_component(sveltegenericcrudtable, detaching);
     			mounted = false;
-    			run_all$1(dispose);
+    			run_all(dispose);
     		}
     	};
     }
@@ -2863,7 +2519,7 @@
     }
 
     function instance($$self, $$props, $$invalidate) {
-    	const dispatch = createEventDispatcher$1();
+    	const dispatch = createEventDispatcher();
 
     	const pager_config_default = {
     		name: "table-paginator",
@@ -2988,7 +2644,6 @@
     	}
 
     	function dispatcher(name, details, event) {
-    		console.log(details);
     		dispatch(name, details);
     	}
 
@@ -3001,8 +2656,6 @@
     	}
 
     	function handleDelete(event) {
-    		console.log(event);
-
     		const details = {
     			id: parseInt(event.detail.id) + (currentPage - 1) * currentStep,
     			body: event.detail.body
@@ -3128,21 +2781,21 @@
     	];
     }
 
-    class GenericTablePager extends SvelteElement$1 {
+    class GenericTablePager extends SvelteElement {
     	constructor(options) {
     		super();
     		this.shadowRoot.innerHTML = `<style>main{position:inherit;padding-top:0.4em}.range{background:#fff;height:1.3em;border-radius:5rem;box-shadow:1px 1px 1px rgba(255, 255, 255, 0.3);display:flex;align-items:center;justify-content:center;padding-top:0.3em;outline:none;border:none;text-align:left;color:#999999;font-size:0.7em;font-weight:200}.number-rows{padding-left:0.4em;padding-top:0.1em}.pager{text-align:center;min-width:400px;max-width:100%;margin-left:1em;height:1.8em}.number-pages{font-size:110%;font-weight:200}.number-lines{padding-top:0.3em;font-size:110%;font-weight:200}.info{position:relative;top:-0.2em;text-align:left;color:#999999;font-size:0.7em;font-weight:200;padding-left:2em}.inactive{visibility:hidden}.active{visibility:visible}.active:hover{color:limegreen;opacity:80%}.options{position:relative;top:-0.1em;width:16px;height:16px;padding:0.2em;cursor:pointer;opacity:60%;color:#999999}.options:hover{opacity:100%}.options:focus{border:none;outline:none;opacity:100%}input[type="range"]{-webkit-appearance:none;width:100px;background:transparent}input[type="range"]:focus{outline:none}input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;height:1em;width:1em;border-radius:50%;background:#ffffff;margin-top:-0.25em;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-webkit-slider-runnable-track{width:60%;height:9px;background:#dddddd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-webkit-slider-runnable-track{background:#ff6e40}input[type="range"]::-ms-track{width:60%;cursor:pointer;height:9px;transition:all 0.5s;background:transparent;border-color:transparent;color:transparent}input[type="range"]::-ms-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-ms-fill-lower{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-lower{background:#ff6e40}input[type="range"]::-ms-fill-upper{background:#bdbdbd;border-radius:3rem}input[type="range"]:focus::-ms-fill-upper{background:#ff6e40}input[type="range"]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:#ffffff;margin-top:-5px;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);cursor:pointer}input[type="range"]::-moz-range-track{width:80%;height:9px;background:#bdbdbd;border-radius:3rem;transition:all 0.5s;cursor:pointer}input[type="range"]:hover::-moz-range-track{background:#ff6e40}</style>`;
 
-    		init$1(
+    		init(
     			this,
     			{
     				target: this.shadowRoot,
-    				props: attribute_to_object$1(this.attributes),
+    				props: attribute_to_object(this.attributes),
     				customElement: true
     			},
     			instance,
     			create_fragment,
-    			safe_not_equal$1,
+    			safe_not_equal,
     			{
     				pager_data: 0,
     				pager_config: 1,
@@ -3154,12 +2807,12 @@
 
     		if (options) {
     			if (options.target) {
-    				insert$1(options.target, this, options.anchor);
+    				insert(options.target, this, options.anchor);
     			}
 
     			if (options.props) {
     				this.$set(options.props);
-    				flush$1();
+    				flush();
     			}
     		}
     	}
@@ -3174,7 +2827,7 @@
 
     	set pager_data(pager_data) {
     		this.$set({ pager_data });
-    		flush$1();
+    		flush();
     	}
 
     	get pager_config() {
@@ -3183,7 +2836,7 @@
 
     	set pager_config(pager_config) {
     		this.$set({ pager_config });
-    		flush$1();
+    		flush();
     	}
 
     	get page_data() {
@@ -3192,7 +2845,7 @@
 
     	set page_data(page_data) {
     		this.$set({ page_data });
-    		flush$1();
+    		flush();
     	}
 
     	get table_config() {
@@ -3201,7 +2854,7 @@
 
     	set table_config(table_config) {
     		this.$set({ table_config });
-    		flush$1();
+    		flush();
     	}
     }
 
