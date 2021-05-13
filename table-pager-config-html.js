@@ -7,16 +7,6 @@ const pager_config = {
     width: '350px'
 }
 
-let table_data = [];
-
-let currentPage = 1;
-let maxPages = 1;
-let genericTablePager = document.querySelector('table-pager');
-genericTablePager.setAttribute('pager_config', JSON.stringify(pager_config))
-genericTablePager.setAttribute('pager_data', JSON.stringify(myData))
-
-
-
 //config crud-table
 let table_config = {
     name: 'Awesome',
@@ -29,10 +19,14 @@ let table_config = {
     ]
 }
 
-const sortStore = [];
+let genericTablePager = document.querySelector('table-pager');
 
+genericTablePager.setAttribute('pager_config', JSON.stringify(pager_config))
 genericTablePager.setAttribute('table_config', JSON.stringify(table_config));
-genericTablePager.setAttribute('table_data', JSON.stringify(table_data));
+genericTablePager.setAttribute('pager_data', JSON.stringify(myData))
+
+
+const sortStore = [];
 
 genericTablePager.addEventListener('create', () => {
     console.log('create');
