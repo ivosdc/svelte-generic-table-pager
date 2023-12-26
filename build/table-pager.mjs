@@ -2925,7 +2925,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (203:8) {#if (currentPage > 1)}
+// (204:8) {#if (currentPage > 1)}
 function create_if_block_1(ctx) {
 	let html_tag;
 	let html_anchor;
@@ -2948,7 +2948,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (226:0) {#if typeof page_data !== 'string'}
+// (227:0) {#if typeof page_data !== 'string'}
 function create_if_block(ctx) {
 	let sveltegenericcrudtable;
 	let updating_table_data;
@@ -3615,7 +3615,5 @@ class GenericTablePager extends SvelteElement$1 {
 }
 
 customElements.define("table-pager", GenericTablePager);
-
-if (!customElements.get('table-pager')) { customElements.define('table-pager', GenericTablePager); }
 
 export { GenericTablePager as default };
