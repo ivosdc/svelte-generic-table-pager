@@ -61,30 +61,7 @@ genericTablePager.addEventListener('delete', (e) => {
     }
 });
 
-genericTablePager.addEventListener('sort', (e) => {
-    console.log('sort: ' + e.detail.column);
-    const column = e.detail.column;
-    if (sortStore[column] === undefined || sortStore[column] === 'DESC') {
-        sortStore[column] = 'ASC';
-    } else {
-        sortStore[column] = 'DESC';
-    }
 
-    const tableSort = (a, b) => {
-        var keyA = a[column];
-        var keyB = b[column];
-        if (sortStore[column] === 'ASC') {
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-        } else {
-            if (keyA < keyB) return 1;
-            if (keyA > keyB) return -1;
-        }
-        return 0;
-    };
-
-    table_data = table_data.sort(tableSort);
-});
 
 function arrayRemove(arr, value) {
     return arr.filter(function (ele, i) {
