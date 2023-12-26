@@ -3616,4 +3616,6 @@ class GenericTablePager extends SvelteElement$1 {
 
 customElements.define("table-pager", GenericTablePager);
 
+if (!customElements.get('table-pager')) { customElements.define('table-pager', GenericTablePager); }
+
 export { GenericTablePager as default };
